@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8607141927459206450
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.09966743
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.028552687
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.712
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.324
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.975
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_DirtyAABB
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: -0.0073636165
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.0073636165
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 1.4619551
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2228fb24eca35db4c9cffdc2362d32cf, type: 2}
+    - target: {fileID: -3887185075125053422, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[0]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      propertyPath: m_Name
+      value: Foil
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 01c5e6d86e919da4e9244df19f371059,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7976057211469366072}
+  m_SourcePrefab: {fileID: 100100000, guid: 01c5e6d86e919da4e9244df19f371059, type: 3}
+--- !u!137 &4431335591592537376 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -3887185075125053422, guid: 01c5e6d86e919da4e9244df19f371059,
+    type: 3}
+  m_PrefabInstance: {fileID: 8607141927459206450}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8913710165167868003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 01c5e6d86e919da4e9244df19f371059,
+    type: 3}
+  m_PrefabInstance: {fileID: 8607141927459206450}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-7976057211469366072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8913710165167868003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b904278f1b38fc041a68cc79597bdf89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FoilPathFollower
+  speed: 0.5
+  waypoints: []
+  myRenderer: {fileID: 4431335591592537376}
+  formingStartIndex: 16
+  formingSpeed: 200
