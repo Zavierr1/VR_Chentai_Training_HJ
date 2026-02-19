@@ -165,8 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b904278f1b38fc041a68cc79597bdf89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoilPathFollower
-  speed: 1
-  turnSpeed: 5
+  speed: 0.5
   waypoints: []
   myRenderer: {fileID: 4431335591592537376}
   formingStartIndex: 16

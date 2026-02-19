@@ -5,7 +5,7 @@ public class FoilPathFollower : MonoBehaviour
 {
     [Header("Movement")]
     public float speed = 1.0f;
-    public float turnSpeed = 5.0f; // <--- VAR BARU: Kecepatan belok (makin kecil makin licin)
+    // turnSpeed tidak dipakai di sini karena LookAt itu instan/langsung
 
     [HideInInspector]
     public List<Transform> waypoints = new List<Transform>(); 
@@ -26,24 +26,26 @@ public class FoilPathFollower : MonoBehaviour
 
         Transform targetPoint = waypoints[currentWaypointIndex];
         
-        // 1. GERAKAN (Tetap sama)
+        // 1. GERAKAN
         float step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, step);
 
-        // 2. ROTASI (GANTI JADI INI)
-        // Jangan suruh codingan mikir. Suruh dia niru rotasi waypoint-nya saja.
-        // Ini lebih stabil untuk roller coaster atau conveyor belt.
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetPoint.rotation, turnSpeed * Time.deltaTime);
+        // 2. ROTASI (VERSI PERTAMA - KAKU)
+        // Memaksa objek langsung menghadap ke target secara instan.
+        // Ini penyebab gerakan terlihat patah-patah di belokan.
+        transform.LookAt(targetPoint);
 
-        // 3. LOGIC PINDAH (Tetap sama)
+        // 3. LOGIC PINDAH WAYPOINT
         if (Vector3.Distance(transform.position, targetPoint.position) < 0.1f)
         {
             currentWaypointIndex++;
+            
             if (currentWaypointIndex == formingStartIndex) isForming = true;
+
             if (currentWaypointIndex >= waypoints.Count) Destroy(gameObject);
         }
 
-        // 4. FORMING ANIMATION (Tetap sama)
+        // 4. FORMING ANIMATION
         if (isForming && myRenderer != null)
         {
             float currentWeight = myRenderer.GetBlendShapeWeight(0);
