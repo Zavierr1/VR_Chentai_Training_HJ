@@ -7,9 +7,12 @@ public class FoilPathFollower : MonoBehaviour
     public float speed = 1.0f;
     public float turnSpeed = 180f;
 
+    [Tooltip("Offset rotasi lokal mesh. Gunakan Y=180 jika mesh menghadap arah sebaliknya.")]
+    public Vector3 rotationOffset = Vector3.zero;
+
     [Tooltip("Index waypoint yang menggunakan smooth rotation. Kosong = semua pakai LookAt instan.")]
     public List<int> smoothTurnIndices = new List<int>();
-
+    
     [HideInInspector]
     public List<Transform> waypoints = new List<Transform>(); 
     
@@ -17,9 +20,10 @@ public class FoilPathFollower : MonoBehaviour
     
     [Header("Forming")]
     public SkinnedMeshRenderer myRenderer;
+
     [HideInInspector]
     public int formingStartIndex = 1; 
-    
+
     public float formingSpeed = 200f;
     private bool isForming = false;
 
@@ -37,12 +41,14 @@ public class FoilPathFollower : MonoBehaviour
         // Smooth hanya pada index waypoint yang ada di smoothTurnIndices.
         if (smoothTurnIndices.Contains(currentWaypointIndex))
         {
-            Quaternion targetRotation = Quaternion.LookRotation(targetPoint.position - transform.position);
+            Quaternion targetRotation = Quaternion.LookRotation(targetPoint.position - transform.position)
+                                        * Quaternion.Euler(rotationOffset);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
         }
         else
         {
             transform.LookAt(targetPoint);
+            transform.rotation *= Quaternion.Euler(rotationOffset);
         }
 
         // 3. LOGIC PINDAH WAYPOINT
