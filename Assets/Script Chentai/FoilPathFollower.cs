@@ -5,7 +5,10 @@ public class FoilPathFollower : MonoBehaviour
 {
     [Header("Movement")]
     public float speed = 1.0f;
-    // turnSpeed tidak dipakai di sini karena LookAt itu instan/langsung
+    public float turnSpeed = 180f;
+
+    [Tooltip("Index waypoint yang menggunakan smooth rotation. Kosong = semua pakai LookAt instan.")]
+    public List<int> smoothTurnIndices = new List<int>();
 
     [HideInInspector]
     public List<Transform> waypoints = new List<Transform>(); 
@@ -30,10 +33,17 @@ public class FoilPathFollower : MonoBehaviour
         float step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, step);
 
-        // 2. ROTASI (VERSI PERTAMA - KAKU)
-        // Memaksa objek langsung menghadap ke target secara instan.
-        // Ini penyebab gerakan terlihat patah-patah di belokan.
-        transform.LookAt(targetPoint);
+        // 2. ROTASI
+        // Smooth hanya pada index waypoint yang ada di smoothTurnIndices.
+        if (smoothTurnIndices.Contains(currentWaypointIndex))
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(targetPoint.position - transform.position);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+        }
+        else
+        {
+            transform.LookAt(targetPoint);
+        }
 
         // 3. LOGIC PINDAH WAYPOINT
         if (Vector3.Distance(transform.position, targetPoint.position) < 0.1f)
