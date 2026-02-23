@@ -87,12 +87,19 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: ea76238e918b38247be673e7695805c5, type: 2}
+      objectReference: {fileID: -6478536213147159724, guid: 7502336cca7a5d747ba0fbd7128dae32,
+        type: 3}
     - target: {fileID: -7511558181221131132, guid: 55c2bf142bde5634b8e7289678f027b8,
         type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: 2228fb24eca35db4c9cffdc2362d32cf, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 55c2bf142bde5634b8e7289678f027b8,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -462981019419857548, guid: 7502336cca7a5d747ba0fbd7128dae32,
+        type: 3}
     - target: {fileID: 919132149155446097, guid: 55c2bf142bde5634b8e7289678f027b8,
         type: 3}
       propertyPath: m_Name
@@ -120,7 +127,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6223977456185220294}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b904278f1b38fc041a68cc79597bdf89, type: 3}
   m_Name: 

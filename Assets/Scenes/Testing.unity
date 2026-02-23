@@ -509,7 +509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13f1cf00ad0b0d4584083ad07d5f4f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HorizontalCutter
-  totalZDistance: 0.1
+  totalZDistance: 0.07
   forwardSteps: 3
   forwardStepDelay: 0.01
   backSteps: 3
@@ -2126,9 +2126,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b54ee8e5644c9ac479bc27073173b655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoilSpawner
-  foilPrefab: {fileID: 6223977456185220294, guid: f3cc18a939d23824dae1685e7e3b3ca5,
+  foilPrefab: {fileID: 2632341353671229924, guid: 5abe45b806a026a4d9c5f8fc551f354c,
     type: 3}
-  spawnInterval: 0.15
+  spawnInterval: 0.16
   pathPoints:
   - {fileID: 79830942}
   - {fileID: 653043823}
