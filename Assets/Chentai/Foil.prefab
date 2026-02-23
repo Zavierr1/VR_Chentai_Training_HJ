@@ -117,7 +117,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 2228fb24eca35db4c9cffdc2362d32cf, type: 2}
+      objectReference: {fileID: 2100000, guid: 541124e9fa5816945b57a1007d82b110, type: 2}
     - target: {fileID: -3887185075125053422, guid: 01c5e6d86e919da4e9244df19f371059,
         type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
@@ -181,9 +181,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoilPathFollower
   speed: 0.5
-  turnSpeed: 200
+  turnSpeed: 300
   rotationOffset: {x: 180, y: 0, z: 0}
-  smoothTurnIndices: 090000000a000000
+  smoothTurnIndices: 0500000006000000090000000a000000
   waypoints: []
   myRenderer: {fileID: 4302593429323227366}
   formingStartIndex: 1

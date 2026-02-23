@@ -19,9 +19,7 @@ public class TabletSpawner : MonoBehaviour
     void Update()
     {
         if (!isMachineRunning) return;
-
-        // KUNCI UTAMANYA DI SINI:
-        // Kalau Vibrator Controller belum dimasukkan, atau mesin sedang TIDAK bergetar,
+        
         // hentikan proses spawn obat (jangan keluarin obat).
         if (sensorVibrator == null || !sensorVibrator._isVibrating) 
         {
