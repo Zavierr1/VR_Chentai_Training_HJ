@@ -24,6 +24,10 @@ public class HorizontalCutter : MonoBehaviour
     public bool autoStart = false;
     public bool loop = false;
 
+    [Header("Integrasi Pemotongan & Spawn")]
+    [Tooltip("Masukkan objek yang memiliki script TabletJadiSpawner ke sini")]
+    public TabletJadiSpawner spawnerTabletJatuh; // <--- REFERENSI SPAWNER BARU
+
     private Vector3 startPos;
     private Quaternion startRot;
     private Coroutine routine;
@@ -38,7 +42,6 @@ public class HorizontalCutter : MonoBehaviour
 
     public void StartCut()
     {
-        // reset start every time you run it (so it returns correctly)
         startPos = transform.position;
         startRot = transform.rotation;
 
@@ -53,10 +56,9 @@ public class HorizontalCutter : MonoBehaviour
             Vector3 dir = GetZDirection();
             int fSteps = Mathf.Max(1, forwardSteps);
             int bSteps = Mathf.Max(1, backSteps);
-
             float forwardStepDist = totalZDistance / fSteps;
 
-            // BANG forward: set-set-set
+            // 1. CUTTER MAJU (BANG forward)
             for (int i = 1; i <= fSteps; i++)
             {
                 transform.position = startPos + dir * forwardStepDist * i;
@@ -64,7 +66,14 @@ public class HorizontalCutter : MonoBehaviour
                 else yield return null;
             }
 
-            // BANG back: set-set-set (from current to start)
+            // 2. >>> TRIGGER MUNCUL TABLET DI SINI <<<
+            // Tepat saat pisau mentok ke depan, kita panggil fungsi spawn tablet
+            if (spawnerTabletJatuh != null)
+            {
+                spawnerTabletJatuh.SpawnTablet();
+            }
+
+            // 3. CUTTER MUNDUR (BANG back)
             Vector3 endPos = transform.position;
             for (int j = 1; j <= bSteps; j++)
             {
@@ -76,7 +85,6 @@ public class HorizontalCutter : MonoBehaviour
 
             transform.position = startPos;
 
-            // NO delay if set to 0
             if (pauseAfterReturn > 0f)
                 yield return new WaitForSeconds(pauseAfterReturn);
 
@@ -91,5 +99,15 @@ public class HorizontalCutter : MonoBehaviour
         forward.Normalize();
         int sign = (zDirection >= 0) ? 1 : -1;
         return forward * sign;
+    }
+
+    // 4. >>> MENGHANCURKAN FOIL SAAT TERKENA PISAU <<<
+    private void OnTriggerEnter(Collider other)
+    {
+        // Mengecek apakah objek yang tersentuh pisau memiliki Tag "Foil"
+        if (other.CompareTag("Foil"))
+        {
+            Destroy(other.gameObject);
+        }
     }
 }
