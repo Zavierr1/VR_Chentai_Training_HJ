@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Alufoil
   - Tablet
+  - SelectedPart
   layers:
   - Default
   - TransparentFX
