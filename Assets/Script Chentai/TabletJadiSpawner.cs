@@ -9,6 +9,8 @@ public class TabletJadiSpawner : MonoBehaviour
     [Tooltip("Titik lokasi di mana tablet akan muncul (buat Empty GameObject di posisi cetakan).")]
     public Transform spawnPoint;
 
+    public float tabletLifetime = 3f;
+
     [Header("Efek Tambahan (Opsional)")]
     [Tooltip("Masukkan efek partikel debu/percikan jika ada.")]
     public ParticleSystem pressEffect; 
@@ -29,7 +31,10 @@ public class TabletJadiSpawner : MonoBehaviour
         if (tabletPrefab != null && spawnPoint != null)
         {
             // Melakukan spawn prefab tablet tepat di posisi dan rotasi titik spawnPoint
-            Instantiate(tabletPrefab, spawnPoint.position, spawnPoint.rotation);
+            GameObject newTablet = Instantiate(tabletPrefab, spawnPoint.position, spawnPoint.rotation);
+
+            Destroy(newTablet, tabletLifetime);
+            
 
             // Memainkan efek partikel (opsional)
             if (pressEffect != null)

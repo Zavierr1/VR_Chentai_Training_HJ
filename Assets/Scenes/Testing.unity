@@ -3823,6 +3823,7 @@ MonoBehaviour:
   tabletPrefab: {fileID: 3894959874257637247, guid: 1ef80bca11fa12140aab6f5fbfd8b538,
     type: 3}
   spawnPoint: {fileID: 1142732350}
+  tabletLifetime: 2
   pressEffect: {fileID: 0}
   pressSound: {fileID: 0}
 --- !u!4 &1142732350
@@ -8757,7 +8758,7 @@ Transform:
   m_GameObject: {fileID: 3944227003327845554}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 8.746851, y: -7.6023893, z: -5.694222}
+  m_LocalPosition: {x: 8.746851, y: -7.6023893, z: -5.68}
   m_LocalScale: {x: 0.34213778, y: 0.19527884, z: 0.37993598}
   m_ConstrainProportionsScale: 0
   m_Children: []
