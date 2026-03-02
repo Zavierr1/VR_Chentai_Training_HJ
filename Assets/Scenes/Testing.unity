@@ -1793,6 +1793,7 @@ GameObject:
   - component: {fileID: 378318273}
   - component: {fileID: 378318272}
   - component: {fileID: 378318271}
+  - component: {fileID: 378318275}
   m_Layer: 2
   m_Name: Slot (7)
   m_TagString: Untagged
@@ -1859,12 +1860,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 378318275}
+        m_TargetAssemblyTypeName: SnapUrutan, Assembly-CSharp
+        m_MethodName: BukaSnapBerikutnya
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDetachEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 278444357}
         m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
         m_MethodName: SetPartDilepas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 378318275}
+        m_TargetAssemblyTypeName: SnapUrutan, Assembly-CSharp
+        m_MethodName: TutupSnapBerikutnya
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2017,6 +2042,19 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.04
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &378318275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378318268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12aa44bf0dd5f964d80fac9aeffbcad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SnapUrutan
+  snapZoneBerikutnya: {fileID: 140696914}
 --- !u!1 &407750335
 GameObject:
   m_ObjectHideFlags: 0
