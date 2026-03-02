@@ -587,10 +587,34 @@ MonoBehaviour:
   SoundOnUnsnap: {fileID: 0}
   OnSnapEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartTerpasang
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDetachEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartDilepas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ClosestGrabbable: {fileID: 0}
 --- !u!114 &140696915
 MonoBehaviour:
@@ -1477,7 +1501,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MachineController
   isMachineOn: 0
-  tabletSpawner: {fileID: 0}
+  tabletSpawner: {fileID: 6894073813913587659}
+  wajibAdaPart: 1
+  isPartTerpasang: 0
+  machineAnimators:
+  - {fileID: 7514411974401647772}
   horizontalCutter: {fileID: 129703627}
   machineParts:
   - {fileID: 4916370319514022673}
@@ -1487,6 +1515,7 @@ MonoBehaviour:
   - {fileID: 2014668549}
   - {fileID: 7514411974401647771}
   - {fileID: 1142732349}
+  - {fileID: 2304253958260186160}
 --- !u!4 &278444358
 Transform:
   m_ObjectHideFlags: 0
@@ -1816,10 +1845,34 @@ MonoBehaviour:
   SoundOnUnsnap: {fileID: 0}
   OnSnapEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartTerpasang
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDetachEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartDilepas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ClosestGrabbable: {fileID: 0}
 --- !u!114 &378318271
 MonoBehaviour:
@@ -2135,10 +2188,34 @@ MonoBehaviour:
   SoundOnUnsnap: {fileID: 0}
   OnSnapEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartTerpasang
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDetachEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartDilepas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ClosestGrabbable: {fileID: 0}
 --- !u!135 &407750340
 SphereCollider:
@@ -3411,10 +3488,34 @@ MonoBehaviour:
   SoundOnUnsnap: {fileID: 0}
   OnSnapEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartTerpasang
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDetachEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartDilepas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ClosestGrabbable: {fileID: 0}
 --- !u!114 &834559400
 MonoBehaviour:
@@ -4508,10 +4609,34 @@ MonoBehaviour:
   SoundOnUnsnap: {fileID: 0}
   OnSnapEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartTerpasang
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDetachEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartDilepas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ClosestGrabbable: {fileID: 0}
 --- !u!114 &1061519210
 MonoBehaviour:
@@ -6115,7 +6240,7 @@ Transform:
   m_GameObject: {fileID: 1636836810}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0034416, y: 0.75, z: -0.010668}
+  m_LocalPosition: {x: 0.0034416, y: 0.25, z: -0.010668}
   m_LocalScale: {x: 1.0908904, y: 1.1371504, z: 1.0588534}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6234,7 +6359,7 @@ MonoBehaviour:
   MinLocalY: 0.25
   MaxLocalY: 0.75
   ClickTolerance: 0.2
-  AllowPhysicsForces: 1
+  AllowPhysicsForces: 0
   ButtonClick: {fileID: 8300000, guid: 96a66c8233acdff40a72e102fc819781, type: 3}
   ButtonClickUp: {fileID: 8300000, guid: 5602338fc0b4a3149a1b5bb57217426f, type: 3}
   onButtonDown:
@@ -6242,7 +6367,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 278444357}
         m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
-        m_MethodName: StartMachine
+        m_MethodName: ToggleMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6325,7 +6450,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!65 &1636836817
 BoxCollider:
@@ -6708,7 +6833,7 @@ Transform:
   m_GameObject: {fileID: 1735932059}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.086, y: 0.78, z: 1.314}
+  m_LocalPosition: {x: 0.077, y: 0.78, z: 1.314}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6745,10 +6870,34 @@ MonoBehaviour:
   SoundOnUnsnap: {fileID: 0}
   OnSnapEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartTerpasang
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDetachEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartDilepas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ClosestGrabbable: {fileID: 0}
 --- !u!114 &1735932062
 MonoBehaviour:
@@ -7114,10 +7263,34 @@ MonoBehaviour:
   SoundOnUnsnap: {fileID: 0}
   OnSnapEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartTerpasang
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDetachEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartDilepas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ClosestGrabbable: {fileID: 0}
 --- !u!135 &1778865915
 SphereCollider:
@@ -7217,7 +7390,7 @@ Transform:
   m_GameObject: {fileID: 1812960280}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.35, y: 0.78, z: 0.952}
+  m_LocalPosition: {x: -0.35, y: 0.78, z: 0.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7254,10 +7427,34 @@ MonoBehaviour:
   SoundOnUnsnap: {fileID: 0}
   OnSnapEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartTerpasang
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDetachEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartDilepas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ClosestGrabbable: {fileID: 0}
 --- !u!114 &1812960283
 MonoBehaviour:
@@ -7431,7 +7628,7 @@ Transform:
   m_GameObject: {fileID: 1820600190}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.356, y: 0.78, z: 1.67}
+  m_LocalPosition: {x: -0.356, y: 0.78, z: 1.649}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7468,10 +7665,34 @@ MonoBehaviour:
   SoundOnUnsnap: {fileID: 0}
   OnSnapEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartTerpasang
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDetachEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278444357}
+        m_TargetAssemblyTypeName: MachineController, Assembly-CSharp
+        m_MethodName: SetPartDilepas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ClosestGrabbable: {fileID: 0}
 --- !u!114 &1820600193
 MonoBehaviour:
@@ -12545,7 +12766,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4140421864212676890}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1fbc463d56f7c04089588a1397a338c, type: 3}
   m_Name: 
@@ -15830,7 +16051,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4986444900257494091}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1fbc463d56f7c04089588a1397a338c, type: 3}
   m_Name: 
@@ -19689,7 +19910,7 @@ Transform:
   m_GameObject: {fileID: 577927960203620940}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 40.14, y: -0.24839014, z: 4.0332947}
+  m_LocalPosition: {x: 40.14, y: -0.24839014, z: 2.003294}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21700,7 +21921,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7514411974401647770}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 157fa393209258945af5ea572d661d70, type: 2}
   m_CullingMode: 0
@@ -22346,7 +22567,7 @@ Transform:
   m_GameObject: {fileID: 581628406160604087}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 40.14, y: -0.24839014, z: 5.28}
+  m_LocalPosition: {x: 40.14, y: -0.24839014, z: 3.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24774,7 +24995,6 @@ GameObject:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 156423285}
   - {fileID: 1470890252}
   - {fileID: 1301925049}
   - {fileID: 414233745}
@@ -24787,6 +25007,7 @@ SceneRoots:
   - {fileID: 1292261179}
   - {fileID: 5155822256368418341}
   - {fileID: 4594817931636567023}
+  - {fileID: 156423285}
   - {fileID: 1873919361}
   - {fileID: 1859863430}
   - {fileID: 1142732350}

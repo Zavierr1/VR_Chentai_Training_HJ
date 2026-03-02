@@ -12,9 +12,16 @@ public class FoilSpawner : MonoBehaviour
     [Tooltip("Di urutan list ke berapakah foil harus mulai cekung?")]
     public int formingIndexForThisPath = 1; // <--- TAMBAHAN BARU
 
-    void Start()
+    // Menggunakan OnEnable agar foil langsung keluar SAAT script dinyalakan oleh tombol
+    void OnEnable()
     {
         InvokeRepeating("SpawnFoil", 0f, spawnInterval);
+    }
+
+    // TAMBAHAN WAJIB: Menghentikan Invoke saat script dimatikan oleh tombol
+    void OnDisable()
+    {
+        CancelInvoke("SpawnFoil");
     }
 
     void SpawnFoil()
