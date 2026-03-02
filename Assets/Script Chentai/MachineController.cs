@@ -9,14 +9,19 @@ public class MachineController : MonoBehaviour
     [Tooltip("Drag objek yang memiliki script TabletSpawner ke sini")]
     public TabletSpawner tabletSpawner;
 
-    [Header("Sistem Keamanan (Snap Zone)")]
-    [Tooltip("Centang jika mesin WAJIB menunggu part terpasang di Snap Zone")]
+    [Header("Sistem Keamanan (Multi Snap Zone)")]
+    [Tooltip("Centang jika mesin WAJIB menunggu part terpasang")]
     public bool wajibAdaPart = true; 
-    [Tooltip("Status apakah part sudah terpasang (Otomatis, jangan dicentang manual)")]
-    public bool isPartTerpasang = false;
+    
+    [Tooltip("Berapa banyak part yang HARUS terpasang agar mesin bisa nyala?")]
+    public int targetJumlahPart = 2; // Ubah angka ini sesuai jumlah part mesinmu
+
+    [Tooltip("Jumlah part yang saat ini sedang menempel (Otomatis, jangan diubah)")]
+    public int partTerpasangSaatIni = 0;
 
     private float lastToggleTime = 0f;
     private float toggleCooldown = 0.5f;    
+
     public Animator[] machineAnimators;
     
     [Tooltip("Drag objek yang memiliki script HorizontalCutter ke sini")]
@@ -30,11 +35,11 @@ public class MachineController : MonoBehaviour
     {
         if (isMachineOn) return; // Mencegah tombol ditekan berkali-kali saat sudah nyala
 
-        // >>> LOGIKA SNAP ZONE <<<
-        if (wajibAdaPart && !isPartTerpasang)
+        // >>> LOGIKA BARU: Cek apakah jumlah part yang nempel sudah memenuhi target
+        if (wajibAdaPart && partTerpasangSaatIni < targetJumlahPart)
         {
-            Debug.LogWarning("Mesin menolak menyala! Part belum terpasang di Snap Zone.");
-            return; // Menghentikan proses (mesin gagal nyala)
+            Debug.LogWarning($"Mesin menolak menyala! Baru {partTerpasangSaatIni} dari {targetJumlahPart} part yang terpasang.");
+            return; // Gagalkan proses menyala
         }
 
         isMachineOn = true;
@@ -109,18 +114,23 @@ public class MachineController : MonoBehaviour
 
     public void SetPartTerpasang()
     {
-        isPartTerpasang = true;
-        Debug.Log("Alat terpasang di Snap Zone! Mesin siap dinyalakan.");
+        partTerpasangSaatIni++;
+        Debug.Log($"Alat terpasang di Snap Zone! Mesin siap dinyalakan. Jumlah part terpasang: {partTerpasangSaatIni}");
     }
 
     public void SetPartDilepas()
     {
-        isPartTerpasang = false;
-        Debug.Log("Alat dilepas dari Snap Zone!");
+        partTerpasangSaatIni--;
         
-        // Fitur Realistis: Jika alat dicabut paksa saat mesin sedang jalan, mesin otomatis mati!
-        if (isMachineOn)
+        // Jaga-jaga agar angkanya tidak minus kalau ada bug dari sistem VR
+        if (partTerpasangSaatIni < 0) partTerpasangSaatIni = 0; 
+        
+        Debug.Log($"1 Part dilepas! Total terpasang: {partTerpasangSaatIni} / {targetJumlahPart}");
+        
+        // Fitur Realistis: Jika ada 1 part saja yang dicabut saat mesin jalan, mesin langsung mati total!
+        if (isMachineOn && partTerpasangSaatIni < targetJumlahPart)
         {
+            Debug.LogWarning("ALARM: Part mesin dicabut saat beroperasi! Mesin dimatikan otomatis.");
             StopMachine();
         }
     }

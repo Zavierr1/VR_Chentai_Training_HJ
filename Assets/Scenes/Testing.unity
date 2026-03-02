@@ -1503,7 +1503,8 @@ MonoBehaviour:
   isMachineOn: 0
   tabletSpawner: {fileID: 6894073813913587659}
   wajibAdaPart: 1
-  isPartTerpasang: 0
+  targetJumlahPart: 9
+  partTerpasangSaatIni: 0
   machineAnimators:
   - {fileID: 7514411974401647772}
   horizontalCutter: {fileID: 129703627}
