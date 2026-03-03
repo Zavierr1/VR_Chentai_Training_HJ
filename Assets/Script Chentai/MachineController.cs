@@ -5,6 +5,10 @@ public class MachineController : MonoBehaviour
     [Header("Status Mesin")]
     public bool isMachineOn = false;
 
+    [Header("Debug Mode")]
+    [Tooltip("Centang ini jika ingin mesin langsung nyala saat Play tanpa harus pasang part (Untuk Testing)")]
+    public bool autoStartForDebug = false; // <--- TAMBAHAN UNTUK DEBUG
+
     [Header("Referensi Komponen Utama")]
     [Tooltip("Drag objek yang memiliki script TabletSpawner ke sini")]
     public TabletSpawner tabletSpawner;
@@ -14,7 +18,7 @@ public class MachineController : MonoBehaviour
     public bool wajibAdaPart = true; 
     
     [Tooltip("Berapa banyak part yang HARUS terpasang agar mesin bisa nyala?")]
-    public int targetJumlahPart = 2; // Ubah angka ini sesuai jumlah part mesinmu
+    public int targetJumlahPart = 2; 
 
     [Tooltip("Jumlah part yang saat ini sedang menempel (Otomatis, jangan diubah)")]
     public int partTerpasangSaatIni = 0;
@@ -31,12 +35,21 @@ public class MachineController : MonoBehaviour
     [Tooltip("Masukkan komponen seperti BrushRotate, FeederVibration, atau FoilSpawner ke sini agar ikut nyala/mati")]
     public MonoBehaviour[] machineParts;
 
+    void Start()
+    {
+        // >>> TAMBAHAN: Langsung nyalakan mesin saat game Play jika mode debug aktif
+        if (autoStartForDebug)
+        {
+            StartMachine();
+        }
+    }
+
     public void StartMachine()
     {
-        if (isMachineOn) return; // Mencegah tombol ditekan berkali-kali saat sudah nyala
+        if (isMachineOn) return; 
 
-        // >>> LOGIKA BARU: Cek apakah jumlah part yang nempel sudah memenuhi target
-        if (wajibAdaPart && partTerpasangSaatIni < targetJumlahPart)
+        // >>> LOGIKA BARU: Cek apakah jumlah part belum terpenuhi (dan abaikan jika sedang mode Debug)
+        if (wajibAdaPart && partTerpasangSaatIni < targetJumlahPart && !autoStartForDebug)
         {
             Debug.LogWarning($"Mesin menolak menyala! Baru {partTerpasangSaatIni} dari {targetJumlahPart} part yang terpasang.");
             return; // Gagalkan proses menyala
@@ -76,24 +89,21 @@ public class MachineController : MonoBehaviour
 
         if (tabletSpawner != null) tabletSpawner.isMachineRunning = false;
         
-        if (horizontalCutter != null) horizontalCutter.loop = false; // Cutter akan berhenti setelah siklus potongnya selesai
+        if (horizontalCutter != null) horizontalCutter.loop = false; 
 
         foreach (var part in machineParts)
         {
             if (part != null) part.enabled = false;
         }
 
-        // Hentikan/Pause semua animasi
         foreach (var anim in machineAnimators)
         {
             if (anim != null) anim.enabled = false;
         }
     }
 
-    // Fungsi tambahan: Jika kamu pakai 1 tombol untuk Nyala sekaligus Mati
     public void ToggleMachine()
     {
-       // Mencegah fungsi terpanggil berkali-kali dalam waktu kurang dari 0.5 detik
         if (Time.time - lastToggleTime < toggleCooldown)
         {
             Debug.Log("Tombol ditekan terlalu cepat (Cooldown aktif)!");
@@ -122,13 +132,12 @@ public class MachineController : MonoBehaviour
     {
         partTerpasangSaatIni--;
         
-        // Jaga-jaga agar angkanya tidak minus kalau ada bug dari sistem VR
         if (partTerpasangSaatIni < 0) partTerpasangSaatIni = 0; 
         
         Debug.Log($"1 Part dilepas! Total terpasang: {partTerpasangSaatIni} / {targetJumlahPart}");
         
-        // Fitur Realistis: Jika ada 1 part saja yang dicabut saat mesin jalan, mesin langsung mati total!
-        if (isMachineOn && partTerpasangSaatIni < targetJumlahPart)
+        // Fitur Realistis: Jangan matikan mesin jika mode debug sedang aktif
+        if (isMachineOn && partTerpasangSaatIni < targetJumlahPart && !autoStartForDebug)
         {
             Debug.LogWarning("ALARM: Part mesin dicabut saat beroperasi! Mesin dimatikan otomatis.");
             StopMachine();
