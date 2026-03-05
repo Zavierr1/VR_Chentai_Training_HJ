@@ -1,24 +1,14 @@
 fileFormatVersion: 2
-guid: 0b07191ea5713854b929575dcf63557d
+guid: 76ea7dcdca16c2c4eab9bc5e609f5cac
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: mat_foilmerek
-    second: {fileID: 2100000, guid: 94d440a21ec774144b9e3c59539e0a2b, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: mat_foilpolos
-    second: {fileID: 2100000, guid: a1cd1e6479696614bbadc78ed9867449, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
-    materialSearch: 0
-    materialLocation: 0
+    materialSearch: 1
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
