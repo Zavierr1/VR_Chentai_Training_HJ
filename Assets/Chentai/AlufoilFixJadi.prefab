@@ -155,9 +155,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BNG.Grabbable
   BeingHeld: 0
-  GrabButton: 2
+  GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 3
   GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 0
@@ -238,7 +238,7 @@ Transform:
   m_GameObject: {fileID: 3006457278272496854}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.239, y: 0, z: 0}
+  m_LocalPosition: {x: -0.239, y: 0, z: -0.072}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -401,8 +401,8 @@ FixedJoint:
   serializedVersion: 1
   m_ConnectedBody: {fileID: 8758952988888464095}
   m_ConnectedArticulationBody: {fileID: 0}
-  m_BreakForce: 100
-  m_BreakTorque: 100
+  m_BreakForce: 500
+  m_BreakTorque: 500
   m_EnableCollision: 0
   m_EnablePreprocessing: 1
   m_MassScale: 1
@@ -422,8 +422,8 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
-  GrabMechanic: 0
+  GrabPhysics: 3
+  GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 0
   RemoteGrabMechanic: 0
@@ -631,8 +631,8 @@ FixedJoint:
   serializedVersion: 1
   m_ConnectedBody: {fileID: 6712398762332433821}
   m_ConnectedArticulationBody: {fileID: 0}
-  m_BreakForce: 100
-  m_BreakTorque: 100
+  m_BreakForce: 500
+  m_BreakTorque: 500
   m_EnableCollision: 0
   m_EnablePreprocessing: 1
   m_MassScale: 1
@@ -652,8 +652,8 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
-  GrabMechanic: 0
+  GrabPhysics: 3
+  GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 0
   RemoteGrabMechanic: 0
@@ -861,8 +861,8 @@ FixedJoint:
   serializedVersion: 1
   m_ConnectedBody: {fileID: 1142627031193433674}
   m_ConnectedArticulationBody: {fileID: 0}
-  m_BreakForce: 100
-  m_BreakTorque: 100
+  m_BreakForce: 500
+  m_BreakTorque: 500
   m_EnableCollision: 0
   m_EnablePreprocessing: 1
   m_MassScale: 1
@@ -882,8 +882,8 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
-  GrabMechanic: 0
+  GrabPhysics: 3
+  GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 0
   RemoteGrabMechanic: 0
