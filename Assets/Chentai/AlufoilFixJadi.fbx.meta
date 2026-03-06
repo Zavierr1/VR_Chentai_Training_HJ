@@ -3,12 +3,22 @@ guid: 05a96a0252c34714b946a158cd21e31b
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AlufoilMerk
+    second: {fileID: 2100000, guid: 61a55929199f1524caf59215f3b692f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AlufoilPolos.001
+    second: {fileID: 2100000, guid: ed2135de69a538942ae6348b34a1272b, type: 2}
   materials:
     materialImportMode: 2
-    materialName: 0
-    materialSearch: 1
-    materialLocation: 1
+    materialName: 2
+    materialSearch: 0
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
