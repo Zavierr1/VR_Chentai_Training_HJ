@@ -7,6 +7,15 @@ TagManager:
   - Alufoil
   - Tablet
   - SelectedPart
+  - CoverK_Kiri
+  - CoverK_Kanan
+  - CoverK_Depan
+  - SilingRoll_Kanan
+  - SilingRoll_Kiri
+  - SilingRoll_Tighter
+  - SilingRoll_Cover
+  - SliderAtas
+  - SliderBawah
   layers:
   - Default
   - TransparentFX

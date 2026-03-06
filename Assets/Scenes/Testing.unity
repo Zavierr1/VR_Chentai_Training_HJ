@@ -1382,6 +1382,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cover
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6fbad80f4dee6ee4a8192116ebf7c45c,
+        type: 3}
+      propertyPath: m_TagString
+      value: SilingRoll_Cover
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1754,6 +1759,8 @@ MonoBehaviour:
   - {fileID: 4651288259392325079}
   - {fileID: 4837335594129264506}
   - {fileID: 6894073813913587659}
+  - {fileID: 945965791}
+  - {fileID: 1919197700}
 --- !u!4 &278444358
 Transform:
   m_ObjectHideFlags: 0
@@ -1953,10 +1960,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SnapGroupManager
   grupAktifDiAwal: 1
-  syaratSnapZones:
-  - {fileID: 1820600192}
-  - {fileID: 1812960282}
-  - {fileID: 1735932061}
+  urutanSnap:
+  - snapZone: {fileID: 1820600192}
+    tagYangBenar: CoverK_Kanan
+  - snapZone: {fileID: 1812960282}
+    tagYangBenar: CoverK_Kiri
+  - snapZone: {fileID: 1735932061}
+    tagYangBenar: CoverK_Depan
   managerGrupBerikutnya:
   - {fileID: 1643011248}
 --- !u!4 &339117380
@@ -3802,7 +3812,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &817015921
 Transform:
   m_ObjectHideFlags: 0
@@ -4150,9 +4160,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SnapGroupManager
   grupAktifDiAwal: 0
-  syaratSnapZones:
-  - {fileID: 378318270}
-  - {fileID: 140696914}
+  urutanSnap:
+  - snapZone: {fileID: 378318270}
+    tagYangBenar: SliderAtas
+  - snapZone: {fileID: 140696914}
+    tagYangBenar: SliderBawah
   managerGrupBerikutnya: []
 --- !u!4 &841154146
 Transform:
@@ -8068,11 +8080,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SnapGroupManager
   grupAktifDiAwal: 0
-  syaratSnapZones:
-  - {fileID: 834559399}
-  - {fileID: 1061519209}
-  - {fileID: 1778865914}
-  - {fileID: 407750339}
+  urutanSnap:
+  - snapZone: {fileID: 834559399}
+    tagYangBenar: SilingRoll_Kanan
+  - snapZone: {fileID: 1061519209}
+    tagYangBenar: SilingRoll_Kiri
+  - snapZone: {fileID: 1778865914}
+    tagYangBenar: SilingRoll_Tighter
+  - snapZone: {fileID: 407750339}
+    tagYangBenar: SilingRoll_Cover
   managerGrupBerikutnya:
   - {fileID: 841154145}
 --- !u!4 &1643011249
@@ -9834,6 +9850,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 1.65, y: 0, z: 0}
+--- !u!114 &1919197700 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6907657948260276988, guid: 0307c75e6ffb49b49a249ee6851dcafd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1166412987}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c72badf950da4ff4584cd58881b44a33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConveyorVisual
 --- !u!1 &2013429178
 GameObject:
   m_ObjectHideFlags: 0
@@ -10694,7 +10722,7 @@ Transform:
   m_GameObject: {fileID: 919132148086244681}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.033, y: 1.191, z: 0.57163}
+  m_LocalPosition: {x: 6.028, y: 1.191, z: 0.57163}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10717,7 +10745,7 @@ GameObject:
   - component: {fileID: 3047634524611901019}
   m_Layer: 0
   m_Name: Cylinder.098
-  m_TagString: Untagged
+  m_TagString: SilingRoll_Kiri
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11109,6 +11137,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Press
+      objectReference: {fileID: 0}
+    - target: {fileID: 6592601815533064275, guid: 936b34d542d19834796160c83ffc4961,
+        type: 3}
+      propertyPath: m_TagString
+      value: SilingRoll_Tighter
       objectReference: {fileID: 0}
     - target: {fileID: 6593619427754865223, guid: 936b34d542d19834796160c83ffc4961,
         type: 3}
@@ -11710,9 +11743,16 @@ GameObject:
   - component: {fileID: 3469287838559621209}
   - component: {fileID: 3469287838559621208}
   - component: {fileID: 3469287838559621207}
+  - component: {fileID: 3469287838559621216}
+  - component: {fileID: 3469287838559621215}
+  - component: {fileID: 3469287838559621214}
+  - component: {fileID: 3469287838559621213}
+  - component: {fileID: 3469287838559621212}
+  - component: {fileID: 3469287838559621211}
+  - component: {fileID: 3469287838559621210}
   m_Layer: 0
   m_Name: Cubeh
-  m_TagString: Untagged
+  m_TagString: CoverK_Depan
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15109,7 +15149,7 @@ GameObject:
   - component: {fileID: 8794206333528442930}
   m_Layer: 0
   m_Name: Cylinder.065
-  m_TagString: Untagged
+  m_TagString: SilingRoll_Kanan
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16564,6 +16604,90 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3469287838559621210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148086244681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BNG.FixNonUniformScale
+--- !u!114 &3469287838559621211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148086244681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BNG.FixNonUniformScale
+--- !u!114 &3469287838559621212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148086244681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BNG.FixNonUniformScale
+--- !u!114 &3469287838559621213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148086244681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BNG.FixNonUniformScale
+--- !u!114 &3469287838559621214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148086244681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BNG.FixNonUniformScale
+--- !u!114 &3469287838559621215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148086244681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BNG.FixNonUniformScale
+--- !u!114 &3469287838559621216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148086244681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee8279a47ff75f46b7c852ece1888d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BNG.FixNonUniformScale
 --- !u!4 &3477747752637656659
 Transform:
   m_ObjectHideFlags: 0
@@ -16683,7 +16807,7 @@ GameObject:
   - component: {fileID: 9081674081338166353}
   m_Layer: 0
   m_Name: Cube.073
-  m_TagString: Untagged
+  m_TagString: CoverK_Kiri
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22624,7 +22748,7 @@ GameObject:
   - component: {fileID: 7041628271305202889}
   m_Layer: 0
   m_Name: Cube.017
-  m_TagString: Untagged
+  m_TagString: CoverK_Kanan
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24644,7 +24768,7 @@ GameObject:
   - component: {fileID: 8672832285986237153}
   m_Layer: 0
   m_Name: Slider
-  m_TagString: Untagged
+  m_TagString: SliderAtas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25993,7 +26117,7 @@ GameObject:
   - component: {fileID: 8955665828041417962}
   m_Layer: 0
   m_Name: Slider_Bawah
-  m_TagString: Untagged
+  m_TagString: SliderBawah
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26652,6 +26776,10 @@ SceneRoots:
   - {fileID: 192540984}
   - {fileID: 285422376}
   - {fileID: 817015921}
+  - {fileID: 278444358}
+  - {fileID: 339117380}
+  - {fileID: 1643011249}
+  - {fileID: 841154146}
   - {fileID: 6137066969936154480}
   - {fileID: 64193181927075573}
   - {fileID: 2013429179}
@@ -26660,10 +26788,6 @@ SceneRoots:
   - {fileID: 8672832285986237149}
   - {fileID: 3045059720619500597}
   - {fileID: 129703626}
-  - {fileID: 278444358}
-  - {fileID: 339117380}
-  - {fileID: 1643011249}
-  - {fileID: 841154146}
   - {fileID: 1518207604}
   - {fileID: 2101366239493716608}
   - {fileID: 6755950317465294740}
