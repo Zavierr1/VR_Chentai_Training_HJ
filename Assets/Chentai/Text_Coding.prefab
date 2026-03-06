@@ -197,4 +197,4 @@ MonoBehaviour:
   localMoveDirection: {x: 0, y: -1, z: 0}
   uvToLocalScale: 0.5
   surfaceOffset: 0.001
-  timeToDestroy: 15
+  timeToDestroy: 13.5
