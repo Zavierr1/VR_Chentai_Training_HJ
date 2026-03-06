@@ -1,7 +1,10 @@
 using UnityEngine;
+using System;
 
 public class MachineController : MonoBehaviour
 {
+    public event Action<bool> OnMachineStateChanged;
+
     [Header("Status Mesin")]
     public bool isMachineOn = false;
 
@@ -9,25 +12,29 @@ public class MachineController : MonoBehaviour
     [Tooltip("Centang ini jika ingin mesin langsung nyala saat Play tanpa harus pasang part (Untuk Testing)")]
     public bool autoStartForDebug = false; // <--- TAMBAHAN UNTUK DEBUG
 
+    [Header("Startup Setup")]
+    [Tooltip("Jika true, semua komponen di list akan dipaksa OFF saat Start")]
+    public bool forceOffComponentsOnStart = true;
+
     [Header("Referensi Komponen Utama")]
     [Tooltip("Drag objek yang memiliki script TabletSpawner ke sini")]
     public TabletSpawner tabletSpawner;
 
     [Header("Sistem Keamanan (Multi Snap Zone)")]
     [Tooltip("Centang jika mesin WAJIB menunggu part terpasang")]
-    public bool wajibAdaPart = true; 
-    
+    public bool wajibAdaPart = true;
+
     [Tooltip("Berapa banyak part yang HARUS terpasang agar mesin bisa nyala?")]
-    public int targetJumlahPart = 2; 
+    public int targetJumlahPart = 2;
 
     [Tooltip("Jumlah part yang saat ini sedang menempel (Otomatis, jangan diubah)")]
     public int partTerpasangSaatIni = 0;
 
     private float lastToggleTime = 0f;
-    private float toggleCooldown = 0.5f;    
+    private float toggleCooldown = 0.5f;
 
     public Animator[] machineAnimators;
-    
+
     [Tooltip("Drag objek yang memiliki script HorizontalCutter ke sini")]
     public HorizontalCutter horizontalCutter;
 
@@ -37,6 +44,13 @@ public class MachineController : MonoBehaviour
 
     void Start()
     {
+        if (forceOffComponentsOnStart)
+        {
+            SetMachineOutputs(false);
+            isMachineOn = false;
+            OnMachineStateChanged?.Invoke(false);
+        }
+
         // >>> TAMBAHAN: Langsung nyalakan mesin saat game Play jika mode debug aktif
         if (autoStartForDebug)
         {
@@ -46,7 +60,7 @@ public class MachineController : MonoBehaviour
 
     public void StartMachine()
     {
-        if (isMachineOn) return; 
+        if (isMachineOn) return;
 
         // >>> LOGIKA BARU: Cek apakah jumlah part belum terpenuhi (dan abaikan jika sedang mode Debug)
         if (wajibAdaPart && partTerpasangSaatIni < targetJumlahPart && !autoStartForDebug)
@@ -58,47 +72,39 @@ public class MachineController : MonoBehaviour
         isMachineOn = true;
         Debug.Log("Mesin Dinyalakan!");
 
-        // 1. Nyalakan sistem jatuhnya obat
-        if (tabletSpawner != null) tabletSpawner.isMachineRunning = true;
-        
-        // 2. Mulai siklus pemotong foil
-        if (horizontalCutter != null)
-        {
-            horizontalCutter.loop = true;
-            horizontalCutter.StartCut();
-        }
-
-        // 3. Nyalakan komponen pendukung lainnya (Sikat, Vibrator, dll)
-        foreach (var part in machineParts)
-        {
-            if (part != null) part.enabled = true;
-        }
-
-        foreach (var anim in machineAnimators)
-        {
-            if (anim != null) anim.enabled = true;
-        }
+        SetMachineOutputs(true);
+        OnMachineStateChanged?.Invoke(true);
     }
 
     public void StopMachine()
     {
         if (!isMachineOn) return;
-        
+
         isMachineOn = false;
         Debug.Log("Mesin Dimatikan!");
 
-        if (tabletSpawner != null) tabletSpawner.isMachineRunning = false;
-        
-        if (horizontalCutter != null) horizontalCutter.loop = false; 
+        SetMachineOutputs(false);
+        OnMachineStateChanged?.Invoke(false);
+    }
+
+    private void SetMachineOutputs(bool active)
+    {
+        if (tabletSpawner != null) tabletSpawner.isMachineRunning = active;
+
+        if (horizontalCutter != null)
+        {
+            horizontalCutter.loop = active;
+            if (active) horizontalCutter.StartCut();
+        }
 
         foreach (var part in machineParts)
         {
-            if (part != null) part.enabled = false;
+            if (part != null) part.enabled = active;
         }
 
         foreach (var anim in machineAnimators)
         {
-            if (anim != null) anim.enabled = false;
+            if (anim != null) anim.enabled = active;
         }
     }
 
@@ -107,16 +113,16 @@ public class MachineController : MonoBehaviour
         if (Time.time - lastToggleTime < toggleCooldown)
         {
             Debug.Log("Tombol ditekan terlalu cepat (Cooldown aktif)!");
-            return; 
+            return;
         }
 
         lastToggleTime = Time.time;
 
-        if (isMachineOn) 
+        if (isMachineOn)
         {
             StopMachine();
         }
-        else 
+        else
         {
             StartMachine();
         }
@@ -131,11 +137,11 @@ public class MachineController : MonoBehaviour
     public void SetPartDilepas()
     {
         partTerpasangSaatIni--;
-        
-        if (partTerpasangSaatIni < 0) partTerpasangSaatIni = 0; 
-        
+
+        if (partTerpasangSaatIni < 0) partTerpasangSaatIni = 0;
+
         Debug.Log($"1 Part dilepas! Total terpasang: {partTerpasangSaatIni} / {targetJumlahPart}");
-        
+
         // Fitur Realistis: Jangan matikan mesin jika mode debug sedang aktif
         if (isMachineOn && partTerpasangSaatIni < targetJumlahPart && !autoStartForDebug)
         {
