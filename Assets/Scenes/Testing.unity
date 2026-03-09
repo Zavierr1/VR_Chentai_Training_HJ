@@ -1947,27 +1947,27 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: bd35ecca937f95c4e80f63602e082f17,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.98224604
+      value: 0.97629607
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bd35ecca937f95c4e80f63602e082f17,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.1875974
+      value: -0.21643952
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bd35ecca937f95c4e80f63602e082f17,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bd35ecca937f95c4e80f63602e082f17,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bd35ecca937f95c4e80f63602e082f17,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -21.625
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bd35ecca937f95c4e80f63602e082f17,
         type: 3}
@@ -2002,6 +2002,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 635528154}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bd35ecca937f95c4e80f63602e082f17,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 635528158}
   m_SourcePrefab: {fileID: 100100000, guid: bd35ecca937f95c4e80f63602e082f17, type: 3}
 --- !u!1 &241050227
 GameObject:
@@ -3636,6 +3640,29 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.6504474, y: 1.049936, z: 0.026437894}
   m_Center: {x: 0, y: 0.5172185, z: 0.0020898953}
+--- !u!4 &635528157 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bd35ecca937f95c4e80f63602e082f17,
+    type: 3}
+  m_PrefabInstance: {fileID: 221581266}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &635528158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635528150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ab32eb7fa251b49ade2d41eee72415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EjectorController
+  flapObject: {fileID: 635528157}
+  rotasiNormalX: -25
+  rotasiEjectX: 45
+  kecepatanGerak: 20
+  durasiTerbuka: 0.5
 --- !u!1 &653043822
 GameObject:
   m_ObjectHideFlags: 0
@@ -6637,7 +6664,8 @@ MonoBehaviour:
   tabletPrefab: {fileID: 3006457278272496854, guid: eb879bbc73c288c44bd734e8343d3a5d,
     type: 3}
   spawnPoint: {fileID: 1142732350}
-  tabletLifetime: 50
+  tabletLifetime: 10
+  ejectorMesin: {fileID: 635528158}
   pressEffect: {fileID: 0}
   pressSound: {fileID: 0}
 --- !u!4 &1142732350
