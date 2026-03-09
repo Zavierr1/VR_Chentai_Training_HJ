@@ -22,11 +22,11 @@ public class EjectorController : MonoBehaviour
         if (isEjecting) return; // Abaikan jika plat sedang terbuka
 
         // Probabilitas 1 banding 20
-        int dadu = Random.Range(1, 21);
+        int dadu = Random.Range(1, 10);
         
         if (dadu == 1)
         {
-            Debug.Log("⚠️ QC: Membuang obat cacat!");
+            Debug.Log("QC: Membuang obat cacat!");
             StartCoroutine(GerakkanFlap());
         }
     }
