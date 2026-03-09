@@ -2050,6 +2050,7 @@ GameObject:
   - component: {fileID: 247956095}
   - component: {fileID: 247956094}
   - component: {fileID: 247956093}
+  - component: {fileID: 247956096}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -2159,6 +2160,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 247956091}
   m_CullTransparentMesh: 1
+--- !u!114 &247956096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247956091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 011d56aa06d7a2445bc42b702df33a68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PartLabelButton
+  partLabel: {fileID: 0}
+  buttonRenderer: {fileID: 0}
+  idleColor: {r: 0.2, g: 0.6, b: 1, a: 1}
+  hoverColor: {r: 0.4, g: 0.9, b: 1, a: 1}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  pulseSpeed: 2
+  pulseMinScale: 0.9
+  pulseMaxScale: 1.1
 --- !u!1 &278444356
 GameObject:
   m_ObjectHideFlags: 0
@@ -14051,7 +14072,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148086244681}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.17194079, w: 0.9851073}
   m_LocalPosition: {x: 5.559, y: 1.191, z: -0.26080567}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
@@ -14059,7 +14080,7 @@ Transform:
   - {fileID: 847658084}
   - {fileID: 855389800}
   m_Father: {fileID: 1693468134}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -19.801}
 --- !u!4 &543450652657436484
 Transform:
   m_ObjectHideFlags: 0
