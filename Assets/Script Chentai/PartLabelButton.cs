@@ -1,35 +1,51 @@
+using System.Collections;
 using UnityEngine;
-using BNG; // VRIF namespace
+using BNG;
 
 /// <summary>
-/// PartLabelButton — Attach to the small circle/sphere trigger button.
-/// Uses VRIF's Grabbable or Lever events, OR simple pointer click.
-///
-/// SETUP:
-/// 1. Create a small sphere near the part (e.g. scale 0.03)
-/// 2. Add this script to it
-/// 3. Assign partLabel reference
-/// 4. VRIF: Add a "Lever" or just use the VRIF Pointer + this script
+/// PartLabelButton — Attach to the small sphere trigger button.
+/// Toggle between HOVER and CLICK mode directly from Inspector.
 /// </summary>
 public class PartLabelButton : MonoBehaviour
 {
     [Header("References")]
     public PartLabel partLabel;
 
+    // ── MODE TOGGLE ────────────────────────────────────────────
+    [Header("Interaction Mode")]
+    public InteractionMode interactionMode = InteractionMode.Hover;
+
+    public enum InteractionMode
+    {
+        Hover,  // Label shows on hover, hides on exit
+        Click   // Label toggles on click
+    }
+
+    [Header("Hover Settings")]
+    [Tooltip("Delay in seconds before label appears on hover (prevents flickering)")]
+    public float hoverDelay    = 0.3f;
+
+    [Tooltip("Delay in seconds before label hides after hover exit")]
+    public float exitDelay     = 1.5f;
+
+    // ── BUTTON VISUAL ──────────────────────────────────────────
     [Header("Button Visual")]
     public Renderer buttonRenderer;
-    public Color idleColor    = new Color(0.2f, 0.6f, 1.0f);   // Blue
-    public Color hoverColor   = new Color(0.4f, 0.9f, 1.0f);   // Bright cyan
-    public Color activeColor  = new Color(1.0f, 1.0f, 1.0f);   // White flash
+    public Color idleColor   = new Color(0.2f, 0.6f, 1.0f);
+    public Color hoverColor  = new Color(0.4f, 0.9f, 1.0f);
+    public Color activeColor = new Color(1.0f, 1.0f, 1.0f);
 
     [Header("Pulse Animation")]
-    public float pulseSpeed     = 2f;
-    public float pulseMinScale  = 0.9f;
-    public float pulseMaxScale  = 1.1f;
+    public float pulseSpeed    = 2f;
+    public float pulseMinScale = 0.9f;
+    public float pulseMaxScale = 1.1f;
 
+    // ── Internals ──────────────────────────────────────────────
     private Material buttonMat;
-    private Vector3 originalScale;
-    private bool isHovered = false;
+    private Vector3  originalScale;
+    private bool     isHovered   = false;
+    private Coroutine hoverCoroutine;
+    private Coroutine exitCoroutine;
 
     void Start()
     {
@@ -37,11 +53,8 @@ public class PartLabelButton : MonoBehaviour
 
         if (buttonRenderer != null)
         {
-            // Instance the material so we don't affect other buttons
             buttonMat = buttonRenderer.material;
             buttonMat.color = idleColor;
-
-            // Make it emissive so it glows
             buttonMat.EnableKeyword("_EMISSION");
             buttonMat.SetColor("_EmissionColor", idleColor * 0.5f);
         }
@@ -49,7 +62,7 @@ public class PartLabelButton : MonoBehaviour
 
     void Update()
     {
-        // Pulse animation when idle
+        // Pulse when idle
         if (!isHovered)
         {
             float pulse = Mathf.PingPong(Time.time * pulseSpeed, 1f);
@@ -58,29 +71,27 @@ public class PartLabelButton : MonoBehaviour
         }
     }
 
-    // ── VRIF Pointer Events ─────────────────────────────────────
-    // VRIF calls these automatically if you add a PointerEvents component
-    // OR you can call OnButtonPress from a VRIF UIPointer OnClick event
-
-    public void OnButtonPress()
-    {
-        if (partLabel != null)
-            partLabel.ToggleLabel();
-
-        // Flash white
-        if (buttonMat != null)
-            StartCoroutine(FlashColor());
-    }
+    // ── POINTER EVENTS (wire these up in VRIF PointerEvents) ───
 
     public void OnPointerEnter()
     {
         isHovered = true;
         transform.localScale = originalScale * 1.2f;
 
-        if (buttonMat != null)
+        SetButtonColor(hoverColor);
+
+        // Only trigger label on hover if mode is Hover
+        if (interactionMode == InteractionMode.Hover)
         {
-            buttonMat.color = hoverColor;
-            buttonMat.SetColor("_EmissionColor", hoverColor * 0.8f);
+            // Cancel any pending exit
+            if (exitCoroutine != null)
+            {
+                StopCoroutine(exitCoroutine);
+                exitCoroutine = null;
+            }
+
+            // Show label after hover delay
+            hoverCoroutine = StartCoroutine(ShowAfterDelay());
         }
     }
 
@@ -89,27 +100,71 @@ public class PartLabelButton : MonoBehaviour
         isHovered = false;
         transform.localScale = originalScale;
 
-        if (buttonMat != null)
+        SetButtonColor(idleColor);
+
+        // Only auto-hide on exit if mode is Hover
+        if (interactionMode == InteractionMode.Hover)
         {
-            buttonMat.color = idleColor;
-            buttonMat.SetColor("_EmissionColor", idleColor * 0.5f);
+            // Cancel pending show
+            if (hoverCoroutine != null)
+            {
+                StopCoroutine(hoverCoroutine);
+                hoverCoroutine = null;
+            }
+
+            // Hide label after exit delay
+            exitCoroutine = StartCoroutine(HideAfterDelay());
         }
     }
 
-    System.Collections.IEnumerator FlashColor()
+    public void OnButtonPress()
+    {
+        // Click always works regardless of mode
+        // In Hover mode → click acts as force toggle (useful backup)
+        // In Click mode → this is the main trigger
+
+        if (partLabel != null)
+            partLabel.ToggleLabel();
+
+        StartCoroutine(FlashColor());
+    }
+
+    // ── COROUTINES ─────────────────────────────────────────────
+
+    IEnumerator ShowAfterDelay()
+    {
+        yield return new WaitForSeconds(hoverDelay);
+        if (partLabel != null && isHovered)
+            partLabel.ShowLabel();
+    }
+
+    IEnumerator HideAfterDelay()
+    {
+        yield return new WaitForSeconds(exitDelay);
+        if (partLabel != null && !isHovered)
+            partLabel.HideLabel();
+    }
+
+    IEnumerator FlashColor()
     {
         if (buttonMat == null) yield break;
-
-        buttonMat.color = activeColor;
+        SetButtonColor(activeColor);
         buttonMat.SetColor("_EmissionColor", activeColor);
         yield return new WaitForSeconds(0.12f);
-        buttonMat.color = idleColor;
-        buttonMat.SetColor("_EmissionColor", idleColor * 0.5f);
+        SetButtonColor(idleColor);
     }
 
-    // ── Simple fallback: mouse click for editor testing ──────────
-    void OnMouseDown()
+    // ── HELPERS ────────────────────────────────────────────────
+
+    void SetButtonColor(Color color)
     {
-        OnButtonPress();
+        if (buttonMat == null) return;
+        buttonMat.color = color;
+        buttonMat.SetColor("_EmissionColor", color * 0.5f);
     }
+
+    // Editor testing fallback
+    void OnMouseDown()  { OnButtonPress(); }
+    void OnMouseEnter() { OnPointerEnter(); }
+    void OnMouseExit()  { OnPointerExit(); }
 }
