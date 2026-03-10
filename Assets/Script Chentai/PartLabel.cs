@@ -71,7 +71,7 @@ public class PartLabel : MonoBehaviour
         {
             Vector3 dir = labelCanvas.transform.position - playerCamera.position;
             if (dir != Vector3.zero)
-                labelCanvas.transform.rotation = Quaternion.LookRotation(-dir);
+                labelCanvas.transform.rotation = Quaternion.LookRotation(dir);
         }
     }
 
