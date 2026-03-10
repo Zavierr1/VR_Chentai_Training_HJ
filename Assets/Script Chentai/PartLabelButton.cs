@@ -1,96 +1,137 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using BNG;
 
 /// <summary>
-/// PartLabelButton — Attach to the small sphere trigger button.
-/// Toggle between HOVER and CLICK mode directly from Inspector.
+/// PartLabelButton — Attach directly to the Part GameObject (no sphere needed).
+/// Hover over the part to show label. Subtle emission glow on hover, not jarring.
+///
+/// SETUP:
+/// 1. Add this script to Part GameObject (not a sphere)
+/// 2. Add Box Collider to same GameObject
+/// 3. Assign partLabel → your LabelCanvas
+/// 4. partRenderers → all Renderers of this part (can be multiple for complex meshes)
+/// 5. Wire VRIF PointerEvents on this GameObject
 /// </summary>
 public class PartLabelButton : MonoBehaviour
 {
     [Header("References")]
     public PartLabel partLabel;
 
-    // ── MODE TOGGLE ────────────────────────────────────────────
+    [Tooltip("All renderers that belong to this part (drag all child renderers here)")]
+    public Renderer[] partRenderers;
+
+    // ── MODE ───────────────────────────────────────────────────
     [Header("Interaction Mode")]
     public InteractionMode interactionMode = InteractionMode.Hover;
+    public enum InteractionMode { Hover, Click }
 
-    public enum InteractionMode
-    {
-        Hover,  // Label shows on hover, hides on exit
-        Click   // Label toggles on click
-    }
+    [Header("Hover Timing")]
+    [Tooltip("Seconds before label appears — prevents flicker when sweeping")]
+    public float hoverDelay = 0.25f;
+    [Tooltip("Seconds before label hides after hover exit")]
+    public float exitDelay  = 1.2f;
 
-    [Header("Hover Settings")]
-    [Tooltip("Delay in seconds before label appears on hover (prevents flickering)")]
-    public float hoverDelay    = 0.3f;
+    // ── GLOW SETTINGS ──────────────────────────────────────────
+    [Header("Hover Glow — keep subtle!")]
+    [Tooltip("Glow color — recommend white or very light blue")]
+    public Color glowColor         = new Color(0.7f, 0.85f, 1.0f);  // Soft ice blue
 
-    [Tooltip("Delay in seconds before label hides after hover exit")]
-    public float exitDelay     = 1.5f;
+    [Range(0f, 1f)]
+    [Tooltip("Max emission intensity. 0.3 is subtle, 1.0 is very bright")]
+    public float glowIntensity     = 0.28f;
 
-    // ── BUTTON VISUAL ──────────────────────────────────────────
-    [Header("Button Visual")]
-    public Renderer buttonRenderer;
-    public Color idleColor   = new Color(0.2f, 0.6f, 1.0f);
-    public Color hoverColor  = new Color(0.4f, 0.9f, 1.0f);
-    public Color activeColor = new Color(1.0f, 1.0f, 1.0f);
+    [Tooltip("How fast the glow fades in/out")]
+    public float glowFadeSpeed     = 5f;
 
-    [Header("Pulse Animation")]
-    public float pulseSpeed    = 2f;
-    public float pulseMinScale = 0.9f;
-    public float pulseMaxScale = 1.1f;
+    [Tooltip("Subtle pulse on hover — makes it feel alive without being distracting")]
+    public bool  glowPulse         = true;
+    public float glowPulseSpeed    = 1.8f;
+    public float glowPulseMinMult  = 0.7f;   // Multiplier at pulse low
+    public float glowPulseMaxMult  = 1.0f;   // Multiplier at pulse high
 
     // ── Internals ──────────────────────────────────────────────
-    private Material buttonMat;
-    private Vector3  originalScale;
-    private bool     isHovered   = false;
+    private bool     isHovered       = false;
+    private float    currentGlow     = 0f;     // 0 = off, 1 = full
     private Coroutine hoverCoroutine;
     private Coroutine exitCoroutine;
 
+    // Store original emission state per material
+    private List<Material> cachedMaterials = new List<Material>();
+    private List<bool>     originalEmissionEnabled = new List<bool>();
+    private List<Color>    originalEmissionColor   = new List<Color>();
+
     void Start()
     {
-        originalScale = transform.localScale;
+        // Auto-grab renderers from children if not assigned
+        if (partRenderers == null || partRenderers.Length == 0)
+            partRenderers = GetComponentsInChildren<Renderer>();
 
-        if (buttonRenderer != null)
+        // Cache original emission state and instance materials
+        foreach (var r in partRenderers)
         {
-            buttonMat = buttonRenderer.material;
-            buttonMat.color = idleColor;
-            buttonMat.EnableKeyword("_EMISSION");
-            buttonMat.SetColor("_EmissionColor", idleColor * 0.5f);
+            if (r == null) continue;
+            foreach (var mat in r.materials)
+            {
+                // Instance so we don't affect shared material
+                cachedMaterials.Add(mat);
+                originalEmissionEnabled.Add(mat.IsKeywordEnabled("_EMISSION"));
+                originalEmissionColor.Add(mat.GetColor("_EmissionColor"));
+
+                // Enable emission keyword so we can control it
+                mat.EnableKeyword("_EMISSION");
+                mat.SetColor("_EmissionColor", Color.black); // start off
+            }
         }
     }
 
     void Update()
     {
-        // Pulse when idle
-        if (!isHovered)
+        UpdateGlow();
+    }
+
+    // ── GLOW UPDATE ────────────────────────────────────────────
+
+    void UpdateGlow()
+    {
+        float targetGlow = isHovered ? 1f : 0f;
+
+        // Smooth lerp toward target
+        currentGlow = Mathf.Lerp(currentGlow, targetGlow, Time.deltaTime * glowFadeSpeed);
+
+        // Apply pulse multiplier when hovered
+        float pulseMult = 1f;
+        if (isHovered && glowPulse)
         {
-            float pulse = Mathf.PingPong(Time.time * pulseSpeed, 1f);
-            float scale = Mathf.Lerp(pulseMinScale, pulseMaxScale, pulse);
-            transform.localScale = originalScale * scale;
+            float pulse = Mathf.PingPong(Time.time * glowPulseSpeed, 1f);
+            pulseMult = Mathf.Lerp(glowPulseMinMult, glowPulseMaxMult, pulse);
+        }
+
+        float finalIntensity = currentGlow * glowIntensity * pulseMult;
+        Color emissionValue  = glowColor * finalIntensity;
+
+        // Apply to all cached materials
+        foreach (var mat in cachedMaterials)
+        {
+            if (mat == null) continue;
+            mat.SetColor("_EmissionColor", emissionValue);
         }
     }
 
-    // ── POINTER EVENTS (wire these up in VRIF PointerEvents) ───
+    // ── POINTER EVENTS ─────────────────────────────────────────
 
     public void OnPointerEnter()
     {
         isHovered = true;
-        transform.localScale = originalScale * 1.2f;
 
-        SetButtonColor(hoverColor);
-
-        // Only trigger label on hover if mode is Hover
         if (interactionMode == InteractionMode.Hover)
         {
-            // Cancel any pending exit
             if (exitCoroutine != null)
             {
                 StopCoroutine(exitCoroutine);
                 exitCoroutine = null;
             }
-
-            // Show label after hover delay
             hoverCoroutine = StartCoroutine(ShowAfterDelay());
         }
     }
@@ -98,35 +139,22 @@ public class PartLabelButton : MonoBehaviour
     public void OnPointerExit()
     {
         isHovered = false;
-        transform.localScale = originalScale;
 
-        SetButtonColor(idleColor);
-
-        // Only auto-hide on exit if mode is Hover
         if (interactionMode == InteractionMode.Hover)
         {
-            // Cancel pending show
             if (hoverCoroutine != null)
             {
                 StopCoroutine(hoverCoroutine);
                 hoverCoroutine = null;
             }
-
-            // Hide label after exit delay
             exitCoroutine = StartCoroutine(HideAfterDelay());
         }
     }
 
     public void OnButtonPress()
     {
-        // Click always works regardless of mode
-        // In Hover mode → click acts as force toggle (useful backup)
-        // In Click mode → this is the main trigger
-
         if (partLabel != null)
             partLabel.ToggleLabel();
-
-        StartCoroutine(FlashColor());
     }
 
     // ── COROUTINES ─────────────────────────────────────────────
@@ -134,37 +162,34 @@ public class PartLabelButton : MonoBehaviour
     IEnumerator ShowAfterDelay()
     {
         yield return new WaitForSeconds(hoverDelay);
-        if (partLabel != null && isHovered)
+        if (isHovered && partLabel != null)
             partLabel.ShowLabel();
     }
 
     IEnumerator HideAfterDelay()
     {
         yield return new WaitForSeconds(exitDelay);
-        if (partLabel != null && !isHovered)
+        if (!isHovered && partLabel != null)
             partLabel.HideLabel();
     }
 
-    IEnumerator FlashColor()
+    // ── CLEANUP — restore original materials on disable ────────
+
+    void OnDisable()
     {
-        if (buttonMat == null) yield break;
-        SetButtonColor(activeColor);
-        buttonMat.SetColor("_EmissionColor", activeColor);
-        yield return new WaitForSeconds(0.12f);
-        SetButtonColor(idleColor);
+        for (int i = 0; i < cachedMaterials.Count; i++)
+        {
+            if (cachedMaterials[i] == null) continue;
+
+            if (!originalEmissionEnabled[i])
+                cachedMaterials[i].DisableKeyword("_EMISSION");
+
+            cachedMaterials[i].SetColor("_EmissionColor", originalEmissionColor[i]);
+        }
     }
 
-    // ── HELPERS ────────────────────────────────────────────────
-
-    void SetButtonColor(Color color)
-    {
-        if (buttonMat == null) return;
-        buttonMat.color = color;
-        buttonMat.SetColor("_EmissionColor", color * 0.5f);
-    }
-
-    // Editor testing fallback
-    void OnMouseDown()  { OnButtonPress(); }
+    // ── EDITOR TESTING (mouse fallback) ────────────────────────
     void OnMouseEnter() { OnPointerEnter(); }
-    void OnMouseExit()  { OnPointerExit(); }
+    void OnMouseExit()  { OnPointerExit();  }
+    void OnMouseDown()  { OnButtonPress();  }
 }
