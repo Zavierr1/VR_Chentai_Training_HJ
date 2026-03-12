@@ -6778,8 +6778,8 @@ Transform:
   m_GameObject: {fileID: 777486132}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: -0.889963, z: -0.00586368}
-  m_LocalScale: {x: 1, y: 0.19000001, z: 2}
+  m_LocalPosition: {x: 1, y: -0.95056003, z: -0.00586368}
+  m_LocalScale: {x: 1, y: 0.09020251, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7923383769948733301}
@@ -8263,6 +8263,7 @@ GameObject:
   - component: {fileID: 1004194346}
   - component: {fileID: 1004194348}
   - component: {fileID: 1004194347}
+  - component: {fileID: 1004194349}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -8373,14 +8374,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1004194345}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 0.05
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -12011,7 +12012,7 @@ ParticleSystem:
   CollisionModule:
     enabled: 0
     serializedVersion: 4
-    type: 0
+    type: 1
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
@@ -12021,7 +12022,7 @@ ParticleSystem:
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -12074,7 +12075,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -12178,8 +12179,8 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     minKillSpeed: 0
-    maxKillSpeed: 10000
-    radiusScale: 1
+    maxKillSpeed: 1
+    radiusScale: 0.001
     collidesWith:
       serializedVersion: 2
       m_Bits: 4294967295
@@ -13146,6 +13147,21 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &1004194349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004194345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1fbc463d56f7c04089588a1397a338c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FeederVibration
+  shakeIntensity: 0.05
+  shakeSpeed: 50
+  shakeDirection: {x: 0.5, y: 0.5, z: 0.5}
 --- !u!1 &1007325149 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6592601815533064275, guid: 936b34d542d19834796160c83ffc4961,
@@ -15592,8 +15608,8 @@ Transform:
   m_GameObject: {fileID: 1290058216}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.97, y: -0.893, z: -0.007}
-  m_LocalScale: {x: 1, y: 0.19, z: 2}
+  m_LocalPosition: {x: -0.97, y: -0.952, z: -0.007}
+  m_LocalScale: {x: 1, y: 0.0902025, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2426298341277036573}
@@ -20950,8 +20966,8 @@ Transform:
   m_GameObject: {fileID: 1948773223}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1.2, y: -0.898, z: 0.005}
-  m_LocalScale: {x: 2, y: 0.2, z: 1}
+  m_LocalPosition: {x: -1.2, y: -0.954, z: 0.005}
+  m_LocalScale: {x: 2, y: 0.094950005, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1410012229235190062}
@@ -29949,7 +29965,7 @@ GameObject:
   - component: {fileID: 738888802848049570}
   - component: {fileID: 920268113235240065}
   - component: {fileID: 559928795652500225}
-  - component: {fileID: 7307185634377694553}
+  - component: {fileID: 4540608606840393019}
   m_Layer: 0
   m_Name: Cube.002
   m_TagString: Untagged
@@ -29957,6 +29973,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &4540608606840393019
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4540608606840393018}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.3498406, y: 0.43101788, z: 6.5515065}
+  m_Center: {x: 6.8324957, y: 5.373188, z: -7.2551994}
 --- !u!1 &4552846666250127995
 GameObject:
   m_ObjectHideFlags: 0
@@ -30614,6 +30651,7 @@ MonoBehaviour:
   vibrationIntensity: 0.005
   vibrationSpeed: 50
   tabletsInZone: 0
+  scriptGetaranPartikel: {fileID: 1004194349}
   _isVibrating: 0
 --- !u!23 &4919357137649730282
 MeshRenderer:
@@ -33419,7 +33457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 059178105db80ed4b93a99c9eacceed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TabletSpawner
-  tabletPrefab: {fileID: 2684485200013507540, guid: 45e6e15d6137e3648ac12cca8be8e5a0,
+  tabletPrefab: {fileID: 3927072820264872363, guid: 45e6e15d6137e3648ac12cca8be8e5a0,
     type: 3}
   sensorVibrator: {fileID: 4916370319514022673}
   spawnInterval: 0.2
@@ -34114,28 +34152,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 542804174539356797}
   m_Mesh: {fileID: 2733448660354597953, guid: 58b2ff5f5a117684897db93b732e59b5, type: 3}
---- !u!64 &7307185634377694553
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4540608606840393018}
-  m_Material: {fileID: 13400000, guid: 819d365684e8fc2409971d0c42535bf8, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1550514412580984892, guid: 58b2ff5f5a117684897db93b732e59b5, type: 3}
 --- !u!33 &7313917427125799670
 MeshFilter:
   m_ObjectHideFlags: 0

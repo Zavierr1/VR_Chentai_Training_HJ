@@ -13,7 +13,10 @@ public class VibratorController : MonoBehaviour
     [Header("Status (Jangan diubah manual)")]
     public int tabletsInZone = 0; // Menghitung jumlah obat di area
 
+   public FeederVibration scriptGetaranPartikel; // Mengambil script FeederVibration untuk mengontrol Particle System
+
     private Vector3 _originalPosition;
+
     public bool _isVibrating = false;
 
     void Start()
@@ -38,8 +41,13 @@ public class VibratorController : MonoBehaviour
             float shakeX = Mathf.Sin(Time.time * vibrationSpeed) * vibrationIntensity;
             float shakeZ = Mathf.Cos(Time.time * vibrationSpeed * 0.8f) * vibrationIntensity; 
             
-            // Terapkan getaran
             vibratorA.localPosition = _originalPosition + new Vector3(shakeX, 0, shakeZ);
+
+           // 2. TRUE: Nyalakan getaran pada tumpukan pil
+            if (scriptGetaranPartikel != null && !scriptGetaranPartikel.enabled)
+            {
+                scriptGetaranPartikel.enabled = true;
+            }
         }
         else
         {
@@ -48,6 +56,12 @@ public class VibratorController : MonoBehaviour
             {
                 vibratorA.localPosition = _originalPosition; // Kembalikan ke posisi semula
                 _isVibrating = false;
+            }
+
+            // FALSE: Matikan script getaran pada tumpukan pil agar diam
+            if (scriptGetaranPartikel != null && scriptGetaranPartikel.enabled)
+            {
+                scriptGetaranPartikel.enabled = false;
             }
         }
     }
