@@ -319,7 +319,7 @@ AnimationClip:
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 1.45
+  - time: 1.4333333
     functionName: PrintNow
     data: 
     objectReferenceParameter: {fileID: 0}
