@@ -128,7 +128,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 379986068}
-  - component: {fileID: 379986069}
   m_Layer: 0
   m_Name: TabletSpawn (1)
   m_TagString: Untagged
@@ -151,23 +150,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &379986069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 379986066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 371056a3cd2fec54f8f0437a5436255b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TabletSpawnerAuthoring
-  tabletPrefab: {fileID: 3927072820264872363, guid: 45e6e15d6137e3648ac12cca8be8e5a0,
-    type: 3}
-  spawnAreaSize: {x: 0.1, y: 0.1, z: 0.1}
-  tabletCount: 300
-  initialDropHeight: 0.5
 --- !u!54 &1153925664
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -278,7 +260,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 277dba7b5e73cf741add28857cddae88, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
