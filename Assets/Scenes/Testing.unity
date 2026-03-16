@@ -2421,6 +2421,37 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 635528158}
   m_SourcePrefab: {fileID: 100100000, guid: bd35ecca937f95c4e80f63602e082f17, type: 3}
+--- !u!1 &260450322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 260450323}
+  m_Layer: 0
+  m_Name: GrabPointLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &260450323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260450322}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4, y: 0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6137466811981675686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &263032368
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20947,6 +20978,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 334571fe655973f4ea2059feac869d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TabletDestroyer
+--- !u!1 &1998508810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1998508811}
+  m_Layer: 0
+  m_Name: GrabPointRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1998508811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998508810}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.98, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6137466811981675686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2013429178
 GameObject:
   m_ObjectHideFlags: 0
@@ -28668,6 +28730,7 @@ GameObject:
   - component: {fileID: 9081674081338166350}
   - component: {fileID: 9081674081338166353}
   - component: {fileID: 9081674081338166354}
+  - component: {fileID: 9081674081338166355}
   m_Layer: 0
   m_Name: Cube.073
   m_TagString: CoverK_Kiri
@@ -32488,6 +32551,8 @@ Transform:
   - {fileID: 589897758549221090}
   - {fileID: 497495902}
   - {fileID: 208453330}
+  - {fileID: 1998508811}
+  - {fileID: 260450323}
   m_Father: {fileID: 1693468134}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &6140087703539216360
@@ -37204,12 +37269,12 @@ MonoBehaviour:
   handPoseType: 1
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
   TwoHandedRotationLerpAmount: 0.5
-  TwoHandedDropBehavior: 0
+  TwoHandedDropBehavior: 2
   TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
   SecondaryGrabbable: {fileID: 0}
@@ -37234,7 +37299,9 @@ MonoBehaviour:
   SecondaryLookOffset: {x: 0, y: 0, z: 0}
   SecondaryLookAtTransform: {fileID: 0}
   LocalOffsetTransform: {fileID: 0}
-  GrabPoints: []
+  GrabPoints:
+  - {fileID: 1998508811}
+  - {fileID: 260450323}
   UseCustomInspector: 1
   lastFlickTime: 0
   FlickForce: 1
@@ -37353,6 +37420,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BNG.SnapZoneOffset
   LocalPositionOffset: {x: 0, y: 0, z: 0}
   LocalRotationOffset: {x: 0, y: -90, z: 0}
+--- !u!114 &9081674081338166355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566207900913032636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2c1337119f4b3c46864e445598d4361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RequireTwoHands
+  RequireBothHands: 1
+  GracePeriod: 2
+  ShowHint: 0
+  HintText: {fileID: 0}
+  HintMessage: Use both hands to carry this object!
 --- !u!33 &9111344507655850604
 MeshFilter:
   m_ObjectHideFlags: 0
