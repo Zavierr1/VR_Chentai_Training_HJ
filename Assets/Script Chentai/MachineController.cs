@@ -35,6 +35,10 @@ public class MachineController : MonoBehaviour
 
     public Animator[] machineAnimators;
 
+    [Header("Machine Sound")]
+    [Tooltip("AudioSource dengan loop clip suara mesin berjalan")]
+    public AudioSource machineAudio;
+
     [Tooltip("Drag objek yang memiliki script HorizontalCutter ke sini")]
     public HorizontalCutter horizontalCutter;
 
@@ -105,6 +109,12 @@ public class MachineController : MonoBehaviour
         foreach (var anim in machineAnimators)
         {
             if (anim != null) anim.enabled = active;
+        }
+
+        if (machineAudio != null)
+        {
+            if (active) machineAudio.Play();
+            else        machineAudio.Stop();
         }
     }
 

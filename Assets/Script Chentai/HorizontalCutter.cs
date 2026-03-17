@@ -26,7 +26,11 @@ public class HorizontalCutter : MonoBehaviour
 
     [Header("Integrasi Pemotongan & Spawn")]
     [Tooltip("Masukkan objek yang memiliki script TabletJadiSpawner ke sini")]
-    public TabletJadiSpawner spawnerTabletJatuh; // <--- REFERENSI SPAWNER BARU
+    public TabletJadiSpawner spawnerTabletJatuh; 
+
+    public AudioSource movementAudio;
+    public AudioClip forwardClip;
+    public AudioClip backClip;
 
     private Vector3 startPos;
     private Quaternion startRot;
@@ -59,6 +63,7 @@ public class HorizontalCutter : MonoBehaviour
             float forwardStepDist = totalZDistance / fSteps;
 
             // 1. CUTTER MAJU (BANG forward)
+            movementAudio.PlayOneShot(forwardClip);
             for (int i = 1; i <= fSteps; i++)
             {
                 transform.position = startPos + dir * forwardStepDist * i;
@@ -74,6 +79,7 @@ public class HorizontalCutter : MonoBehaviour
             }
 
             // 3. CUTTER MUNDUR (BANG back)
+            movementAudio.PlayOneShot(backClip);
             Vector3 endPos = transform.position;
             for (int j = 1; j <= bSteps; j++)
             {
