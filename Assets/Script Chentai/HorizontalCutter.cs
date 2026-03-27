@@ -28,9 +28,10 @@ public class HorizontalCutter : MonoBehaviour
     [Tooltip("Masukkan objek yang memiliki script TabletJadiSpawner ke sini")]
     public TabletJadiSpawner spawnerTabletJatuh; 
 
+    [Header("Audio")]
     public AudioSource movementAudio;
-    public AudioClip forwardClip;
-    public AudioClip backClip;
+    [Tooltip("Satu file audio yang berisi suara maju dan mundur sekaligus")]
+    public AudioClip cutterSound; // <-- Hanya pakai 1 clip sekarang
 
     private Vector3 startPos;
     private Quaternion startRot;
@@ -62,8 +63,12 @@ public class HorizontalCutter : MonoBehaviour
             int bSteps = Mathf.Max(1, backSteps);
             float forwardStepDist = totalZDistance / fSteps;
 
-            // 1. CUTTER MAJU (BANG forward)
-            movementAudio.PlayOneShot(forwardClip);
+            // 1. PLAY AUDIO 1 KALI UNTUK SATU SIKLUS (Maju + Mundur)
+            if (movementAudio != null && cutterSound != null)
+            {
+                movementAudio.PlayOneShot(cutterSound);
+            }
+
             for (int i = 1; i <= fSteps; i++)
             {
                 transform.position = startPos + dir * forwardStepDist * i;
@@ -78,8 +83,6 @@ public class HorizontalCutter : MonoBehaviour
                 spawnerTabletJatuh.SpawnTablet();
             }
 
-            // 3. CUTTER MUNDUR (BANG back)
-            movementAudio.PlayOneShot(backClip);
             Vector3 endPos = transform.position;
             for (int j = 1; j <= bSteps; j++)
             {
