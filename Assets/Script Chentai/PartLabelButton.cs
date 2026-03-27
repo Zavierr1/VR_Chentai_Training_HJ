@@ -81,7 +81,7 @@ public class PartLabelButton : MonoBehaviour
 
                 // Enable emission keyword so we can control it
                 mat.EnableKeyword("_EMISSION");
-                mat.SetColor("_EmissionColor", Color.black); // start off
+                //mat.SetColor("_EmissionColor", Color.black); // start off
             }
         }
     }
@@ -108,14 +108,23 @@ public class PartLabelButton : MonoBehaviour
             pulseMult = Mathf.Lerp(glowPulseMinMult, glowPulseMaxMult, pulse);
         }
 
-        float finalIntensity = currentGlow * glowIntensity * pulseMult;
-        Color emissionValue  = glowColor * finalIntensity;
-
         // Apply to all cached materials
-        foreach (var mat in cachedMaterials)
+        for (int i = 0; i < cachedMaterials.Count; i++)
         {
-            if (mat == null) continue;
-            mat.SetColor("_EmissionColor", emissionValue);
+            if (cachedMaterials[i] == null) continue;
+
+            // Ambil warna awal (yang sudah kamu set terang di Inspector)
+            Color baseColor = originalEmissionColor[i];
+            
+            // Hitung warna glow tambahan saat di-hover
+            Color hoverColor = glowColor * glowIntensity * pulseMult;
+
+            // Campurkan warna dasar dan warna hover
+            // Jika currentGlow = 0 (tidak di-hover), akan pakai baseColor
+            // Jika currentGlow = 1 (di-hover), akan pakai hoverColor
+            Color finalColor = Color.Lerp(baseColor, hoverColor, currentGlow);
+
+            cachedMaterials[i].SetColor("_EmissionColor", finalColor);
         }
     }
 
