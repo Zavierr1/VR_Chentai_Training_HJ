@@ -82,7 +82,7 @@ public class HorizontalCutter : MonoBehaviour
             {
                 spawnerTabletJatuh.SpawnTablet();
             }
-
+    
             Vector3 endPos = transform.position;
             for (int j = 1; j <= bSteps; j++)
             {
