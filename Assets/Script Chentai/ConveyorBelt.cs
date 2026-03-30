@@ -41,7 +41,7 @@ public class ConveyorBelt : MonoBehaviour
         Rigidbody rb = collision.rigidbody;
 
         // Only move objects that have a Rigidbody attached
-        if (rb != null)
+        if (rb != null && !rb.isKinematic)
         {
             // Determine direction based on rotation
             Vector3 moveDirection = useLocalZ ? transform.forward : Vector3.forward;
