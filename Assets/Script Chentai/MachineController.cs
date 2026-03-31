@@ -9,8 +9,8 @@ public class MachineController : MonoBehaviour
     public bool isMachineOn = false;
 
     [Header("Debug Mode")]
-    [Tooltip("Centang ini jika ingin mesin langsung nyala saat Play tanpa harus pasang part (Untuk Testing)")]
-    public bool autoStartForDebug = false; // <--- TAMBAHAN UNTUK DEBUG
+    [Tooltip("Centang ini jika ingin mesin langsung nyala & NPC langsung jalan saat Play tanpa harus pasang part (Untuk Testing)")]
+    public bool autoStartForDebug = false;
 
     [Header("Startup Setup")]
     [Tooltip("Jika true, semua komponen di list akan dipaksa OFF saat Start")]
@@ -19,6 +19,11 @@ public class MachineController : MonoBehaviour
     [Header("Referensi Komponen Utama")]
     [Tooltip("Drag objek yang memiliki script TabletSpawner ke sini")]
     public TabletSpawner tabletSpawner;
+    
+    // >>> TAMBAHAN: Referensi ke NPC kamu
+    [Header("Referensi NPC")]
+    [Tooltip("Drag karakter NPC yang memiliki script NPCFactoryShow ke sini")]
+    public NPCFactoryShow npcPekerja;
 
     [Header("Sistem Keamanan (Multi Snap Zone)")]
     [Tooltip("Centang jika mesin WAJIB menunggu part terpasang")]
@@ -46,6 +51,9 @@ public class MachineController : MonoBehaviour
     [Tooltip("Masukkan komponen seperti BrushRotate, FeederVibration, atau FoilSpawner ke sini agar ikut nyala/mati")]
     public MonoBehaviour[] machineParts;
 
+    // Variabel untuk memastikan NPC tidak dipanggil berkali-kali
+    private bool npcSudahDipanggil = false;
+
     void Start()
     {
         if (forceOffComponentsOnStart)
@@ -55,10 +63,17 @@ public class MachineController : MonoBehaviour
             OnMachineStateChanged?.Invoke(false);
         }
 
-        // >>> TAMBAHAN: Langsung nyalakan mesin saat game Play jika mode debug aktif
+        // >>> LOGIKA DEBUG: Langsung nyalakan mesin & panggil NPC saat game Play
         if (autoStartForDebug)
         {
             StartMachine();
+            
+            if (npcPekerja != null && !npcSudahDipanggil)
+            {
+                Debug.Log("Debug Mode: Memulai pertunjukan NPC!");
+                npcPekerja.MesinSelesaiDiperbaiki();
+                npcSudahDipanggil = true; // Kunci agar tidak terpanggil lagi
+            }
         }
     }
 
@@ -66,11 +81,10 @@ public class MachineController : MonoBehaviour
     {
         if (isMachineOn) return;
 
-        // >>> LOGIKA BARU: Cek apakah jumlah part belum terpenuhi (dan abaikan jika sedang mode Debug)
         if (wajibAdaPart && partTerpasangSaatIni < targetJumlahPart && !autoStartForDebug)
         {
             Debug.LogWarning($"Mesin menolak menyala! Baru {partTerpasangSaatIni} dari {targetJumlahPart} part yang terpasang.");
-            return; // Gagalkan proses menyala
+            return; 
         }
 
         isMachineOn = true;
@@ -128,31 +142,34 @@ public class MachineController : MonoBehaviour
 
         lastToggleTime = Time.time;
 
-        if (isMachineOn)
-        {
-            StopMachine();
-        }
-        else
-        {
-            StartMachine();
-        }
+        if (isMachineOn) StopMachine();
+        else StartMachine();
     }
 
     public void SetPartTerpasang()
     {
         partTerpasangSaatIni++;
         Debug.Log($"Alat terpasang di Snap Zone! Mesin siap dinyalakan. Jumlah part terpasang: {partTerpasangSaatIni}");
+
+        // >>> LOGIKA NORMAL: Jika bermain tanpa debug, NPC jalan saat semua part beres dipasang
+        if (wajibAdaPart && partTerpasangSaatIni >= targetJumlahPart && !autoStartForDebug)
+        {
+            if (npcPekerja != null && !npcSudahDipanggil)
+            {
+                Debug.Log("Semua part terpasang: Memulai pertunjukan NPC!");
+                npcPekerja.MesinSelesaiDiperbaiki();
+                npcSudahDipanggil = true;
+            }
+        }
     }
 
     public void SetPartDilepas()
     {
         partTerpasangSaatIni--;
-
         if (partTerpasangSaatIni < 0) partTerpasangSaatIni = 0;
 
         Debug.Log($"1 Part dilepas! Total terpasang: {partTerpasangSaatIni} / {targetJumlahPart}");
 
-        // Fitur Realistis: Jangan matikan mesin jika mode debug sedang aktif
         if (isMachineOn && partTerpasangSaatIni < targetJumlahPart && !autoStartForDebug)
         {
             Debug.LogWarning("ALARM: Part mesin dicabut saat beroperasi! Mesin dimatikan otomatis.");

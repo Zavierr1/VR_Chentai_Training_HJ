@@ -7,59 +7,58 @@ public class FoilStacker : MonoBehaviour
     [Header("Pengaturan Tumpukan")]
     public string foilTag = "Foil";
     public int targetStack = 10;
-    public float jarakTumpukan = 0.03f; 
+    public float jarakTumpukan = 0.05f; 
 
     [Header("Waktu & Delay")]
     public float delaySebelumJalan = 0.5f;
     public float cooldownArea = 1.5f;
 
-    private List<Transform> tumpukanFoil = new List<Transform>();
+    private List<Rigidbody> tumpukanFoil = new List<Rigidbody>();
     private bool sedangDilepas = false;
-
-    // Menyimpan posisi fondasi dari foil pertama
-    private Vector3 posisiDasarTumpukan;
 
     private void OnTriggerEnter(Collider other)
     {
         if (sedangDilepas) return;
 
-        if (other.transform.parent != null)
+        if (other.CompareTag(foilTag))
         {
-            Transform parentUtama = other.transform.parent;
-
-            if (parentUtama.CompareTag(foilTag) && !tumpukanFoil.Contains(parentUtama))
+            Rigidbody rb = other.attachedRigidbody;
+            
+            if (rb != null && !tumpukanFoil.Contains(rb))
             {
-                Rigidbody[] allRbs = parentUtama.GetComponentsInChildren<Rigidbody>();
-                foreach (Rigidbody rb in allRbs)
-                {
-                    rb.isKinematic = true;
-                }
+                // Matikan fisika seketika
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.isKinematic = true;
 
-                // ---------------- LOGIKA POSISI BARU (ANTI TELEPORT) ----------------
                 if (tumpukanFoil.Count == 0)
                 {
-                    // Foil PERTAMA masuk: 
-                    // Ambil tinggi (Y) asli foil tersebut karena dia masih menempel di conveyor.
-                    // Tarik X dan Z ke tengah kotak merah agar tumpukannya lurus memusat.
-                    posisiDasarTumpukan = new Vector3(transform.position.x, parentUtama.position.y, transform.position.z);
+                    // --- FOIL PERTAMA (INDUK) ---
+                    // Tarik X dan Z ke tengah kotak, Y biarkan sesuai aslinya
+                    rb.position = new Vector3(transform.position.x, rb.position.y, transform.position.z);
+                    rb.rotation = transform.rotation;
+                    
+                    tumpukanFoil.Add(rb);
                 }
-
-                // Susun posisinya ke atas berdasarkan posisi foil pertama
-                Vector3 posisiTumpuk = posisiDasarTumpukan + (transform.up * (tumpukanFoil.Count * jarakTumpukan));
-                
-                parentUtama.position = posisiTumpuk;
-                
-                // Samakan rotasinya dengan rotasi kotak merah agar semua lurus rapi
-                parentUtama.rotation = transform.rotation; 
-                // --------------------------------------------------------------------
-
-                tumpukanFoil.Add(parentUtama);
-
-                if (tumpukanFoil.Count > 1)
+                else
                 {
-                    parentUtama.SetParent(tumpukanFoil[0]);
+                    // --- FOIL KE-2 DST (ANAK) ---
+                    tumpukanFoil.Add(rb);
+                    
+                    // 1. Jadikan anak dari Foil Pertama
+                    rb.transform.SetParent(tumpukanFoil[0].transform, true);
+                    
+                    // 2. PAKSA KUNCI POSISI: Samakan X dan Z persis dengan Induknya!
+                    Transform induk = tumpukanFoil[0].transform;
+                    int urutan = tumpukanFoil.Count - 1; // Foil ke-2 itu urutan 1, dst
+                    
+                    rb.position = new Vector3(induk.position.x, induk.position.y + (urutan * jarakTumpukan), induk.position.z);
+                    
+                    // Samakan juga putarannya persis dengan induk
+                    rb.rotation = induk.rotation;
                 }
 
+                // Jika sudah 10
                 if (tumpukanFoil.Count >= targetStack)
                 {
                     StartCoroutine(LepaskanTumpukan());
@@ -71,28 +70,29 @@ public class FoilStacker : MonoBehaviour
     private IEnumerator LepaskanTumpukan()
     {
         sedangDilepas = true;
-
         yield return new WaitForSeconds(delaySebelumJalan);
 
-        for (int i = 1; i < tumpukanFoil.Count; i++)
+        if (tumpukanFoil.Count > 0 && tumpukanFoil[0] != null)
         {
-            if (tumpukanFoil[i] != null) tumpukanFoil[i].SetParent(null);
-        }
-
-        foreach (Transform parentUtama in tumpukanFoil)
-        {
-            if (parentUtama != null)
-            {
-                Rigidbody[] allRbs = parentUtama.GetComponentsInChildren<Rigidbody>();
-                foreach (Rigidbody rb in allRbs)
-                {
-                    rb.isKinematic = false;
-                }
-            }
+            Rigidbody indukRb = tumpukanFoil[0];
+            indukRb.isKinematic = false;
+            indukRb.WakeUp(); 
         }
 
         tumpukanFoil.Clear();
+
         yield return new WaitForSeconds(cooldownArea);
         sedangDilepas = false;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1f, 0.3f, 0.3f, 0.3f);
+        Gizmos.matrix = transform.localToWorldMatrix;
+        
+        if (GetComponent<Collider>() is BoxCollider box)
+        {
+            Gizmos.DrawCube(box.center, box.size);
+        }
     }
 }
