@@ -176,4 +176,4 @@ public class MachineController : MonoBehaviour
             StopMachine();
         }
     }
-}
+}   
