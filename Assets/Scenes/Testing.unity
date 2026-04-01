@@ -5423,6 +5423,21 @@ MonoBehaviour:
     tagYangBenar: CoverK_Depan
   managerGrupBerikutnya:
   - {fileID: 1643011248}
+  onGrupSelesai:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 232044226}
+        m_TargetAssemblyTypeName: MonitorCameraController, Assembly-CSharp
+        m_MethodName: BukaKunciPartB
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &339117380
 Transform:
   m_ObjectHideFlags: 0
@@ -12523,6 +12538,9 @@ MonoBehaviour:
   - snapZone: {fileID: 140696914}
     tagYangBenar: SliderBawah
   managerGrupBerikutnya: []
+  onGrupSelesai:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &841154146
 Transform:
   m_ObjectHideFlags: 0
@@ -27760,6 +27778,21 @@ MonoBehaviour:
     tagYangBenar: SilingRoll_Cover
   managerGrupBerikutnya:
   - {fileID: 841154145}
+  onGrupSelesai:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 232044226}
+        m_TargetAssemblyTypeName: MonitorCameraController, Assembly-CSharp
+        m_MethodName: BukaKunciPartC
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1643011249
 Transform:
   m_ObjectHideFlags: 0
@@ -29804,6 +29837,18 @@ MonoBehaviour:
       - m_Target: {fileID: 339117379}
         m_TargetAssemblyTypeName: SnapGroupManager, Assembly-CSharp
         m_MethodName: CekStatusGrup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 232044221}
+        m_TargetAssemblyTypeName: SnapGroupManager, Assembly-CSharp
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
