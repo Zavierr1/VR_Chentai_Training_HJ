@@ -27,6 +27,15 @@ public class NPCFactoryShow : MonoBehaviour
     public float durasiBackflip = 1.5f;
     public float durasiProsesDuduk = 2.0f;
 
+    [Header("Pengaturan IK Kaki (Procedural Animation)")]
+    [Tooltip("Nyalakan saat NPC berdiri/jalan agar kaki menapak collider")]
+    public bool enableFootIK = false;
+    [Tooltip("Layer khusus untuk objek Lantai/Ground")]
+    public LayerMask floorLayer;
+    [Tooltip("Jarak dari titik Pivot tulang kaki ke bawah telapak sepatu")]
+    public float footOffset = 0.12f;
+    [Range(0, 1)] public float ikWeight = 1f;
+
     [Header("Debug")]
     public bool autoStartOnPlay = true;
 
@@ -45,6 +54,9 @@ public class NPCFactoryShow : MonoBehaviour
     {
         // --- OBAT ANTI ERROR LAYER -1 ---
         yield return new WaitForSeconds(0.1f); 
+
+        // NYALAKAN IK SAAT MULAI BERDIRI/JALAN
+        enableFootIK = true;
 
         // 1. JALAN KE MESIN
         Debug.Log("[NPC] 1. Jalan lurus ke mesin...");
@@ -70,6 +82,8 @@ public class NPCFactoryShow : MonoBehaviour
 
         // 5. TWERK
         Debug.Log("[NPC] 5. Twerk!");
+        // Matikan IK sejenak jika animasi (seperti twerk/salto) butuh kaki terangkat bebas
+        enableFootIK = false; 
         anim.ResetTrigger("Twerk");
         anim.SetTrigger("Twerk");
         yield return new WaitForSeconds(durasiTwerk);
@@ -80,8 +94,10 @@ public class NPCFactoryShow : MonoBehaviour
         anim.SetTrigger("Backflip");
         yield return new WaitForSeconds(durasiBackflip);
 
+        // Nyalakan IK lagi setelah mendarat
+        enableFootIK = true;
+
         // 7. PERSIAPAN DUDUK
-        // Karena tidak pakai target kursi, dia akan langsung duduk di tempat terakhir dia berdiri
         Debug.Log("[NPC] 7. Duduk di tempat.");
         anim.ResetTrigger("StandToSit");
         anim.SetTrigger("StandToSit");
@@ -91,6 +107,9 @@ public class NPCFactoryShow : MonoBehaviour
         Debug.Log("[NPC] 8. Mulai kerja.");
         anim.ResetTrigger("SitWork");
         anim.SetTrigger("SitWork");
+        
+        // Matikan IK saat sudah duduk (opsional, tergantung tinggi kursi)
+        // enableFootIK = false; 
     }
 
     // --- FUNGSI MENDORONG PARENT MAJU PAKAI TIMER ---
@@ -100,10 +119,7 @@ public class NPCFactoryShow : MonoBehaviour
         while (timer < durasi)
         {
             timer += Time.deltaTime;
-            
-            // Mendorong badannya lurus ke arah dia menghadap
             transform.position += transform.forward * walkSpeed * Time.deltaTime;
-            
             yield return null; 
         }
     }
@@ -111,16 +127,58 @@ public class NPCFactoryShow : MonoBehaviour
     // --- FUNGSI PUTAR BADAN PAKAI SUDUT ---
     private IEnumerator PutarBadan(float sudutTambahan)
     {
-        // Kalkulasi target rotasi (Putar Y sesuai input)
         Quaternion targetRotasi = transform.rotation * Quaternion.Euler(0, sudutTambahan, 0);
-        
         while (Quaternion.Angle(transform.rotation, targetRotasi) > 0.5f)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotasi, turnSpeed * Time.deltaTime);
             yield return null;
         }
-        
-        // Kunci rotasi biar pas
         transform.rotation = targetRotasi; 
+    }
+
+    // --- PROCEDURAL ANIMATION: INVERSE KINEMATICS (IK) UNTUK KAKI ---
+    private void OnAnimatorIK(int layerIndex)
+    {
+        if (anim == null) return;
+
+        if (enableFootIK)
+        {
+            // Atur bobot IK (1 = posisi di-override full oleh script ini)
+            anim.SetIKPositionWeight(AvatarIKGoal.LeftFoot, ikWeight);
+            anim.SetIKRotationWeight(AvatarIKGoal.LeftFoot, ikWeight);
+            anim.SetIKPositionWeight(AvatarIKGoal.RightFoot, ikWeight);
+            anim.SetIKRotationWeight(AvatarIKGoal.RightFoot, ikWeight);
+
+            // Proses kaki kiri & kanan
+            ProcessFootIK(AvatarIKGoal.LeftFoot);
+            ProcessFootIK(AvatarIKGoal.RightFoot);
+        }
+        else
+        {
+            // Kembalikan ke animasi bawaan (Forward Kinematics)
+            anim.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 0);
+            anim.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 0);
+            anim.SetIKPositionWeight(AvatarIKGoal.RightFoot, 0);
+            anim.SetIKRotationWeight(AvatarIKGoal.RightFoot, 0);
+        }
+    }
+
+    private void ProcessFootIK(AvatarIKGoal foot)
+    {
+        // Ambil posisi kaki bawaan animasi
+        Vector3 footPos = anim.GetIKPosition(foot);
+
+        // Tembakkan Raycast dari sedikit di atas kaki ke bawah mencari lantai
+        RaycastHit hit;
+        if (Physics.Raycast(footPos + Vector3.up * 1.0f, Vector3.down, out hit, 4.0f, floorLayer))
+        {
+            // 1. Sesuaikan posisi kaki menempel di titik tabrakan collider lantai + offset
+            anim.SetIKPosition(foot, hit.point + Vector3.up * footOffset);
+
+            // 2. Sesuaikan rotasi telapak kaki mengikuti kemiringan lantai (opsional tapi bagus)
+            Quaternion footRotation = anim.GetIKRotation(foot);
+            Quaternion normalRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+            anim.SetIKRotation(foot, normalRotation * footRotation);
+        }
     }
 }

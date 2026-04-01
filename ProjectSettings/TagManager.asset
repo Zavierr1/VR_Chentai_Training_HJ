@@ -20,16 +20,16 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - FoilLayer
-  - 
+  - NPC
   - Restricted
   - Player
   - Grabbable
-  - 
-  - 
+  - Conveyor
+  - Snap
   - 
   - 
   - 
