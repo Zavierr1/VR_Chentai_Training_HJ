@@ -5037,6 +5037,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3936274033074457602, guid: 20cb660ccc5be1542b0659b1d7180dfa,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4833905928098667361, guid: 20cb660ccc5be1542b0659b1d7180dfa,
         type: 3}
       propertyPath: m_Name
@@ -5045,6 +5050,16 @@ PrefabInstance:
     - target: {fileID: 4833905928098667361, guid: 20cb660ccc5be1542b0659b1d7180dfa,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833905928098667361, guid: 20cb660ccc5be1542b0659b1d7180dfa,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6899554559185168126, guid: 20cb660ccc5be1542b0659b1d7180dfa,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9136907217519772048, guid: 20cb660ccc5be1542b0659b1d7180dfa,
@@ -11714,6 +11729,11 @@ PrefabInstance:
     - target: {fileID: 1027008616554679868, guid: 462b8dcc3b7a3bd4db83986dd0d45904,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027008616554679868, guid: 462b8dcc3b7a3bd4db83986dd0d45904,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3286067695344107145, guid: 462b8dcc3b7a3bd4db83986dd0d45904,
@@ -21365,6 +21385,7 @@ MonoBehaviour:
   objekRenderer: {fileID: 1007325154}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   kecepatan: 2.5
+  batasRedup: 0.4
 --- !u!1001 &1021743663
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39136,6 +39157,7 @@ MonoBehaviour:
   objekRenderer: {fileID: 1595999550}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   kecepatan: 2.5
+  batasRedup: 0.4
 --- !u!1 &1608498558
 GameObject:
   m_ObjectHideFlags: 0
@@ -52406,6 +52428,7 @@ MonoBehaviour:
   objekRenderer: {fileID: 1711813854565835932}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   kecepatan: 2.5
+  batasRedup: 0.77
 --- !u!114 &3469287838559621214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54688,7 +54711,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2915457399943451816}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -57377,6 +57400,7 @@ MonoBehaviour:
   objekRenderer: {fileID: 6777846781720182838}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   kecepatan: 2.5
+  batasRedup: 0.4
 --- !u!33 &6788750428314821776
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -57896,6 +57920,7 @@ MonoBehaviour:
   objekRenderer: {fileID: 1442450552404568437}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   kecepatan: 2.5
+  batasRedup: 0.77
 --- !u!114 &7041628271305202893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60364,6 +60389,7 @@ MonoBehaviour:
   objekRenderer: {fileID: 7500529537107644850}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   kecepatan: 2.5
+  batasRedup: 0.4
 --- !u!33 &8678155321557781749
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -61029,6 +61055,7 @@ MonoBehaviour:
   objekRenderer: {fileID: 3052272645448132257}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   kecepatan: 2.5
+  batasRedup: 0.4
 --- !u!33 &8996715501810648976
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -61364,6 +61391,7 @@ MonoBehaviour:
   objekRenderer: {fileID: 4884400794355846638}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   kecepatan: 2.5
+  batasRedup: 0.8
 --- !u!33 &9081674081338166349
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -61601,6 +61629,7 @@ MonoBehaviour:
   objekRenderer: {fileID: 7137442477797316131}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   kecepatan: 2.5
+  batasRedup: 0.77
 --- !u!114 &9081674081338166358
 MonoBehaviour:
   m_ObjectHideFlags: 0
