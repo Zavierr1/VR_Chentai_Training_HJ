@@ -2,13 +2,19 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using BNG;
-using UnityEngine.Events; // 1. Wajib tambahkan ini untuk membuat kolom Event di Inspector
+using UnityEngine.Events; 
 
 [System.Serializable]
 public class SnapData
 {
     public SnapZone snapZone;
     public string tagYangBenar = "Untagged";
+
+    public KelapKelipTutorial highlightMeja;
+    
+    // >>> TAMBAHAN BARU: Referensi Grabbable untuk dikunci
+    [Tooltip("Tarik komponen Grabbable dari objek meja ke sini")]
+    public Grabbable bendaDiMeja; 
 }
 
 public class SnapGroupManager : MonoBehaviour
@@ -22,12 +28,9 @@ public class SnapGroupManager : MonoBehaviour
     [Header("Grup Selanjutnya (Target Unlock)")]
     public List<SnapGroupManager> managerGrupBerikutnya;
 
-    // 2. TAMBAHAN BARU: Event yang akan dipicu saat semua part di grup ini terpasang!
     [Header("Event UI & Kamera")]
-    [Tooltip("Apa yang terjadi kalau grup ini selesai? (Misal: Panggil BukaKunciPartB di CameraManager)")]
     public UnityEvent onGrupSelesai;
     
-    // Variabel pengunci agar tidak terpanggil berkali-kali
     private bool isSudahSelesai = false; 
 
     void Start()
@@ -44,6 +47,15 @@ public class SnapGroupManager : MonoBehaviour
     private IEnumerator PengecekanTertunda()
     {
         yield return new WaitForSeconds(0.05f);
+
+        // >>> LOGIKA BARU: Kunci/Buka fungsi genggam (Grab) pada objek
+        foreach(var data in urutanSnap)
+        {
+            if (data.bendaDiMeja != null)
+            {
+                data.bendaDiMeja.enabled = grupAktifDiAwal; // Kalau mati, objek gak bisa di-grab!
+            }
+        }
 
         bool semuaTerpasangDanBenar = true;
 
@@ -89,33 +101,60 @@ public class SnapGroupManager : MonoBehaviour
             }
         }
 
+        UpdateHighlightBerurutan();
+
         foreach (SnapGroupManager nextManager in managerGrupBerikutnya)
         {
             if (nextManager != null)
             {
-                if (semuaTerpasangDanBenar) 
-                {
-                    nextManager.AktifkanGrup();
-                }
-                else 
-                {
-                    nextManager.NonaktifkanGrup();
-                }
+                if (semuaTerpasangDanBenar) nextManager.AktifkanGrup();
+                else nextManager.NonaktifkanGrup();
             }
         }
 
-        // 3. LOGIKA BARU: Jika semua terpasang dan benar, jalankan Event ke Kamera/UI
         if (semuaTerpasangDanBenar && !isSudahSelesai)
         {
-            onGrupSelesai?.Invoke(); // Panggil fungsi di Inspector
-            isSudahSelesai = true;   // Kunci agar tidak spam panggil
+            onGrupSelesai?.Invoke(); 
+            isSudahSelesai = true;   
         }
         else if (!semuaTerpasangDanBenar)
         {
-            isSudahSelesai = false; // Buka kunci lagi kalau ada barang yang dicabut
+            isSudahSelesai = false; 
         }
     }
 
+    public void UpdateHighlightBerurutan()
+    {
+        if (!grupAktifDiAwal) return;
+
+        bool sudahAdaYangAktif = false;
+
+        foreach (var data in urutanSnap)
+        {
+            // 1. RESET: Matikan kelap-kelip dan KUNCI tangannya untuk SEMUA objek
+            if (data.highlightMeja != null) data.highlightMeja.BerhentiKedip();
+            if (data.bendaDiMeja != null) data.bendaDiMeja.enabled = false;
+
+            // 2. Cari Snap Zone PERTAMA yang MASIH KOSONG
+            if (!sudahAdaYangAktif && data.snapZone.HeldItem == null)
+            {
+                // 3. BUKA KUNCI dan NYALAKAN LAMPU hanya untuk objek urutan ini saja!
+                if (data.highlightMeja != null) data.highlightMeja.MulaiKedip();
+                if (data.bendaDiMeja != null) data.bendaDiMeja.enabled = true;
+                
+                sudahAdaYangAktif = true; // Segel! Biar urutan selanjutnya gak ikutan nyala/kebuka
+            }
+        }
+    }
+
+    public void MatikanHighlight()
+    {
+        foreach (var data in urutanSnap)
+        {
+            if (data.highlightMeja != null) data.highlightMeja.BerhentiKedip();
+        }
+    }
+    
     public void AktifkanGrup()
     {
         grupAktifDiAwal = true;
@@ -133,9 +172,7 @@ public class SnapGroupManager : MonoBehaviour
                 break;
             }
         }
-
         if (adaYangNempel) return;
-
         grupAktifDiAwal = false;
         CekStatusGrup(); 
     }
