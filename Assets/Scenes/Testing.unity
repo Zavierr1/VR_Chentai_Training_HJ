@@ -5046,6 +5046,7 @@ MonoBehaviour:
   tombolPanelControl: {fileID: 840519707}
   tombolBack: {fileID: 345029540}
   tombolNext: {fileID: 188530662}
+  panelLegenda: {fileID: 723378546}
   textLegenda: {fileID: 1211878254}
   tombolNextSlide: {fileID: 519957521}
   tombolPrevSlide: {fileID: 844321487}
@@ -9377,7 +9378,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 232044226}
         m_TargetAssemblyTypeName: MonitorCameraController, Assembly-CSharp
-        m_MethodName: PartSelesai
+        m_MethodName: NextSlide
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9685,7 +9686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 807544786}
+  objekRenderer: {fileID: 1508120350}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   kecepatan: 2.5
   batasRedup: 0.4
@@ -14370,12 +14371,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4088779762850046649, guid: 1f75a4a1ec4271442a6c51de842cadf0,
     type: 3}
   m_PrefabInstance: {fileID: 782466758}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &807544786 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -3229344346367557913, guid: e151b0213c471864581383a233dff450,
-    type: 3}
-  m_PrefabInstance: {fileID: 1508120344}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &817015920
 GameObject:
@@ -40426,6 +40421,12 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4844856131554554226, guid: e151b0213c471864581383a233dff450, type: 3}
+--- !u!23 &1508120350 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -9175064938283555715, guid: e151b0213c471864581383a233dff450,
+    type: 3}
+  m_PrefabInstance: {fileID: 1508120344}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1510370874
 GameObject:
   m_ObjectHideFlags: 0

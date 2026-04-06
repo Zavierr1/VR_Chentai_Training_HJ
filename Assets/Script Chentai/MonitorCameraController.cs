@@ -37,6 +37,7 @@ public class MonitorCameraController : MonoBehaviour
     // >>> SISTEM SLIDESHOW ALUR LINEAR
     // ==========================================
     [Header("Data Slideshow Buku Panduan")]
+    public GameObject panelLegenda;
     public TextMeshProUGUI textLegenda;
     public Button tombolNextSlide; 
     public Button tombolPrevSlide; 
@@ -75,6 +76,7 @@ public class MonitorCameraController : MonoBehaviour
         
         if (tombolNextSlide != null) tombolNextSlide.gameObject.SetActive(false);
         if (tombolPrevSlide != null) tombolPrevSlide.gameObject.SetActive(false);
+        if (panelLegenda != null) panelLegenda.SetActive(false);
 
         KePosisiDefault();
     }
@@ -118,6 +120,8 @@ public class MonitorCameraController : MonoBehaviour
     public void MulaiTutorial()
     {
         KunciSemuaTombol();
+        
+        if (panelLegenda != null) panelLegenda.SetActive(true);
         
         // Mulai dari Area Atas (Index 0)
         areaTutorialAktif = 0; 
@@ -211,6 +215,7 @@ public class MonitorCameraController : MonoBehaviour
         if (tombolNextSlide != null) tombolNextSlide.gameObject.SetActive(false);
         if (tombolPrevSlide != null) tombolPrevSlide.gameObject.SetActive(false);
         if (textLegenda != null) textLegenda.text = "";
+        if (panelLegenda != null) panelLegenda.SetActive(false);
 
         MatikanLampuSlide(slideAreaAtas);
         MatikanLampuSlide(slideAreaBawah);
