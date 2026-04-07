@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class MachineController : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class MachineController : MonoBehaviour
     [Header("Debug Mode")]
     [Tooltip("Centang ini jika ingin mesin langsung nyala & NPC langsung jalan saat Play tanpa harus pasang part (Untuk Testing)")]
     public bool autoStartForDebug = false;
+
+    [Tooltip("Centang jika mesin otomatis nyala sendiri untuk menyesuaikan animasi NPC")]
+    public bool otomatisNyalaOlehNPC = true;
+    [Tooltip("Waktu tunggu (detik) dari NPC dipanggil sampai mesin menyala (Sesuaikan dengan durasi NPC jalan ke mesin)")]
+    public float delayOtomatisNyala = 4.0f;
 
     [Header("Startup Setup")]
     [Tooltip("Jika true, semua komponen di list akan dipaksa OFF saat Start")]
@@ -66,13 +72,26 @@ public class MachineController : MonoBehaviour
         // >>> LOGIKA DEBUG: Langsung nyalakan mesin & panggil NPC saat game Play
         if (autoStartForDebug)
         {
-            StartMachine();
-            
             if (npcPekerja != null && !npcSudahDipanggil)
             {
                 Debug.Log("Debug Mode: Memulai pertunjukan NPC!");
                 npcPekerja.MesinSelesaiDiperbaiki();
-                npcSudahDipanggil = true; // Kunci agar tidak terpanggil lagi
+                npcSudahDipanggil = true; 
+
+                // Mesin nyala nunggu NPC sampai
+                if (otomatisNyalaOlehNPC)
+                {
+                    StartCoroutine(NyalakanMesinOtomatis());
+                }
+                else
+                {
+                    StartMachine(); // Nyala instan kalau centang delay dimatikan
+                }
+            }
+            else 
+            {
+                // Kalau NPC gak diisi di Inspector, mesin langsung nyala
+                StartMachine();
             }
         }
     }
@@ -159,7 +178,28 @@ public class MachineController : MonoBehaviour
                 Debug.Log("Semua part terpasang: Memulai pertunjukan NPC!");
                 npcPekerja.MesinSelesaiDiperbaiki();
                 npcSudahDipanggil = true;
+                if (otomatisNyalaOlehNPC)
+                {
+                    StartCoroutine(NyalakanMesinOtomatis());
+                }
             }
+        }
+    }
+
+    private IEnumerator NyalakanMesinOtomatis()
+    {
+        // Tunggu sekian detik sesuai durasi animasi NPC jalan ke mesin
+        yield return new WaitForSeconds(delayOtomatisNyala);
+
+        // Tambahkan pengaman 'autoStartForDebug' di pengecekan ini
+        // Jadi kalau mode debug, dia akan tetap maksa nyala walau part belum dipasang
+        if (partTerpasangSaatIni >= targetJumlahPart || !wajibAdaPart || autoStartForDebug)
+        {
+            StartMachine();
+        }
+        else
+        {
+            Debug.LogWarning("Mesin batal otomatis nyala karena part keburu dicabut player!");
         }
     }
 

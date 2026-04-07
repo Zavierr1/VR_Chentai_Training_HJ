@@ -42,6 +42,9 @@ public class MonitorCameraController : MonoBehaviour
     public Button tombolNextSlide; 
     public Button tombolPrevSlide; 
 
+    [Tooltip("Centang untuk melihat SEMUA titik A,B,C,D,E sekaligus. Hilangkan centang untuk melihat 1 per 1 sesuai slide.")]
+    public bool tampilkanSemuaTitik = false;
+
     public List<SlideInfo> slideAreaAtas;
     public List<SlideInfo> slideAreaBawah; 
 
@@ -63,7 +66,6 @@ public class MonitorCameraController : MonoBehaviour
     private Coroutine moveCoroutine;
     private int tahapPerakitan = 1; 
 
-    // Pengingat Status Tutorial
     private bool tutorialSelesai = false;
 
     void Start()
@@ -81,7 +83,6 @@ public class MonitorCameraController : MonoBehaviour
         KePosisiDefault();
     }
 
-    // --- LOGIKA CLEAN UI ---
     private void RefreshTampilanTombolDefault()
     {
         KunciSemuaTombol(); 
@@ -90,12 +91,10 @@ public class MonitorCameraController : MonoBehaviour
 
         if (!tutorialSelesai)
         {
-            // Jika belum lulus tutorial, HANYA tampilkan Start
             if (tombolStartTutorial != null) tombolStartTutorial.gameObject.SetActive(true);
         }
         else
         {
-            // Jika sudah lulus, tampilkan Part A, B, C dan Tombol Panduan Pojok
             if (tombolPartA != null) { tombolPartA.gameObject.SetActive(true); tombolPartA.interactable = (tahapPerakitan == 1); }
             if (tombolPartB != null) { tombolPartB.gameObject.SetActive(true); tombolPartB.interactable = (tahapPerakitan == 2); }
             if (tombolPartC != null) { tombolPartC.gameObject.SetActive(true); tombolPartC.interactable = (tahapPerakitan == 3); }
@@ -116,14 +115,12 @@ public class MonitorCameraController : MonoBehaviour
         if (tombolPanduanPojokKanan != null) tombolPanduanPojokKanan.gameObject.SetActive(false);
     }
 
-    // --- FUNGSI TUTORIAL LINEAR (START) ---
     public void MulaiTutorial()
     {
         KunciSemuaTombol();
         
         if (panelLegenda != null) panelLegenda.SetActive(true);
         
-        // Mulai dari Area Atas (Index 0)
         areaTutorialAktif = 0; 
         indeksSlideSekarang = 0;
         slideAktif = slideAreaAtas;
@@ -134,10 +131,12 @@ public class MonitorCameraController : MonoBehaviour
         if (tombolNextSlide != null) tombolNextSlide.gameObject.SetActive(true);
         if (tombolPrevSlide != null) tombolPrevSlide.gameObject.SetActive(true);
 
+        // Jika opsi nyala, langsung tampilkan semua titik untuk area atas
+        if (tampilkanSemuaTitik) NyalakanSemuaTitikDiArea(slideAreaAtas);
+
         TampilkanSlideSekarang();
     }
 
-    // --- LOGIKA SLIDESHOW & TRANSISI KAMERA ---
     public void NextSlide()
     {
         if (indeksSlideSekarang < slideAktif.Count - 1)
@@ -149,12 +148,19 @@ public class MonitorCameraController : MonoBehaviour
         {
             if (areaTutorialAktif == 0) 
             {
+                // SEBELUM PINDAH: Matikan semua titik area atas secara paksa
+                MatikanSemuaTitikDiArea(slideAreaAtas);
+
                 areaTutorialAktif = 1;
                 slideAktif = slideAreaBawah;
                 indeksSlideSekarang = 0;
                 
                 MulaiPindahKamera(targetInfoBawah);
                 UpdateTeksUI("INFO AREA BAWAH:\nGunakan tombol panah [<] [>] untuk membaca panduan.");
+                
+                // NYALAKAN TITIK AREA BAWAH
+                if (tampilkanSemuaTitik) NyalakanSemuaTitikDiArea(slideAreaBawah);
+
                 TampilkanSlideSekarang();
             }
             else if (areaTutorialAktif == 1)
@@ -177,12 +183,19 @@ public class MonitorCameraController : MonoBehaviour
         {
             if (areaTutorialAktif == 1)
             {
+                // SEBELUM PINDAH: Matikan semua titik area bawah secara paksa
+                MatikanSemuaTitikDiArea(slideAreaBawah);
+
                 areaTutorialAktif = 0;
                 slideAktif = slideAreaAtas;
                 indeksSlideSekarang = slideAktif.Count - 1; 
                 
                 MulaiPindahKamera(targetInfoAtas);
                 UpdateTeksUI("INFO AREA ATAS:\nGunakan tombol panah [<] [>] untuk membaca panduan.");
+                
+                // NYALAKAN TITIK AREA ATAS KEMBALI
+                if (tampilkanSemuaTitik) NyalakanSemuaTitikDiArea(slideAreaAtas);
+
                 TampilkanSlideSekarang();
             }
         }
@@ -196,7 +209,10 @@ public class MonitorCameraController : MonoBehaviour
         if (slideAktif.Count == 0) return;
 
         SlideInfo slideSekarang = slideAktif[indeksSlideSekarang];
+        
+        // Nyalakan titik slide sekarang (aman dilakukan walau tampilkanSemuaTitik nyala)
         if (slideSekarang.uiTitik != null) slideSekarang.uiTitik.SetActive(true);
+        
         if (textLegenda != null) textLegenda.text = slideSekarang.teksLegenda;
         if (slideSekarang.mesinHighlight != null)
         {
@@ -217,15 +233,25 @@ public class MonitorCameraController : MonoBehaviour
         if (textLegenda != null) textLegenda.text = "";
         if (panelLegenda != null) panelLegenda.SetActive(false);
 
+        MatikanSemuaTitikDiArea(slideAreaAtas);
+        MatikanSemuaTitikDiArea(slideAreaBawah);
+        
+        // Pastikan highlight kelap-kelip mati
         MatikanLampuSlide(slideAreaAtas);
         MatikanLampuSlide(slideAreaBawah);
     }
 
+    // Fungsi khusus untuk mengatur kedip material (dan matikan titik JIKA mode 1 per 1 dipilih)
     private void MatikanLampuSlide(List<SlideInfo> daftarSlide)
     {
         foreach (var slide in daftarSlide)
         {
-            if (slide.uiTitik != null) slide.uiTitik.SetActive(false);
+            // Matikan titik hanya jika opsi tampilkanSemuaTitik TIDAK dicentang
+            if (!tampilkanSemuaTitik && slide.uiTitik != null) 
+            {
+                slide.uiTitik.SetActive(false);
+            }
+
             if (slide.mesinHighlight != null)
             {
                 foreach (var highlight in slide.mesinHighlight)
@@ -236,7 +262,19 @@ public class MonitorCameraController : MonoBehaviour
         }
     }
 
-    // --- FUNGSI NAVIGASI KAMERA LAINNYA ---
+    // Helper Functions untuk kontrol titik masal
+    private void NyalakanSemuaTitikDiArea(List<SlideInfo> daftarSlide)
+    {
+        foreach (var slide in daftarSlide)
+            if (slide.uiTitik != null) slide.uiTitik.SetActive(true);
+    }
+
+    private void MatikanSemuaTitikDiArea(List<SlideInfo> daftarSlide)
+    {
+        foreach (var slide in daftarSlide)
+            if (slide.uiTitik != null) slide.uiTitik.SetActive(false);
+    }
+
     public void KePosisiDefault() 
     { 
         MulaiPindahKamera(targetDefault); 
@@ -256,7 +294,6 @@ public class MonitorCameraController : MonoBehaviour
         }
     }
     
-    // --- FUNGSI MERAKIT (PART A, B, C) ---
     public void KePartA() 
     { 
         MulaiPindahKamera(targetPartA); 
@@ -305,7 +342,6 @@ public class MonitorCameraController : MonoBehaviour
         UpdateTeksUI("INFO: Panel Kontrol Utama.");
     }
 
-    // --- LOGIKA PROGRESS ---
     public void PartSelesai()
     {
         KunciSemuaTombol();
@@ -316,12 +352,9 @@ public class MonitorCameraController : MonoBehaviour
     public void LanjutKeTahapBerikutnya()
     {
         tahapPerakitan++; 
-        if (tahapPerakitan == 2 && managerPartB != null) managerPartB.AktifkanGrup();
-        else if (tahapPerakitan == 3 && managerPartC != null) managerPartC.AktifkanGrup();
         KePosisiDefault(); 
     }
 
-    // --- SISTEM PERGERAKAN ---
     private void UpdateTeksUI(string pesan) { if (textInstruksi != null) textInstruksi.text = pesan; }
 
     private void MulaiPindahKamera(Transform targetTujuan)
