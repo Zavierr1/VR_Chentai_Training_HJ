@@ -493,7 +493,7 @@ GameObject:
   - component: {fileID: 17082225}
   - component: {fileID: 17082227}
   - component: {fileID: 17082226}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: TitikB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,14 +507,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 17082224}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: -12}
   m_LocalScale: {x: 0.06123321, y: 0.061233208, z: 0.06123321}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2034633472}
   m_Father: {fileID: 1212557678}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -50.3, y: -42.2}
@@ -570,7 +570,7 @@ GameObject:
   - component: {fileID: 18795079}
   - component: {fileID: 18795078}
   - component: {fileID: 18795077}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: TitikA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -584,17 +584,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 18795075}
-  m_LocalRotation: {x: 0.061168008, y: 0.0081453025, z: 0.0008290913, w: 0.99809396}
-  m_LocalPosition: {x: 0, y: 0, z: 14.6}
+  m_LocalRotation: {x: 0, y: -0.258819, z: 0, w: 0.9659259}
+  m_LocalPosition: {x: 0, y: 0, z: 14.517555}
   m_LocalScale: {x: 0.06123321, y: 0.061233208, z: 0.06123321}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1913656560}
   m_Father: {fileID: 1212557678}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -30, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -31.1, y: -12.1}
+  m_AnchoredPosition: {x: -30.396217, y: -12.100006}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!227 &18795077
@@ -2029,9 +2029,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 2023884926733958841}
-  warnaGlow: {r: 1, g: 1, b: 1, a: 1}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
   kecepatan: 2.5
-  batasRedup: 0.4
 --- !u!1 &140696912
 GameObject:
   m_ObjectHideFlags: 0
@@ -3036,6 +3038,119 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 158167709}
   m_Mesh: {fileID: 7108004245302804196, guid: 58b2ff5f5a117684897db93b732e59b5, type: 3}
+--- !u!1 &169132116
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 169132120}
+  - component: {fileID: 169132119}
+  - component: {fileID: 169132118}
+  - component: {fileID: 169132117}
+  m_Layer: 19
+  m_Name: Quad
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!64 &169132117
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169132116}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &169132118
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169132116}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: -9047560763052564031, guid: 74f6d8d7e2dd7d54b9f258f49ef71e3c, type: 3}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &169132119
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169132116}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &169132120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169132116}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -1.53, y: 1.0817, z: 0.34}
+  m_LocalScale: {x: 26.906204, y: 19.889874, z: 26.906204}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &175069845
 GameObject:
   m_ObjectHideFlags: 0
@@ -5054,7 +5169,8 @@ MonoBehaviour:
   - teksLegenda: A. Hopper
     uiTitik: {fileID: 18795075}
     mesinHighlight:
-    - {fileID: 543171906}
+    - {fileID: 1953661585}
+    - {fileID: 1508120353}
   - teksLegenda: B. Vibrator A&B
     uiTitik: {fileID: 17082224}
     mesinHighlight:
@@ -5068,6 +5184,7 @@ MonoBehaviour:
     uiTitik: {fileID: 2050634916}
     mesinHighlight:
     - {fileID: 2014668553}
+    - {fileID: 8820575238923179623}
   - teksLegenda: 'E. Indicator Mesin
 
 '
@@ -5080,14 +5197,18 @@ MonoBehaviour:
 '
     uiTitik: {fileID: 1621631120}
     mesinHighlight:
-    - {fileID: 7468770200491016037}
-    - {fileID: 6755950317465294741}
+    - {fileID: 2117581899}
+    - {fileID: 1941980870}
+    - {fileID: 1138513119}
+    - {fileID: 264768933}
   - teksLegenda: 'B. Horizontal Cutter
 
 '
     uiTitik: {fileID: 1204752080}
     mesinHighlight:
     - {fileID: 129703629}
+    - {fileID: 8678155321557781750}
+    - {fileID: 7869922822016874867}
   targetDefault: {fileID: 1569334975}
   targetInfoAtas: {fileID: 1170232932}
   targetInfoBawah: {fileID: 2145081115}
@@ -5497,6 +5618,7 @@ GameObject:
   - component: {fileID: 264768930}
   - component: {fileID: 264768932}
   - component: {fileID: 264768931}
+  - component: {fileID: 264768933}
   m_Layer: 0
   m_Name: CutterVert (7)
   m_TagString: Untagged
@@ -5577,6 +5699,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 264768929}
   m_Mesh: {fileID: 3163171260390484736, guid: 18e47f1378e66374b9556ff47d7dcd5d, type: 3}
+--- !u!114 &264768933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264768929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
+  objekRenderer: {fileID: 264768931}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 2.5
 --- !u!1001 &272196963
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7248,7 +7388,7 @@ GameObject:
   - component: {fileID: 382061818}
   - component: {fileID: 382061820}
   - component: {fileID: 382061819}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: TitikE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7262,14 +7402,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 382061817}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.258819, z: 0, w: 0.9659259}
   m_LocalPosition: {x: 0, y: 0, z: 103.9}
   m_LocalScale: {x: 0.06123321, y: 0.061233208, z: 0.06123321}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2114294170}
   m_Father: {fileID: 1212557678}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -30, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 2.7, y: -12.5}
@@ -9190,7 +9330,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 59aff201b19508047ae6eda3e76b8c6a, type: 2}
+      objectReference: {fileID: 2100000, guid: 2a3e5d266a1ceed40a3b8c566aed046f, type: 2}
     - target: {fileID: 919132149155446097, guid: 5b0e85ddcf898a94a848fa05315fde61,
         type: 3}
       propertyPath: m_Name
@@ -9669,28 +9809,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 539901259}
   m_Mesh: {fileID: 7035690196794747791, guid: 943fdf2df67d32a4381af0f5ca6a681f, type: 3}
---- !u!1 &543171905 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e151b0213c471864581383a233dff450,
-    type: 3}
-  m_PrefabInstance: {fileID: 1508120344}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &543171906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 543171905}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 1508120350}
-  warnaGlow: {r: 1, g: 1, b: 1, a: 1}
-  kecepatan: 2.5
-  batasRedup: 0.4
 --- !u!1 &544477431
 GameObject:
   m_ObjectHideFlags: 0
@@ -10226,7 +10344,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 41
+    m_Bits: 524329
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: dd1051b059a16f247ae7a03a469a4365, type: 2}
   m_TargetDisplay: 0
@@ -14955,7 +15073,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.2, y: -40.7}
+  m_AnchoredPosition: {x: -37.12, y: -36}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &840519707
@@ -22463,9 +22581,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 1007325154}
-  warnaGlow: {r: 1, g: 1, b: 1, a: 1}
-  kecepatan: 2.5
-  batasRedup: 0.4
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 1
 --- !u!1001 &1021743663
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26081,6 +26201,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OcclusionCulling
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2683195716760517856, guid: 4ac7df741a9c0a2418ec19477729ee3d,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 262143
       objectReference: {fileID: 0}
     - target: {fileID: 2683195716791022644, guid: 4ac7df741a9c0a2418ec19477729ee3d,
         type: 3}
@@ -34103,6 +34228,7 @@ GameObject:
   - component: {fileID: 1138513116}
   - component: {fileID: 1138513118}
   - component: {fileID: 1138513117}
+  - component: {fileID: 1138513119}
   m_Layer: 0
   m_Name: CutterVert (6)
   m_TagString: Untagged
@@ -34183,6 +34309,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138513115}
   m_Mesh: {fileID: 3163171260390484736, guid: 18e47f1378e66374b9556ff47d7dcd5d, type: 3}
+--- !u!114 &1138513119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138513115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
+  objekRenderer: {fileID: 1138513117}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 2.5
 --- !u!1 &1142732348
 GameObject:
   m_ObjectHideFlags: 0
@@ -34596,7 +34740,7 @@ GameObject:
   - component: {fileID: 1171224425}
   - component: {fileID: 1171224427}
   - component: {fileID: 1171224426}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Text_D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34974,7 +35118,6 @@ Transform:
   - {fileID: 3617853204532424025}
   - {fileID: 3263700649477517448}
   - {fileID: 7400867974858782651}
-  - {fileID: 5421811486895016577}
   - {fileID: 2140630739045332763}
   - {fileID: 7766566833538256041}
   - {fileID: 650971355833233}
@@ -35280,7 +35423,7 @@ GameObject:
   - component: {fileID: 1204752081}
   - component: {fileID: 1204752083}
   - component: {fileID: 1204752082}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: TitikB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35294,17 +35437,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1204752080}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.2588191, z: 0, w: 0.9659258}
   m_LocalPosition: {x: 0, y: 0, z: 15.4}
   m_LocalScale: {x: 0.06123321, y: 0.061233208, z: 0.06123321}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1984626979}
   m_Father: {fileID: 1564500991}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 30, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -36.9, y: -18.5}
+  m_AnchoredPosition: {x: -36.9, y: -42.4}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1204752082
@@ -35491,7 +35634,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1212557678}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: 'GroupTitikA '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37210,7 +37353,7 @@ GameObject:
   - component: {fileID: 1322759492}
   - component: {fileID: 1322759494}
   - component: {fileID: 1322759493}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: TitikC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37224,14 +37367,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1322759491}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: -6}
   m_LocalScale: {x: 0.06123321, y: 0.061233208, z: 0.06123321}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1996528892}
   m_Father: {fileID: 1212557678}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -20.8, y: -42}
@@ -37760,7 +37903,7 @@ GameObject:
   - component: {fileID: 1349042981}
   - component: {fileID: 1349042983}
   - component: {fileID: 1349042982}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Text_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38185,9 +38328,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 1369041478}
-  warnaGlow: {r: 1, g: 1, b: 1, a: 1}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
   kecepatan: 2.5
-  batasRedup: 0.4
 --- !u!1 &1391801667
 GameObject:
   m_ObjectHideFlags: 0
@@ -40292,7 +40437,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 59aff201b19508047ae6eda3e76b8c6a, type: 2}
+      objectReference: {fileID: 2100000, guid: 2a3e5d266a1ceed40a3b8c566aed046f, type: 2}
     - target: {fileID: -8679921383154817045, guid: e151b0213c471864581383a233dff450,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -40367,7 +40512,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 59aff201b19508047ae6eda3e76b8c6a, type: 2}
+      objectReference: {fileID: 2100000, guid: 2a3e5d266a1ceed40a3b8c566aed046f, type: 2}
     - target: {fileID: -3093625820239695188, guid: e151b0213c471864581383a233dff450,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -40396,14 +40541,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1004194346}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e151b0213c471864581383a233dff450,
+    - targetCorrespondingSourceObject: {fileID: -3093625820239695188, guid: e151b0213c471864581383a233dff450,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 543171906}
+      addedObject: {fileID: 1953661585}
     - targetCorrespondingSourceObject: {fileID: 1211993514617210093, guid: e151b0213c471864581383a233dff450,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1508120348}
+    - targetCorrespondingSourceObject: {fileID: 1211993514617210093, guid: e151b0213c471864581383a233dff450,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1508120353}
   m_SourcePrefab: {fileID: 100100000, guid: e151b0213c471864581383a233dff450, type: 3}
 --- !u!64 &1508120348
 MeshCollider:
@@ -40433,6 +40582,24 @@ MeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 1508120344}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1508120353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88260685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
+  objekRenderer: {fileID: 1508120350}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 2.5
 --- !u!1 &1510370874
 GameObject:
   m_ObjectHideFlags: 0
@@ -40752,7 +40919,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1564500991}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: GroupTitikB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41216,9 +41383,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 1595999550}
-  warnaGlow: {r: 1, g: 1, b: 1, a: 1}
-  kecepatan: 2.5
-  batasRedup: 0.4
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 1
 --- !u!1 &1607044932
 GameObject:
   m_ObjectHideFlags: 0
@@ -41665,7 +41834,7 @@ GameObject:
   - component: {fileID: 1621631123}
   - component: {fileID: 1621631122}
   - component: {fileID: 1621631124}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: TitikA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41679,17 +41848,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1621631120}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 23.568663}
+  m_LocalRotation: {x: 0, y: 0.2588191, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 0, y: 0, z: 23.6}
   m_LocalScale: {x: 0.06123321, y: 0.061233208, z: 0.06123321}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1349042981}
   m_Father: {fileID: 1564500991}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 30, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.4516478, y: -5.7}
+  m_AnchoredPosition: {x: -11.9, y: -8.1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1621631122
@@ -45010,7 +45179,7 @@ GameObject:
   - component: {fileID: 1913656560}
   - component: {fileID: 1913656562}
   - component: {fileID: 1913656561}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Text_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45513,6 +45682,7 @@ GameObject:
   - component: {fileID: 1941980867}
   - component: {fileID: 1941980869}
   - component: {fileID: 1941980868}
+  - component: {fileID: 1941980870}
   m_Layer: 0
   m_Name: CutterVert (5)
   m_TagString: Untagged
@@ -45593,6 +45763,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941980866}
   m_Mesh: {fileID: 3163171260390484736, guid: 18e47f1378e66374b9556ff47d7dcd5d, type: 3}
+--- !u!114 &1941980870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941980866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
+  objekRenderer: {fileID: 1941980868}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 2.5
 --- !u!1 &1948773223
 GameObject:
   m_ObjectHideFlags: 0
@@ -45705,6 +45893,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948773223}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1953661581 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3093625820239695188, guid: e151b0213c471864581383a233dff450,
+    type: 3}
+  m_PrefabInstance: {fileID: 1508120344}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1953661583 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -3229344346367557913, guid: e151b0213c471864581383a233dff450,
+    type: 3}
+  m_PrefabInstance: {fileID: 1508120344}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1953661585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953661581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
+  objekRenderer: {fileID: 1953661583}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 2.5
 --- !u!1 &1971618902
 GameObject:
   m_ObjectHideFlags: 0
@@ -45794,7 +46012,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -45804,9 +46022,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: e5a390d359542f845bd18b3970c5eff3,
+      type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: a4fde6e0b21dc224d813ee493157874f, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: 5048c204ee8605c46920ac591af3c87b, type: 3}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -45844,14 +46063,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.9798105, b: 0.54905653, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: a4fde6e0b21dc224d813ee493157874f, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -46165,7 +46384,7 @@ GameObject:
   - component: {fileID: 1984626979}
   - component: {fileID: 1984626981}
   - component: {fileID: 1984626980}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Text_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46180,7 +46399,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1984626978}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 50.62619}
+  m_LocalPosition: {x: 0, y: 0, z: 35}
   m_LocalScale: {x: 16.331007, y: 16.331007, z: 16.331007}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -46188,7 +46407,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 22.863472, y: 210.67}
+  m_AnchoredPosition: {x: -5, y: 210.67}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1984626980
@@ -46502,7 +46721,7 @@ GameObject:
   - component: {fileID: 1996528892}
   - component: {fileID: 1996528894}
   - component: {fileID: 1996528893}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Text_C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46897,9 +47116,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 2014668550}
-  warnaGlow: {r: 1, g: 1, b: 1, a: 1}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
   kecepatan: 2.5
-  batasRedup: 0.4
 --- !u!1 &2015723722
 GameObject:
   m_ObjectHideFlags: 0
@@ -47202,7 +47423,7 @@ GameObject:
   - component: {fileID: 2034633472}
   - component: {fileID: 2034633474}
   - component: {fileID: 2034633473}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Text_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47590,7 +47811,7 @@ GameObject:
   - component: {fileID: 2050634917}
   - component: {fileID: 2050634919}
   - component: {fileID: 2050634918}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: TitikD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47604,14 +47825,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2050634916}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: -6}
   m_LocalScale: {x: 0.06123321, y: 0.061233208, z: 0.06123321}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1171224425}
   m_Father: {fileID: 1212557678}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 3.4, y: -42}
@@ -49057,7 +49278,7 @@ GameObject:
   - component: {fileID: 2114294170}
   - component: {fileID: 2114294172}
   - component: {fileID: 2114294171}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Text_E
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49194,6 +49415,7 @@ GameObject:
   - component: {fileID: 2117581896}
   - component: {fileID: 2117581898}
   - component: {fileID: 2117581897}
+  - component: {fileID: 2117581899}
   m_Layer: 0
   m_Name: CutterVert (4)
   m_TagString: Untagged
@@ -49274,6 +49496,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2117581895}
   m_Mesh: {fileID: 3163171260390484736, guid: 18e47f1378e66374b9556ff47d7dcd5d, type: 3}
+--- !u!114 &2117581899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117581895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
+  objekRenderer: {fileID: 2117581897}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 2.5
 --- !u!1 &2145081114
 GameObject:
   m_ObjectHideFlags: 0
@@ -50528,7 +50768,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 2a3e5d266a1ceed40a3b8c566aed046f, type: 2}
+      objectReference: {fileID: 2100000, guid: eff5d0aa61d261849b0db78c142a4df9, type: 2}
     - target: {fileID: 7003479872851319013, guid: 936b34d542d19834796160c83ffc4961,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -52066,7 +52306,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2a3e5d266a1ceed40a3b8c566aed046f, type: 2}
+  - {fileID: 2100000, guid: d883dcc57ba51dd47bbe5f2cda6e4f91, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -52311,7 +52551,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2a3e5d266a1ceed40a3b8c566aed046f, type: 2}
+  - {fileID: 2100000, guid: d883dcc57ba51dd47bbe5f2cda6e4f91, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -55706,9 +55946,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 1711813854565835932}
-  warnaGlow: {r: 1, g: 1, b: 1, a: 1}
-  kecepatan: 2.5
-  batasRedup: 0.77
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 0
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 1
 --- !u!114 &3469287838559621214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56492,6 +56734,7 @@ GameObject:
   - component: {fileID: 852735258281399793}
   - component: {fileID: 8678155321557781749}
   - component: {fileID: 4513020706599969556}
+  - component: {fileID: 8678155321557781750}
   m_Layer: 0
   m_Name: Cube.070
   m_TagString: Untagged
@@ -57358,6 +57601,7 @@ GameObject:
   - component: {fileID: 3359956524365931699}
   - component: {fileID: 3770785454219571980}
   - component: {fileID: 7869922822016874866}
+  - component: {fileID: 7869922822016874867}
   m_Layer: 0
   m_Name: Cube.076
   m_TagString: Untagged
@@ -57487,9 +57731,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 559928795652500225}
-  warnaGlow: {r: 1, g: 1, b: 1, a: 1}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
   kecepatan: 2.5
-  batasRedup: 0.4
 --- !u!114 &4540608606840393021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58766,11 +59012,11 @@ Transform:
   m_GameObject: {fileID: 8820575238923179621}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.447726, y: 1.8620421, z: 2.240973}
+  m_LocalPosition: {x: 0.744816, y: 0.86204207, z: -0.576067}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1201658138}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &5430752104561630143
 Transform:
@@ -58947,7 +59193,6 @@ GameObject:
   - component: {fileID: 2101366239493716608}
   - component: {fileID: 3834137788119880431}
   - component: {fileID: 7468770200491016036}
-  - component: {fileID: 7468770200491016037}
   m_Layer: 0
   m_Name: Cutter_Vert
   m_TagString: Untagged
@@ -60513,8 +60758,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 4155745015045601859}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
   kecepatan: 2.5
-  batasRedup: 0.4
 --- !u!4 &6769665458712157193
 Transform:
   m_ObjectHideFlags: 0
@@ -60735,8 +60982,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 6777846781720182838}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
-  kecepatan: 2.5
-  batasRedup: 0.4
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.75
+  warnaDiam: {r: 2, g: 2, b: 2, a: 1}
+  kecepatan: 1
 --- !u!33 &6788750428314821776
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -60781,9 +61030,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 338301556746786193}
-  warnaGlow: {r: 1, g: 1, b: 1, a: 1}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
   kecepatan: 2.5
-  batasRedup: 0.4
 --- !u!23 &6844186060022515077
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61270,9 +61521,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 1442450552404568437}
-  warnaGlow: {r: 1, g: 1, b: 1, a: 1}
-  kecepatan: 2.5
-  batasRedup: 0.77
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 0
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 1
 --- !u!114 &7041628271305202893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61424,7 +61677,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2a3e5d266a1ceed40a3b8c566aed046f, type: 2}
+  - {fileID: 2100000, guid: d883dcc57ba51dd47bbe5f2cda6e4f91, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -61828,22 +62081,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7468770200491016037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5600472422902086827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 7468770200491016036}
-  warnaGlow: {r: 1, g: 1, b: 1, a: 1}
-  kecepatan: 2.5
-  batasRedup: 0.4
 --- !u!23 &7469660299761587078
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61906,9 +62143,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 7469660299761587078}
-  warnaGlow: {r: 1, g: 1, b: 1, a: 1}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
   kecepatan: 2.5
-  batasRedup: 0.4
 --- !u!23 &7500529537107644850
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62510,6 +62749,24 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7869922822016874867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4518083495660022913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
+  objekRenderer: {fileID: 7869922822016874866}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 2.5
 --- !u!1 &7870316613168406597
 GameObject:
   m_ObjectHideFlags: 0
@@ -63772,8 +64029,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 7500529537107644850}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
-  kecepatan: 2.5
-  batasRedup: 0.4
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.5
+  warnaDiam: {r: 1, g: 1, b: 1, a: 1}
+  kecepatan: 1
 --- !u!33 &8678155321557781749
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -63782,6 +64041,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3944227003327845554}
   m_Mesh: {fileID: -5859505246589164098, guid: 58b2ff5f5a117684897db93b732e59b5, type: 3}
+--- !u!114 &8678155321557781750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3944227003327845554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
+  objekRenderer: {fileID: 4513020706599969556}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 2.5
 --- !u!33 &8713915014649700299
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -63899,8 +64176,9 @@ GameObject:
   - component: {fileID: 6411114558293175610}
   - component: {fileID: 4159158508894810387}
   - component: {fileID: 8820575238923179622}
+  - component: {fileID: 8820575238923179623}
   m_Layer: 0
-  m_Name: Cube.113
+  m_Name: CircleB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63921,6 +64199,24 @@ MonoBehaviour:
   shakeIntensity: 0.01
   shakeSpeed: 100
   shakeDirection: {x: 0.1, y: 0.1, z: 0.1}
+--- !u!114 &8820575238923179623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8820575238923179621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
+  objekRenderer: {fileID: 4159158508894810387}
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 2.5
 --- !u!23 &8828521169351795093
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64438,8 +64734,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 3052272645448132257}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
-  kecepatan: 2.5
-  batasRedup: 0.4
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.5
+  warnaDiam: {r: 1, g: 1, b: 1, a: 1}
+  kecepatan: 1
 --- !u!33 &8996715501810648976
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -64774,8 +65072,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 4884400794355846638}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
-  kecepatan: 2.5
-  batasRedup: 0.5
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.75
+  warnaDiam: {r: 2, g: 2, b: 2, a: 1}
+  kecepatan: 1
 --- !u!33 &9081674081338166349
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -65011,9 +65311,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 7137442477797316131}
-  warnaGlow: {r: 1, g: 1, b: 1, a: 1}
-  kecepatan: 2.5
-  batasRedup: 0.77
+  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  otomatisAmbilWarnaDasar: 0
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 1
 --- !u!114 &9081674081338166358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65163,6 +65465,7 @@ SceneRoots:
   - {fileID: 1034772383}
   - {fileID: 48911334}
   - {fileID: 1202524728}
+  - {fileID: 5421811486895016577}
   - {fileID: 5155822256368418341}
   - {fileID: 156423285}
   - {fileID: 584515553}
@@ -65234,3 +65537,4 @@ SceneRoots:
   - {fileID: 1433969577}
   - {fileID: 272196963}
   - {fileID: 1676003450}
+  - {fileID: 169132120}
