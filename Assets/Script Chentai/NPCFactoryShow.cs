@@ -11,28 +11,27 @@ public class NPCFactoryShow : MonoBehaviour
     [Tooltip("Kecepatan putar badan NPC")]
     public float turnSpeed = 5.0f;
 
-    [Header("Pengaturan Navigasi (Murni Timer & Sudut)")]
+    [Header("Referensi Target (Pemain/Kamera)")]
+    [Tooltip("Masukkan objek Main Camera atau CCTV ke sini agar NPC menatap ke arah ini saat Thumbs Up")]
+    public Transform targetPemain;
+
+    [Header("Pengaturan Navigasi Waktu")]
     [Tooltip("Berapa detik NPC jalan lurus ke mesin?")]
     public float durasiJalanKeMesin = 2.0f;
+    [Tooltip("Berapa detik NPC jalan balik ke posisi awal?")]
+    public float durasiJalanKembali = 2.0f;
     
-    [Tooltip("Berapa derajat NPC harus putar badan setelah dari mesin? (180 = balik badan)")]
-    public float sudutPutaranJoget = 180f;
-    
-    [Tooltip("Berapa detik NPC jalan ke area joget setelah putar badan?")]
-    public float durasiJalanKeAreaJoget = 2.0f;
+    [Header("Pengaturan Rotasi Akhir")]
+    [Tooltip("Berapa derajat putaran terakhir agar menghadap conveyor saat idle? (Misal 90 atau -90)")]
+    public float sudutMenghadapConveyor = 90f;
 
     [Header("Durasi Animasi")]
     public float durasiPencetTombol = 2.0f;
-    public float durasiTwerk = 4.0f;
-    public float durasiBackflip = 1.5f;
-    public float durasiProsesDuduk = 2.0f;
+    public float durasiThumbs = 2.0f;
 
     [Header("Pengaturan IK Kaki (Procedural Animation)")]
-    [Tooltip("Nyalakan saat NPC berdiri/jalan agar kaki menapak collider")]
     public bool enableFootIK = false;
-    [Tooltip("Layer khusus untuk objek Lantai/Ground")]
     public LayerMask floorLayer;
-    [Tooltip("Jarak dari titik Pivot tulang kaki ke bawah telapak sepatu")]
     public float footOffset = 0.12f;
     [Range(0, 1)] public float ikWeight = 1f;
 
@@ -47,72 +46,90 @@ public class NPCFactoryShow : MonoBehaviour
 
     public void MesinSelesaiDiperbaiki()
     {
-        StartCoroutine(SequenceFullPakaiTimer());
+        StartCoroutine(SequenceKerjaProfesional());
     }
 
-    private IEnumerator SequenceFullPakaiTimer()
+    private IEnumerator SequenceKerjaProfesional()
     {
-        // --- OBAT ANTI ERROR LAYER -1 ---
         yield return new WaitForSeconds(0.1f); 
-
-        // NYALAKAN IK SAAT MULAI BERDIRI/JALAN
         enableFootIK = true;
 
+        // 0. SIMPAN POSISI & ROTASI AWAL
+        // Ini agar kita tahu arah hadap awal sebelum dia mulai jalan
+        Quaternion rotasiAwalStandby = transform.rotation;
+
         // 1. JALAN KE MESIN
-        Debug.Log("[NPC] 1. Jalan lurus ke mesin...");
-        anim.ResetTrigger("Walk");
+        Debug.Log("[NPC] 1. Berangkat ke mesin...");
+        anim.ResetTrigger("Idle"); 
         anim.SetTrigger("Walk");
         yield return StartCoroutine(JalanMaju(durasiJalanKeMesin));
 
+        // 1.5 SIMPAN ROTASI DI DEPAN MESIN
+        // Penting untuk jadi patokan balik badan nanti
+        Quaternion rotasiDiMesin = transform.rotation;
+
         // 2. PENCET TOMBOL
-        Debug.Log("[NPC] 2. Pencet tombol!");
-        anim.ResetTrigger("PushButton");
+        Debug.Log("[NPC] 2. Menyalakan mesin (Push Button).");
+        anim.ResetTrigger("Walk");
         anim.SetTrigger("PushButton");
         yield return new WaitForSeconds(durasiPencetTombol);
 
-        // 3. PUTAR BADAN (Cari posisi kosong)
-        Debug.Log("[NPC] 3. Putar badan...");
-        yield return StartCoroutine(PutarBadan(sudutPutaranJoget));
-
-        // 4. JALAN KE AREA JOGET
-        Debug.Log("[NPC] 4. Jalan ke area joget...");
-        anim.ResetTrigger("Walk");
-        anim.SetTrigger("Walk");
-        yield return StartCoroutine(JalanMaju(durasiJalanKeAreaJoget));
-
-        // 5. TWERK
-        Debug.Log("[NPC] 5. Twerk!");
-        // Matikan IK sejenak jika animasi (seperti twerk/salto) butuh kaki terangkat bebas
-        enableFootIK = false; 
-        anim.ResetTrigger("Twerk");
-        anim.SetTrigger("Twerk");
-        yield return new WaitForSeconds(durasiTwerk);
-
-        // 6. BACKFLIP
-        Debug.Log("[NPC] 6. Salto!");
-        anim.ResetTrigger("Backflip");
-        anim.SetTrigger("Backflip");
-        yield return new WaitForSeconds(durasiBackflip);
-
-        // Nyalakan IK lagi setelah mendarat
-        enableFootIK = true;
-
-        // 7. PERSIAPAN DUDUK
-        Debug.Log("[NPC] 7. Duduk di tempat.");
-        anim.ResetTrigger("StandToSit");
-        anim.SetTrigger("StandToSit");
-        yield return new WaitForSeconds(durasiProsesDuduk);
-
-        // 8. MULAI KERJA
-        Debug.Log("[NPC] 8. Mulai kerja.");
-        anim.ResetTrigger("SitWork");
-        anim.SetTrigger("SitWork");
+        // 3. MENGHADAP PEMAIN (KAMERA)
+        Debug.Log("[NPC] 3. Nengok ke arah kamera/pemain...");
         
-        // Matikan IK saat sudah duduk (opsional, tergantung tinggi kursi)
-        // enableFootIK = false; 
+        // Fallback otomatis jika kamu lupa isi di Inspector, dia akan cari MainCamera
+        if (targetPemain == null && Camera.main != null) 
+            targetPemain = Camera.main.transform; 
+            
+        if (targetPemain != null)
+        {
+            yield return StartCoroutine(PutarMenghadap(targetPemain));
+        }
+
+        // 4. THUMBS UP
+        Debug.Log("[NPC] 4. Mesin aman, Thumbs Up!");
+        anim.ResetTrigger("PushButton");
+        anim.SetTrigger("Thumbs");
+        yield return new WaitForSeconds(durasiThumbs);
+
+        // 5. PUTAR BADAN BALIK UNTUK PULANG
+        Debug.Log("[NPC] 5. Balik badan untuk pulang...");
+        // Dia putar balik sejauh 180 derajat dari rotasinya saat MENGHADAP MESIN tadi
+        Quaternion rotasiPulang = rotasiDiMesin * Quaternion.Euler(0, 180f, 0);
+        yield return StartCoroutine(PutarKeRotasi(rotasiPulang));
+
+        // 6. JALAN KEMBALI
+        Debug.Log("[NPC] 6. Jalan kembali ke pos...");
+        anim.ResetTrigger("Thumbs");
+        anim.SetTrigger("Walk");
+        yield return StartCoroutine(JalanMaju(durasiJalanKembali));
+
+        // 7. MENGHADAP CONVEYOR & IDLE
+        Debug.Log("[NPC] 7. Posisi stand by menghadap conveyor.");
+        anim.ResetTrigger("Walk");
+        anim.SetTrigger("Idle");
+        
+        // Putar badan ke arah conveyor (berdasarkan posisi awalnya dulu ditambah pengaturanmu)
+        Quaternion rotasiAkhir = rotasiAwalStandby * Quaternion.Euler(0, sudutMenghadapConveyor, 0);
+        yield return StartCoroutine(PutarKeRotasi(rotasiAkhir));
     }
 
-    // --- FUNGSI MENDORONG PARENT MAJU PAKAI TIMER ---
+    // --- FUNGSI BARU: Nengok Langsung Ke Object Target ---
+    private IEnumerator PutarMenghadap(Transform target)
+    {
+        // Cari arah ke kamera
+        Vector3 arahKeTarget = target.position - transform.position;
+        // Kunci sumbu Y agar NPC tidak mendongak ke atas atau nunduk ke bawah
+        arahKeTarget.y = 0; 
+        
+        if (arahKeTarget != Vector3.zero)
+        {
+            Quaternion targetRotasi = Quaternion.LookRotation(arahKeTarget);
+            yield return StartCoroutine(PutarKeRotasi(targetRotasi));
+        }
+    }
+
+    // --- FUNGSI MENDORONG MAJU ---
     private IEnumerator JalanMaju(float durasi)
     {
         float timer = 0f;
@@ -124,10 +141,9 @@ public class NPCFactoryShow : MonoBehaviour
         }
     }
 
-    // --- FUNGSI PUTAR BADAN PAKAI SUDUT ---
-    private IEnumerator PutarBadan(float sudutTambahan)
+    // --- FUNGSI ROTASI PRESISI ---
+    private IEnumerator PutarKeRotasi(Quaternion targetRotasi)
     {
-        Quaternion targetRotasi = transform.rotation * Quaternion.Euler(0, sudutTambahan, 0);
         while (Quaternion.Angle(transform.rotation, targetRotasi) > 0.5f)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotasi, turnSpeed * Time.deltaTime);
@@ -136,26 +152,21 @@ public class NPCFactoryShow : MonoBehaviour
         transform.rotation = targetRotasi; 
     }
 
-    // --- PROCEDURAL ANIMATION: INVERSE KINEMATICS (IK) UNTUK KAKI ---
+    // --- IK SCRIPT (TETAP SAMA) ---
     private void OnAnimatorIK(int layerIndex)
     {
         if (anim == null) return;
-
         if (enableFootIK)
         {
-            // Atur bobot IK (1 = posisi di-override full oleh script ini)
             anim.SetIKPositionWeight(AvatarIKGoal.LeftFoot, ikWeight);
             anim.SetIKRotationWeight(AvatarIKGoal.LeftFoot, ikWeight);
             anim.SetIKPositionWeight(AvatarIKGoal.RightFoot, ikWeight);
             anim.SetIKRotationWeight(AvatarIKGoal.RightFoot, ikWeight);
-
-            // Proses kaki kiri & kanan
             ProcessFootIK(AvatarIKGoal.LeftFoot);
             ProcessFootIK(AvatarIKGoal.RightFoot);
         }
         else
         {
-            // Kembalikan ke animasi bawaan (Forward Kinematics)
             anim.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 0);
             anim.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 0);
             anim.SetIKPositionWeight(AvatarIKGoal.RightFoot, 0);
@@ -165,17 +176,11 @@ public class NPCFactoryShow : MonoBehaviour
 
     private void ProcessFootIK(AvatarIKGoal foot)
     {
-        // Ambil posisi kaki bawaan animasi
         Vector3 footPos = anim.GetIKPosition(foot);
-
-        // Tembakkan Raycast dari sedikit di atas kaki ke bawah mencari lantai
         RaycastHit hit;
         if (Physics.Raycast(footPos + Vector3.up * 1.0f, Vector3.down, out hit, 4.0f, floorLayer))
         {
-            // 1. Sesuaikan posisi kaki menempel di titik tabrakan collider lantai + offset
             anim.SetIKPosition(foot, hit.point + Vector3.up * footOffset);
-
-            // 2. Sesuaikan rotasi telapak kaki mengikuti kemiringan lantai (opsional tapi bagus)
             Quaternion footRotation = anim.GetIKRotation(foot);
             Quaternion normalRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
             anim.SetIKRotation(foot, normalRotation * footRotation);

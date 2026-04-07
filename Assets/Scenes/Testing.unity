@@ -35724,13 +35724,12 @@ MonoBehaviour:
   anim: {fileID: 1258284060}
   walkSpeed: 1
   turnSpeed: 5
-  durasiJalanKeMesin: 1.25
-  sudutPutaranJoget: 180
-  durasiJalanKeAreaJoget: 0.5
+  targetPemain: {fileID: 1487329260}
+  durasiJalanKeMesin: 2.5
+  durasiJalanKembali: 2.5
+  sudutMenghadapConveyor: -90
   durasiPencetTombol: 2
-  durasiTwerk: 10
-  durasiBackflip: 2
-  durasiProsesDuduk: 2
+  durasiThumbs: 3
   enableFootIK: 0
   floorLayer:
     serializedVersion: 2
@@ -39910,6 +39909,12 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!4 &1487329260 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2683195716758988412, guid: 4ac7df741a9c0a2418ec19477729ee3d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1034772383}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1490134911
 GameObject:
   m_ObjectHideFlags: 0
@@ -55029,8 +55034,8 @@ Transform:
   m_GameObject: {fileID: 2608395752214804890}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.74984103, y: 1.904452, z: 3.4134216}
-  m_LocalScale: {x: 0.32068792, y: 0.2971942, z: 0.25161666}
+  m_LocalPosition: {x: 0.776, y: 1.9022, z: 3.272}
+  m_LocalScale: {x: 0.2776035, y: 0.25726616, z: 0.21781196}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1201658138}
