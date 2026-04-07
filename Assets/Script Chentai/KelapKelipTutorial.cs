@@ -20,6 +20,10 @@ public class KelapKelipTutorial : MonoBehaviour
     // >>> TAMBAHAN: Ini kunci agar material asli dan pantulan cahayanya tidak rusak!
     private MaterialPropertyBlock propBlock;
 
+    void Awake()
+    {
+        propBlock = new MaterialPropertyBlock();
+    }
     void Start()
     {
         if (objekRenderer == null)
@@ -28,8 +32,7 @@ public class KelapKelipTutorial : MonoBehaviour
             return;
         }
 
-        // Siapkan Property Block
-        propBlock = new MaterialPropertyBlock();
+        //
         
         // Kita baca dari sharedMaterial (material asli), bukan material hasil clone
         if (objekRenderer.sharedMaterial != null)

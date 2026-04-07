@@ -5722,14 +5722,15 @@ MonoBehaviour:
   - {fileID: 2014668549}
   - {fileID: 1142732349}
   - {fileID: 2304253958260186160}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 4540608606840393020}
+  - {fileID: 7514411974401647773}
+  - {fileID: 129703627}
   - {fileID: 6894073813913587659}
   - {fileID: 945965791}
   - {fileID: 1919197700}
   - {fileID: 1405307985025432751, guid: 1548ab770bf25c546a0418f89a6b9026, type: 3}
+  - {fileID: 635528158}
+  - {fileID: 7250595021338737951}
 --- !u!4 &278444358
 Transform:
   m_ObjectHideFlags: 0
@@ -40123,8 +40124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FoilStacker
   foilTag: Tablet
   targetStack: 10
-  jarakTumpukan: 1
-  delaySebelumJalan: 0.5
+  jarakTumpukan: -0.01
+  delaySebelumJalan: 0.1
   cooldownArea: 1
 --- !u!1 &1499333351
 GameObject:
@@ -50771,13 +50772,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4540608606840393018}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0026179885, y: -0, z: -0, w: 0.9999966}
-  m_LocalPosition: {x: 0.053999998, y: 0.2511365, z: 0.031000001}
+  m_LocalRotation: {x: 0.015704967, y: -0, z: -0, w: 0.9998767}
+  m_LocalPosition: {x: 0.05400002, y: 0.249, z: 0.016517222}
   m_LocalScale: {x: 0.101, y: 0.1, z: 0.106500015}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0.3, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 1.8, y: 0, z: 0}
 --- !u!33 &772896340468096256
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -52175,7 +52176,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4140421864212676890}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 819d365684e8fc2409971d0c42535bf8, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -52187,8 +52188,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 8.491601, y: 0.080915086, z: 2.8194904}
-  m_Center: {x: 1.2585404, y: 6.063275, z: -9.171077}
+  m_Size: {x: 8.491601, y: 0.08091568, z: 2.3180187}
+  m_Center: {x: 1.2585406, y: 6.063274, z: -9.15818}
 --- !u!33 &1637171043336148879
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -57439,6 +57440,7 @@ GameObject:
   - component: {fileID: 559928795652500225}
   - component: {fileID: 4540608606840393019}
   - component: {fileID: 4540608606840393020}
+  - component: {fileID: 4540608606840393021}
   m_Layer: 0
   m_Name: FeederB
   m_TagString: Untagged
@@ -57465,8 +57467,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.3498406, y: 0.43101788, z: 6.5515065}
-  m_Center: {x: 6.8324957, y: 5.373188, z: -7.2551994}
+  m_Size: {x: 3.34984, y: 0.42778555, z: 6.5515075}
+  m_Center: {x: 6.8324947, y: 5.3715706, z: -7.255201}
 --- !u!114 &4540608606840393020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57483,6 +57485,21 @@ MonoBehaviour:
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   kecepatan: 2.5
   batasRedup: 0.4
+--- !u!114 &4540608606840393021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4540608606840393018}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1fbc463d56f7c04089588a1397a338c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FeederVibration
+  shakeIntensity: 0.005
+  shakeSpeed: 100
+  shakeDirection: {x: 0.5, y: 0.5, z: 0.5}
 --- !u!1 &4552846666250127995
 GameObject:
   m_ObjectHideFlags: 0
@@ -57575,7 +57592,7 @@ Transform:
   m_GameObject: {fileID: 4140421864212676890}
   serializedVersion: 2
   m_LocalRotation: {x: 0.008726225, y: 0.00007615199, z: -0.008726132, w: 0.9999238}
-  m_LocalPosition: {x: 0.058, y: 0.23513651, z: -0.01}
+  m_LocalPosition: {x: 0.058, y: 0.274, z: -0.01}
   m_LocalScale: {x: 0.10000001, y: 0.10000001, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -64753,7 +64770,7 @@ MonoBehaviour:
   objekRenderer: {fileID: 4884400794355846638}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   kecepatan: 2.5
-  batasRedup: 0.8
+  batasRedup: 0.5
 --- !u!33 &9081674081338166349
 MeshFilter:
   m_ObjectHideFlags: 0

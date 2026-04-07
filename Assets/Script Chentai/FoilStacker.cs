@@ -42,20 +42,19 @@ public class FoilStacker : MonoBehaviour
                 }
                 else
                 {
-                    // --- FOIL KE-2 DST (ANAK) ---
                     tumpukanFoil.Add(rb);
                     
                     // 1. Jadikan anak dari Foil Pertama
                     rb.transform.SetParent(tumpukanFoil[0].transform, true);
                     
-                    // 2. PAKSA KUNCI POSISI: Samakan X dan Z persis dengan Induknya!
-                    Transform induk = tumpukanFoil[0].transform;
-                    int urutan = tumpukanFoil.Count - 1; // Foil ke-2 itu urutan 1, dst
+                    // 2. KUNCI POSISI LOKAL: Tumpuk sempurna di atas induknya
+                    int urutan = tumpukanFoil.Count - 1; 
                     
-                    rb.position = new Vector3(induk.position.x, induk.position.y + (urutan * jarakTumpukan), induk.position.z);
+                    // X dan Z lokal adalah 0 (tepat di tengah induk), Y lokal sesuai urutan
+                    rb.transform.localPosition = new Vector3(0, 0, urutan * jarakTumpukan);
                     
-                    // Samakan juga putarannya persis dengan induk
-                    rb.rotation = induk.rotation;
+                    // Samakan rotasi lokal (Quaternion.identity berarti rotasi sama persis dengan induk)
+                    rb.transform.localRotation = Quaternion.identity;
                 }
 
                 // Jika sudah 10
