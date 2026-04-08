@@ -22,6 +22,11 @@ public class InputTutorialManager : MonoBehaviour
     public AudioSource suaraStepSukses; // Bunyi ting/klik tiap tahap beres
     public AudioSource suaraTutorialSelesai; // Bunyi sukses besar pas selesai
 
+    // >>> TAMBAHAN: Tombol Debug Khusus Developer
+    [Header("Debug / Testing")]
+    [Tooltip("Tombol Next/Skip sementara untuk testing tanpa memakai headset VR")]
+    public UnityEngine.UI.Button tombolNextDebug;
+
     // Variabel internal
     private int tahapTutorial = 0; 
     private bool kiriOk = false;
@@ -31,6 +36,9 @@ public class InputTutorialManager : MonoBehaviour
     {
         if (welcomePanel != null) welcomePanel.SetActive(true);
         if (tombolStartTutorial != null) tombolStartTutorial.interactable = false;
+
+        // Pastikan tombol debug aktif di awal
+        if (tombolNextDebug != null) tombolNextDebug.gameObject.SetActive(true);
 
         // Mulai langsung dari Tahap 1
         MulaiTahap(1); 
@@ -102,10 +110,22 @@ public class InputTutorialManager : MonoBehaviour
                 if (tombolStartTutorial != null) tombolStartTutorial.interactable = true;
                 if (suaraTutorialSelesai != null) suaraTutorialSelesai.Play();
 
+                // Sembunyikan tombol debug karena tutorialnya sudah kelar
+                if (tombolNextDebug != null) tombolNextDebug.gameObject.SetActive(false);
+
                 // Tutup panel otomatis setelah 3 detik
                 Invoke("TutupPanel", 3f); 
                 break;
         }
+    }
+
+    // >>> FUNGSI BARU UNTUK TOMBOL DEBUG <<<
+    public void LewatiTahapIniDebug()
+    {
+        // Cek kita lagi di tahap berapa, lalu panggil tahap selanjutnya
+        if (tahapTutorial == 1) LanjutKeTahapBerikutnya(2);
+        else if (tahapTutorial == 2) LanjutKeTahapBerikutnya(3);
+        else if (tahapTutorial == 3) LanjutKeTahapBerikutnya(4);
     }
 
     private void LanjutKeTahapBerikutnya(int tahapSelanjutnya)
