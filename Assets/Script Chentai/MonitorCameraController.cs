@@ -34,24 +34,36 @@ public class MonitorCameraController : MonoBehaviour
     public Button tombolNext;
 
     // ==========================================
-    // >>> SISTEM SLIDESHOW ALUR LINEAR
+    // >>> SISTEM SLIDESHOW BUKU PANDUAN (KANAN)
     // ==========================================
-    [Header("Data Slideshow Buku Panduan")]
+    [Header("Data Slideshow Buku Panduan (Kanan)")]
     public GameObject panelLegenda;
     public TextMeshProUGUI textLegenda;
     public Button tombolNextSlide; 
     public Button tombolPrevSlide; 
 
-    [Tooltip("Centang untuk melihat SEMUA titik A,B,C,D,E sekaligus. Hilangkan centang untuk melihat 1 per 1 sesuai slide.")]
-    public bool tampilkanSemuaTitik = false;
-
     public List<SlideInfo> slideAreaAtas;
     public List<SlideInfo> slideAreaBawah; 
 
+    // ==========================================
+    // >>> SISTEM SLIDESHOW CONTROL PANEL (KIRI)
+    // ==========================================
+    [Header("Data Slideshow Panel Control (Kiri)")]
+    public GameObject panelLegendaKiri;
+    public TextMeshProUGUI textLegendaKiri;
+    public Button tombolNextSlideKiri; 
+    public Button tombolPrevSlideKiri; 
+    
+    public List<SlideInfo> slidePanelControl;
+
+    [Header("Pengaturan Tampilan Titik")]
+    [Tooltip("Centang untuk melihat SEMUA titik A,B,C sekaligus. Hilangkan centang untuk 1 per 1.")]
+    public bool tampilkanSemuaTitik = false;
+
+    // Variabel Navigasi Internal
     private List<SlideInfo> slideAktif = new List<SlideInfo>();
     private int indeksSlideSekarang = 0;
-    private int areaTutorialAktif = 0; // 0 = Atas, 1 = Bawah
-    // ==========================================
+    private int areaTutorialAktif = 0; // 0 = Atas, 1 = Bawah, 2 = Panel Control Kiri
 
     [Header("Target Posisi (Waypoints)")]
     public Transform targetDefault;
@@ -76,10 +88,7 @@ public class MonitorCameraController : MonoBehaviour
             cctvCamera.rotation = targetDefault.rotation;
         }
         
-        if (tombolNextSlide != null) tombolNextSlide.gameObject.SetActive(false);
-        if (tombolPrevSlide != null) tombolPrevSlide.gameObject.SetActive(false);
-        if (panelLegenda != null) panelLegenda.SetActive(false);
-
+        MatikanSemuaSlideshow();
         KePosisiDefault();
     }
 
@@ -120,6 +129,8 @@ public class MonitorCameraController : MonoBehaviour
         KunciSemuaTombol();
         
         if (panelLegenda != null) panelLegenda.SetActive(true);
+        if (tombolNextSlide != null) tombolNextSlide.gameObject.SetActive(true);
+        if (tombolPrevSlide != null) tombolPrevSlide.gameObject.SetActive(true);
         
         areaTutorialAktif = 0; 
         indeksSlideSekarang = 0;
@@ -128,12 +139,30 @@ public class MonitorCameraController : MonoBehaviour
         MulaiPindahKamera(targetInfoAtas);
         UpdateTeksUI("INFO AREA ATAS:\nGunakan tombol panah [<] [>] untuk membaca panduan.");
         
-        if (tombolNextSlide != null) tombolNextSlide.gameObject.SetActive(true);
-        if (tombolPrevSlide != null) tombolPrevSlide.gameObject.SetActive(true);
-
-        // Jika opsi nyala, langsung tampilkan semua titik untuk area atas
         if (tampilkanSemuaTitik) NyalakanSemuaTitikDiArea(slideAreaAtas);
+        TampilkanSlideSekarang();
+    }
 
+    public void KePanelControl() 
+    { 
+        MulaiPindahKamera(targetPanelControl); 
+        KunciSemuaTombol(); 
+        if (tombolBack != null) { tombolBack.gameObject.SetActive(true); tombolBack.interactable = true; }
+        
+        MatikanSemuaSlideshow();
+
+        // Mulai mode slideshow Kiri
+        areaTutorialAktif = 2; // 2 = Mode Panel Control
+        indeksSlideSekarang = 0;
+        slideAktif = slidePanelControl;
+
+        UpdateTeksUI("INFO PANEL KONTROL:\nGunakan tombol panah [<] [>] untuk membaca panduan.");
+
+        if (panelLegendaKiri != null) panelLegendaKiri.SetActive(true);
+        if (tombolNextSlideKiri != null) tombolNextSlideKiri.gameObject.SetActive(true);
+        if (tombolPrevSlideKiri != null) tombolPrevSlideKiri.gameObject.SetActive(true);
+
+        if (tampilkanSemuaTitik) NyalakanSemuaTitikDiArea(slidePanelControl);
         TampilkanSlideSekarang();
     }
 
@@ -148,9 +177,7 @@ public class MonitorCameraController : MonoBehaviour
         {
             if (areaTutorialAktif == 0) 
             {
-                // SEBELUM PINDAH: Matikan semua titik area atas secara paksa
                 MatikanSemuaTitikDiArea(slideAreaAtas);
-
                 areaTutorialAktif = 1;
                 slideAktif = slideAreaBawah;
                 indeksSlideSekarang = 0;
@@ -158,9 +185,7 @@ public class MonitorCameraController : MonoBehaviour
                 MulaiPindahKamera(targetInfoBawah);
                 UpdateTeksUI("INFO AREA BAWAH:\nGunakan tombol panah [<] [>] untuk membaca panduan.");
                 
-                // NYALAKAN TITIK AREA BAWAH
                 if (tampilkanSemuaTitik) NyalakanSemuaTitikDiArea(slideAreaBawah);
-
                 TampilkanSlideSekarang();
             }
             else if (areaTutorialAktif == 1)
@@ -169,6 +194,7 @@ public class MonitorCameraController : MonoBehaviour
                 MatikanSemuaSlideshow();
                 KePosisiDefault();
             }
+            // Jika areaTutorialAktif == 2 (Panel Control), dibiarkan mentok saja karena keluarnya pakai tombol Back.
         }
     }
 
@@ -183,9 +209,7 @@ public class MonitorCameraController : MonoBehaviour
         {
             if (areaTutorialAktif == 1)
             {
-                // SEBELUM PINDAH: Matikan semua titik area bawah secara paksa
                 MatikanSemuaTitikDiArea(slideAreaBawah);
-
                 areaTutorialAktif = 0;
                 slideAktif = slideAreaAtas;
                 indeksSlideSekarang = slideAktif.Count - 1; 
@@ -193,11 +217,10 @@ public class MonitorCameraController : MonoBehaviour
                 MulaiPindahKamera(targetInfoAtas);
                 UpdateTeksUI("INFO AREA ATAS:\nGunakan tombol panah [<] [>] untuk membaca panduan.");
                 
-                // NYALAKAN TITIK AREA ATAS KEMBALI
                 if (tampilkanSemuaTitik) NyalakanSemuaTitikDiArea(slideAreaAtas);
-
                 TampilkanSlideSekarang();
             }
+            // Jika areaTutorialAktif == 2, mentok di slide pertama.
         }
     }
 
@@ -205,15 +228,14 @@ public class MonitorCameraController : MonoBehaviour
     {
         MatikanLampuSlide(slideAreaAtas);
         MatikanLampuSlide(slideAreaBawah);
+        MatikanLampuSlide(slidePanelControl);
 
         if (slideAktif.Count == 0) return;
 
         SlideInfo slideSekarang = slideAktif[indeksSlideSekarang];
         
-        // Nyalakan titik slide sekarang (aman dilakukan walau tampilkanSemuaTitik nyala)
         if (slideSekarang.uiTitik != null) slideSekarang.uiTitik.SetActive(true);
         
-        if (textLegenda != null) textLegenda.text = slideSekarang.teksLegenda;
         if (slideSekarang.mesinHighlight != null)
         {
             foreach (var highlight in slideSekarang.mesinHighlight)
@@ -222,35 +244,57 @@ public class MonitorCameraController : MonoBehaviour
             }
         }
 
-        bool bisaMundur = !(areaTutorialAktif == 0 && indeksSlideSekarang == 0);
-        if (tombolPrevSlide != null) tombolPrevSlide.interactable = bisaMundur;
+        // Logic UI untuk Panel Kiri vs Kanan
+        if (areaTutorialAktif == 2)
+        {
+            if (textLegendaKiri != null) textLegendaKiri.text = slideSekarang.teksLegenda;
+            
+            bool bisaMundur = (indeksSlideSekarang > 0);
+            bool bisaMaju = (indeksSlideSekarang < slideAktif.Count - 1);
+            
+            if (tombolPrevSlideKiri != null) tombolPrevSlideKiri.interactable = bisaMundur;
+            if (tombolNextSlideKiri != null) tombolNextSlideKiri.interactable = bisaMaju;
+        }
+        else
+        {
+            if (textLegenda != null) textLegenda.text = slideSekarang.teksLegenda;
+            
+            bool bisaMundur = !(areaTutorialAktif == 0 && indeksSlideSekarang == 0);
+            bool bisaMaju = true; // Karena lanjut dari atas ke bawah
+            
+            if (tombolPrevSlide != null) tombolPrevSlide.interactable = bisaMundur;
+            if (tombolNextSlide != null) tombolNextSlide.interactable = bisaMaju;
+        }
     }
 
     private void MatikanSemuaSlideshow()
     {
+        // Panel Kanan
         if (tombolNextSlide != null) tombolNextSlide.gameObject.SetActive(false);
         if (tombolPrevSlide != null) tombolPrevSlide.gameObject.SetActive(false);
         if (textLegenda != null) textLegenda.text = "";
         if (panelLegenda != null) panelLegenda.SetActive(false);
 
+        // Panel Kiri
+        if (tombolNextSlideKiri != null) tombolNextSlideKiri.gameObject.SetActive(false);
+        if (tombolPrevSlideKiri != null) tombolPrevSlideKiri.gameObject.SetActive(false);
+        if (textLegendaKiri != null) textLegendaKiri.text = "";
+        if (panelLegendaKiri != null) panelLegendaKiri.SetActive(false);
+
         MatikanSemuaTitikDiArea(slideAreaAtas);
         MatikanSemuaTitikDiArea(slideAreaBawah);
+        MatikanSemuaTitikDiArea(slidePanelControl);
         
-        // Pastikan highlight kelap-kelip mati
         MatikanLampuSlide(slideAreaAtas);
         MatikanLampuSlide(slideAreaBawah);
+        MatikanLampuSlide(slidePanelControl);
     }
 
-    // Fungsi khusus untuk mengatur kedip material (dan matikan titik JIKA mode 1 per 1 dipilih)
     private void MatikanLampuSlide(List<SlideInfo> daftarSlide)
     {
         foreach (var slide in daftarSlide)
         {
-            // Matikan titik hanya jika opsi tampilkanSemuaTitik TIDAK dicentang
-            if (!tampilkanSemuaTitik && slide.uiTitik != null) 
-            {
-                slide.uiTitik.SetActive(false);
-            }
+            if (!tampilkanSemuaTitik && slide.uiTitik != null) slide.uiTitik.SetActive(false);
 
             if (slide.mesinHighlight != null)
             {
@@ -262,7 +306,6 @@ public class MonitorCameraController : MonoBehaviour
         }
     }
 
-    // Helper Functions untuk kontrol titik masal
     private void NyalakanSemuaTitikDiArea(List<SlideInfo> daftarSlide)
     {
         foreach (var slide in daftarSlide)
@@ -301,9 +344,7 @@ public class MonitorCameraController : MonoBehaviour
         if (tombolBack != null) { tombolBack.gameObject.SetActive(true); tombolBack.interactable = true; }
         MatikanSemuaSlideshow();
         
-        UpdateTeksUI("TUGAS: Pasang Part A."); 
-        if (textLegenda != null) textLegenda.text = "<color=yellow>DAFTAR KOMPONEN:</color>\nA. Hopper\nB. Feeder\nC. Vibrator";
-
+        // UpdateTeksUI("TUGAS: Pasang Part A."); <--- HAPUS BARIS INI
         if (managerPartA != null) { managerPartA.AktifkanGrup(); managerPartA.UpdateHighlightBerurutan(); }
     }
 
@@ -314,9 +355,7 @@ public class MonitorCameraController : MonoBehaviour
         if (tombolBack != null) { tombolBack.gameObject.SetActive(true); tombolBack.interactable = true; }
         MatikanSemuaSlideshow();
 
-        UpdateTeksUI("TUGAS: Pasang Part B."); 
-        if (textLegenda != null) textLegenda.text = "<color=yellow>DAFTAR KOMPONEN:</color>\nA. Komponen B1\nB. Komponen B2";
-        
+        // UpdateTeksUI("TUGAS: Pasang Part B."); <--- HAPUS BARIS INI
         if (managerPartB != null) { managerPartB.AktifkanGrup(); managerPartB.UpdateHighlightBerurutan(); }
     }
 
@@ -327,19 +366,8 @@ public class MonitorCameraController : MonoBehaviour
         if (tombolBack != null) { tombolBack.gameObject.SetActive(true); tombolBack.interactable = true; }
         MatikanSemuaSlideshow();
 
-        UpdateTeksUI("TUGAS: Pasang Part C."); 
-        if (textLegenda != null) textLegenda.text = "<color=yellow>DAFTAR KOMPONEN:</color>\nA. Komponen C1";
-        
+        // UpdateTeksUI("TUGAS: Pasang Part C."); <--- HAPUS BARIS INI
         if (managerPartC != null) { managerPartC.AktifkanGrup(); managerPartC.UpdateHighlightBerurutan(); }
-    }
-
-    public void KePanelControl() 
-    { 
-        MulaiPindahKamera(targetPanelControl); 
-        KunciSemuaTombol(); 
-        if (tombolBack != null) { tombolBack.gameObject.SetActive(true); tombolBack.interactable = true; }
-        MatikanSemuaSlideshow();
-        UpdateTeksUI("INFO: Panel Kontrol Utama.");
     }
 
     public void PartSelesai()
@@ -355,7 +383,7 @@ public class MonitorCameraController : MonoBehaviour
         KePosisiDefault(); 
     }
 
-    private void UpdateTeksUI(string pesan) { if (textInstruksi != null) textInstruksi.text = pesan; }
+    public void UpdateTeksUI(string pesan) { if (textInstruksi != null) textInstruksi.text = pesan; }
 
     private void MulaiPindahKamera(Transform targetTujuan)
     {

@@ -4,10 +4,6 @@ using BNG;
 [RequireComponent(typeof(SnapZone))]
 public class TutorialDynamicHint : MonoBehaviour
 {
-    [Header("Target Object")]
-    [Tooltip("Tag dari barang yang harus dipegang player untuk memunculkan hint (Misal: PartFoil)")]
-    public string requiredTag = "Untagged";
-
     [Header("Visual Hints")]
     [Tooltip("Drag objek Hologram/Ghost kamu ke sini")]
     public GameObject ghostObject;
@@ -23,14 +19,12 @@ public class TutorialDynamicHint : MonoBehaviour
     [Range(0f, 1f)] public float maxAlpha = 0.7f;
 
     private SnapZone snapZone;
-    private Grabber[] playerGrabbers; 
     private Material ghostMaterial;
     private Color originalColor;
 
     void Start()
     {
         snapZone = GetComponent<SnapZone>();
-        playerGrabbers = FindObjectsOfType<Grabber>();
 
         // Ambil material untuk animasi pulsing
         if (ghostObject != null)
@@ -50,23 +44,16 @@ public class TutorialDynamicHint : MonoBehaviour
 
     void Update()
     {
-        // 1. Jika barang menempel atau SnapZone belum aktif, matikan hint
+        // LOGIKA BARU: Jika barang sudah nempel ATAU SnapZone belum giliran aktif, matikan hint!
         if (snapZone.HeldItem != null || !snapZone.isActiveAndEnabled) 
         {
             HideHints();
             return;
         }
 
-        // 2. Cek tangan player. Jika memegang barang yang benar -> Munculkan & Animasikan!
-        if (IsPlayerHoldingTargetItem())
-        {
-            ShowHints();
-            PulseGhost(); // Jalankan animasi pulsing hanya saat hologram terlihat
-        }
-        else
-        {
-            HideHints(); 
-        }
+        // Jika SnapZone ini aktif dan masih kosong, LANGSUNG MUNCULKAN HINT!
+        ShowHints();
+        PulseGhost(); // Jalankan animasi pulsing
     }
 
     private void PulseGhost()
@@ -82,20 +69,6 @@ public class TutorialDynamicHint : MonoBehaviour
             if (ghostMaterial.HasProperty("_Color")) ghostMaterial.color = newColor;
             else if (ghostMaterial.HasProperty("_BaseColor")) ghostMaterial.SetColor("_BaseColor", newColor); 
         }
-    }
-
-    private bool IsPlayerHoldingTargetItem()
-    {
-        if (playerGrabbers == null) return false;
-
-        foreach (Grabber hand in playerGrabbers)
-        {
-            if (hand != null && hand.HeldGrabbable != null)
-            {
-                if (hand.HeldGrabbable.CompareTag(requiredTag)) return true; 
-            }
-        }
-        return false;
     }
 
     private void HideHints()

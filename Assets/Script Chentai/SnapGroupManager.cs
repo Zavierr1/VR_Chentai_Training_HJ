@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using BNG;
 using UnityEngine.Events; 
 
+// Tambahan agar Event UI yang bawa teks (string) bisa muncul di Inspector
+[System.Serializable]
+public class StringEvent : UnityEvent<string> {}
+
 [System.Serializable]
 public class SnapData
 {
@@ -12,9 +16,13 @@ public class SnapData
 
     public KelapKelipTutorial highlightMeja;
     
-    // >>> TAMBAHAN BARU: Referensi Grabbable untuk dikunci
     [Tooltip("Tarik komponen Grabbable dari objek meja ke sini")]
     public Grabbable bendaDiMeja; 
+
+    // >>> TAMBAHAN: Teks instruksi spesifik untuk part ini
+    [TextArea(2, 3)]
+    [Tooltip("Teks yang akan muncul di panel UI saat giliran part ini dipasang")]
+    public string instruksiPart = "Pasang komponen ini...";
 }
 
 public class SnapGroupManager : MonoBehaviour
@@ -30,6 +38,10 @@ public class SnapGroupManager : MonoBehaviour
 
     [Header("Event UI & Kamera")]
     public UnityEvent onGrupSelesai;
+    
+    // >>> TAMBAHAN: Event untuk ngirim teks ke layar UI
+    [Tooltip("Panggil fungsi UpdateTeksUI dari MonitorCameraController di sini")]
+    public StringEvent onUpdateInstruksiUI;
     
     private bool isSudahSelesai = false; 
 
@@ -48,12 +60,11 @@ public class SnapGroupManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.05f);
 
-        // >>> LOGIKA BARU: Kunci/Buka fungsi genggam (Grab) pada objek
         foreach(var data in urutanSnap)
         {
             if (data.bendaDiMeja != null)
             {
-                data.bendaDiMeja.enabled = grupAktifDiAwal; // Kalau mati, objek gak bisa di-grab!
+                data.bendaDiMeja.enabled = grupAktifDiAwal; 
             }
         }
 
@@ -131,18 +142,18 @@ public class SnapGroupManager : MonoBehaviour
 
         foreach (var data in urutanSnap)
         {
-            // 1. RESET: Matikan kelap-kelip dan KUNCI tangannya untuk SEMUA objek
             if (data.highlightMeja != null) data.highlightMeja.BerhentiKedip();
             if (data.bendaDiMeja != null) data.bendaDiMeja.enabled = false;
 
-            // 2. Cari Snap Zone PERTAMA yang MASIH KOSONG
-            if (!sudahAdaYangAktif && data.snapZone.HeldItem == null)
+            if (!sudahAdaYangAktif && (data.snapZone == null || data.snapZone.HeldItem == null))
             {
-                // 3. BUKA KUNCI dan NYALAKAN LAMPU hanya untuk objek urutan ini saja!
                 if (data.highlightMeja != null) data.highlightMeja.MulaiKedip();
                 if (data.bendaDiMeja != null) data.bendaDiMeja.enabled = true;
                 
-                sudahAdaYangAktif = true; // Segel! Biar urutan selanjutnya gak ikutan nyala/kebuka
+                // >>> TAMBAHAN BARU: Kirim teks intruksi ke layar UI!
+                onUpdateInstruksiUI?.Invoke(data.instruksiPart);
+
+                sudahAdaYangAktif = true; 
             }
         }
     }
