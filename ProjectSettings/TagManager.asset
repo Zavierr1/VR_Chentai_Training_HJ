@@ -53,5 +53,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Gambar
+    uniqueID: 1966560007
+    locked: 0
+  - name: Panel
+    uniqueID: 2286986587
+    locked: 0
   m_RenderingLayers:
   - Default
