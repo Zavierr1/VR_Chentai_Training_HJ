@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using BNG; // Akses input VR
+using BNG;
 using TMPro;
 using System.Collections;
 
@@ -10,24 +10,26 @@ public class InputTutorialManager : MonoBehaviour
     public GameObject welcomePanel;
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI descText;
-    public Image gambarController; // Komponen UI Image untuk nampilin gambar
-    public UnityEngine.UI.Button tombolStartTutorial;
+    public Image gambarController; 
+    
+    [Tooltip("Tarik objek yang punya script MonitorCameraController ke sini")]
+    public MonitorCameraController monitorMesinUtama;
+    
+    public GameObject tombolSelesaiUI; 
 
     [Header("Assets Gambar Kontroler")]
-    public Sprite gambarAnalog;  // Gambar L1 R1
-    public Sprite gambarTrigger; // Gambar L2 R2
-    public Sprite gambarGrip;    // Gambar L3 R3
+    public Sprite gambarFullController;
+    public Sprite gambarTrigger;       
+    public Sprite gambarAnalog;         
+    public Sprite gambarGrip;
 
     [Header("Audio Feedback")]
-    public AudioSource suaraStepSukses; // Bunyi ting/klik tiap tahap beres
-    public AudioSource suaraTutorialSelesai; // Bunyi sukses besar pas selesai
+    public AudioSource suaraStepSukses;
+    public AudioSource suaraTutorialSelesai;
 
-    // >>> TAMBAHAN: Tombol Debug Khusus Developer
     [Header("Debug / Testing")]
-    [Tooltip("Tombol Next/Skip sementara untuk testing tanpa memakai headset VR")]
     public UnityEngine.UI.Button tombolNextDebug;
 
-    // Variabel internal
     private int tahapTutorial = 0; 
     private bool kiriOk = false;
     private bool kananOk = false;
@@ -35,38 +37,34 @@ public class InputTutorialManager : MonoBehaviour
     void Start()
     {
         if (welcomePanel != null) welcomePanel.SetActive(true);
-        if (tombolStartTutorial != null) tombolStartTutorial.interactable = false;
-
-        // Pastikan tombol debug aktif di awal
         if (tombolNextDebug != null) tombolNextDebug.gameObject.SetActive(true);
+        if (tombolSelesaiUI != null) tombolSelesaiUI.SetActive(false); 
 
-        // Mulai langsung dari Tahap 1
-        MulaiTahap(1); 
+        // KUNCI MESIN UTAMA DI AWAL GAME
+        if (monitorMesinUtama != null) monitorMesinUtama.KunciSistemUtama(true);
+
+        MulaiTahap(0); 
     }
 
     void Update()
     {
-        // Mengecek input berdasarkan tahap yang sedang aktif
         switch (tahapTutorial)
         {
-            case 1: // CEK ANALOG (L1/R1)
-                if (InputBridge.Instance.LeftThumbstickAxis.magnitude > 0.5f) kiriOk = true;
-                if (InputBridge.Instance.RightThumbstickAxis.magnitude > 0.5f) kananOk = true;
-                
+            case 1: 
+                if (InputBridge.Instance.LeftTrigger > 0.5f) kiriOk = true;
+                if (InputBridge.Instance.RightTrigger > 0.5f) kananOk = true;
                 if (kiriOk && kananOk) LanjutKeTahapBerikutnya(2);
                 break;
 
-            case 2: // CEK TRIGGER (L2/R2)
-                if (InputBridge.Instance.LeftTrigger > 0.5f) kiriOk = true;
-                if (InputBridge.Instance.RightTrigger > 0.5f) kananOk = true;
-                
+            case 2: 
+                if (InputBridge.Instance.LeftThumbstickAxis.magnitude > 0.5f) kiriOk = true;
+                if (InputBridge.Instance.RightThumbstickAxis.magnitude > 0.5f) kananOk = true;
                 if (kiriOk && kananOk) LanjutKeTahapBerikutnya(3);
                 break;
 
-            case 3: // CEK GRIP (L3/R3)
+            case 3: 
                 if (InputBridge.Instance.LeftGrip > 0.5f) kiriOk = true;
                 if (InputBridge.Instance.RightGrip > 0.5f) kananOk = true;
-                
                 if (kiriOk && kananOk) LanjutKeTahapBerikutnya(4);
                 break;
         }
@@ -75,78 +73,80 @@ public class InputTutorialManager : MonoBehaviour
     private void MulaiTahap(int tahap)
     {
         tahapTutorial = tahap;
-        kiriOk = false; // Reset status tangan kiri
-        kananOk = false; // Reset status tangan kanan
+        kiriOk = false; 
+        kananOk = false; 
 
         switch (tahap)
         {
-            case 1:
-                titleText.text = "PANDUAN PERGERAKAN";
-                descText.text = "Gerakkan <color=#00FFFF>Analog Kiri & Kanan</color>\n(L1 / R1) untuk mengkalibrasi ruang.";
-                if (gambarController != null && gambarAnalog != null) 
-                    gambarController.sprite = gambarAnalog;
+            case 0:
+                titleText.text = "KENALI KONTROLERMU";
+                descText.text = "Perhatikan posisi tombol pada kontroler VR-mu.";
+                if (gambarController != null && gambarFullController != null) 
+                    gambarController.sprite = gambarFullController;
+                
+                StartCoroutine(JedaTransisi(1, 5f));
                 break;
 
-            case 2:
+            case 1:
                 titleText.text = "PANDUAN INTERAKSI";
-                descText.text = "Tekan tombol <color=#00FFFF>Picu Telunjuk</color>\n(L2 / R2) untuk menekan tombol di Panel UI.";
+                descText.text = "Tekan tombol <color=#00FFFF>Trigger</color>\n(L2 / R2) untuk menekan tombol UI.";
                 if (gambarController != null && gambarTrigger != null) 
                     gambarController.sprite = gambarTrigger;
                 break;
 
+            case 2:
+                titleText.text = "PANDUAN PERGERAKAN";
+                descText.text = "Gerakkan <color=#00FFFF>Analog Kiri & Kanan</color>\n(L1 / R1) untuk bergerak dan memutar arah.";
+                if (gambarController != null && gambarAnalog != null) 
+                    gambarController.sprite = gambarAnalog;
+                break;
+
             case 3:
                 titleText.text = "PANDUAN MENGAMBIL BARANG";
-                descText.text = "Genggam tombol <color=#00FFFF>Samping Jari</color>\n(L3 / R3) untuk mengambil part mesin.";
+                descText.text = "Genggam tombol <color=#00FFFF>Grip</color>\n(L3 / R3) untuk mengambil part mesin.";
                 if (gambarController != null && gambarGrip != null) 
                     gambarController.sprite = gambarGrip;
                 break;
 
-            case 4: // SELESAI
+            case 4:
                 titleText.text = "KALIBRASI SELESAI!";
-                descText.text = "<color=green>Kerja Bagus!</color>\nSistem telah terbuka. Silakan tekan [Mulai Tutorial] di mesin utama.";
+                descText.text = "<color=green>Kerja Bagus!</color>\nSistem telah terbuka. Silakan tekan tombol 'Selesai' di bawah.";
                 
-                // Sembunyikan gambar karena sudah selesai
                 if (gambarController != null) gambarController.gameObject.SetActive(false); 
-                if (tombolStartTutorial != null) tombolStartTutorial.interactable = true;
                 if (suaraTutorialSelesai != null) suaraTutorialSelesai.Play();
-
-                // Sembunyikan tombol debug karena tutorialnya sudah kelar
                 if (tombolNextDebug != null) tombolNextDebug.gameObject.SetActive(false);
 
-                // Tutup panel otomatis setelah 3 detik
-                Invoke("TutupPanel", 3f); 
+                if (tombolSelesaiUI != null) tombolSelesaiUI.SetActive(true);
                 break;
         }
     }
 
-    // >>> FUNGSI BARU UNTUK TOMBOL DEBUG <<<
     public void LewatiTahapIniDebug()
     {
-        // Cek kita lagi di tahap berapa, lalu panggil tahap selanjutnya
-        if (tahapTutorial == 1) LanjutKeTahapBerikutnya(2);
+        if (tahapTutorial == 0) LanjutKeTahapBerikutnya(1);
+        else if (tahapTutorial == 1) LanjutKeTahapBerikutnya(2);
         else if (tahapTutorial == 2) LanjutKeTahapBerikutnya(3);
         else if (tahapTutorial == 3) LanjutKeTahapBerikutnya(4);
     }
 
     private void LanjutKeTahapBerikutnya(int tahapSelanjutnya)
     {
-        // Jeda sejenak biar ga tembus 2 tahap sekaligus
         tahapTutorial = -1; 
-
         if (suaraStepSukses != null) suaraStepSukses.Play();
-        
-        StartCoroutine(JedaTransisi(tahapSelanjutnya));
+        StartCoroutine(JedaTransisi(tahapSelanjutnya, 0.5f));
     }
 
-    private IEnumerator JedaTransisi(int tahapSelanjutnya)
+    private IEnumerator JedaTransisi(int tahapSelanjutnya, float lamaJeda)
     {
-        // Jeda sangat singkat (setengah detik) memberi kesan transisi yang mulus
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(lamaJeda);
         MulaiTahap(tahapSelanjutnya);
     }
 
-    private void TutupPanel()
+    public void TutupWelcomePanel()
     {
         if (welcomePanel != null) welcomePanel.SetActive(false);
+        
+        // BUKA KUNCI MESIN UTAMA SETELAH TUTORIAL SELESAI
+        if (monitorMesinUtama != null) monitorMesinUtama.KunciSistemUtama(false);
     }
 }
