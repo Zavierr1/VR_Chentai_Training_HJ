@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events; // >>> TAMBAHAN: Wajib untuk sistem Event UI
 
 public class NPCFactoryShow : MonoBehaviour
 {
@@ -38,6 +39,11 @@ public class NPCFactoryShow : MonoBehaviour
     [Header("Debug")]
     public bool autoStartOnPlay = true;
 
+    // >>> TAMBAHAN BARU: Event untuk memicu UI Pop-Out
+    [Header("Event UI & Interaksi")]
+    [Tooltip("Apa yang terjadi setelah NPC selesai memencet tombol? (Misal: Munculkan UI Pop Out)")]
+    public UnityEvent onNPCSelesaiMencetTombol;
+
     void Start()
     {
         if (autoStartOnPlay)
@@ -54,8 +60,6 @@ public class NPCFactoryShow : MonoBehaviour
         yield return new WaitForSeconds(0.1f); 
         enableFootIK = true;
 
-        // 0. SIMPAN POSISI & ROTASI AWAL
-        // Ini agar kita tahu arah hadap awal sebelum dia mulai jalan
         Quaternion rotasiAwalStandby = transform.rotation;
 
         // 1. JALAN KE MESIN
@@ -64,8 +68,6 @@ public class NPCFactoryShow : MonoBehaviour
         anim.SetTrigger("Walk");
         yield return StartCoroutine(JalanMaju(durasiJalanKeMesin));
 
-        // 1.5 SIMPAN ROTASI DI DEPAN MESIN
-        // Penting untuk jadi patokan balik badan nanti
         Quaternion rotasiDiMesin = transform.rotation;
 
         // 2. PENCET TOMBOL
@@ -74,10 +76,12 @@ public class NPCFactoryShow : MonoBehaviour
         anim.SetTrigger("PushButton");
         yield return new WaitForSeconds(durasiPencetTombol);
 
+        // >>> PANGGIL EVENT POP-OUT UI DI SINI <<<
+        // Tepat setelah NPC selesai memencet tombol, dia akan memberi sinyal untuk memunculkan layar UI!
+        onNPCSelesaiMencetTombol?.Invoke();
+
         // 3. MENGHADAP PEMAIN (KAMERA)
         Debug.Log("[NPC] 3. Nengok ke arah kamera/pemain...");
-        
-        // Fallback otomatis jika kamu lupa isi di Inspector, dia akan cari MainCamera
         if (targetPemain == null && Camera.main != null) 
             targetPemain = Camera.main.transform; 
             
@@ -94,7 +98,6 @@ public class NPCFactoryShow : MonoBehaviour
 
         // 5. PUTAR BADAN BALIK UNTUK PULANG
         Debug.Log("[NPC] 5. Balik badan untuk pulang...");
-        // Dia putar balik sejauh 180 derajat dari rotasinya saat MENGHADAP MESIN tadi
         Quaternion rotasiPulang = rotasiDiMesin * Quaternion.Euler(0, 180f, 0);
         yield return StartCoroutine(PutarKeRotasi(rotasiPulang));
 
@@ -109,17 +112,13 @@ public class NPCFactoryShow : MonoBehaviour
         anim.ResetTrigger("Walk");
         anim.SetTrigger("Idle");
         
-        // Putar badan ke arah conveyor (berdasarkan posisi awalnya dulu ditambah pengaturanmu)
         Quaternion rotasiAkhir = rotasiAwalStandby * Quaternion.Euler(0, sudutMenghadapConveyor, 0);
         yield return StartCoroutine(PutarKeRotasi(rotasiAkhir));
     }
 
-    // --- FUNGSI BARU: Nengok Langsung Ke Object Target ---
     private IEnumerator PutarMenghadap(Transform target)
     {
-        // Cari arah ke kamera
         Vector3 arahKeTarget = target.position - transform.position;
-        // Kunci sumbu Y agar NPC tidak mendongak ke atas atau nunduk ke bawah
         arahKeTarget.y = 0; 
         
         if (arahKeTarget != Vector3.zero)
@@ -129,7 +128,6 @@ public class NPCFactoryShow : MonoBehaviour
         }
     }
 
-    // --- FUNGSI MENDORONG MAJU ---
     private IEnumerator JalanMaju(float durasi)
     {
         float timer = 0f;
@@ -141,7 +139,6 @@ public class NPCFactoryShow : MonoBehaviour
         }
     }
 
-    // --- FUNGSI ROTASI PRESISI ---
     private IEnumerator PutarKeRotasi(Quaternion targetRotasi)
     {
         while (Quaternion.Angle(transform.rotation, targetRotasi) > 0.5f)
@@ -152,7 +149,6 @@ public class NPCFactoryShow : MonoBehaviour
         transform.rotation = targetRotasi; 
     }
 
-    // --- IK SCRIPT (TETAP SAMA) ---
     private void OnAnimatorIK(int layerIndex)
     {
         if (anim == null) return;

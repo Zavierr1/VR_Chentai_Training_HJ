@@ -3103,7 +3103,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &156553414
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5220,11 +5220,10 @@ MonoBehaviour:
   tombolPartA: {fileID: 1973525888}
   tombolPartB: {fileID: 1979025789}
   tombolPartC: {fileID: 562022985}
-  tombolPanelControl: {fileID: 840519707}
   tombolBack: {fileID: 345029540}
   tombolNext: {fileID: 188530662}
   tombolFinish: {fileID: 0}
-  namaSceneBerikutnya: 0
+  namaSceneBerikutnya: 
   panelLegenda: {fileID: 723378546}
   textLegenda: {fileID: 1211878254}
   tombolNextSlide: {fileID: 519957521}
@@ -5293,89 +5292,13 @@ MonoBehaviour:
     - {fileID: 129703629}
     - {fileID: 8678155321557781750}
     - {fileID: 7869922822016874867}
-  panelLegendaKiri: {fileID: 1967997209}
-  textLegendaKiri: {fileID: 1967997208}
-  tombolNextSlideKiri: {fileID: 1967997207}
-  tombolPrevSlideKiri: {fileID: 1967997206}
-  slidePanelControl:
-  - teksLegenda: 'A. Motor control
-
-
-      Mengatur kecepatan motor menyesuaikan
-      untuk proses stripping'
-    uiTitik: {fileID: 0}
-    mesinHighlight: []
-  - teksLegenda: 'B. Motor power on
-
-
-      Menyalakan motor sehingga sealing roll
-      berputar'
-    uiTitik: {fileID: 0}
-    mesinHighlight: []
-  - teksLegenda: 'C. Motor power off
-
-
-      Menghentikan perputaran motor sehingga
-      sealing roll berhenti '
-    uiTitik: {fileID: 0}
-    mesinHighlight: []
-  - teksLegenda: 'D. Indicator vibrator & Saklar Vibrator
-
-
-      Indikator saklar
-      vibrator menyala atau mati & Menyalakan atau mematikan vibrator '
-    uiTitik: {fileID: 0}
-    mesinHighlight:
-    - {fileID: 0}
-    - {fileID: 0}
-  - teksLegenda: 'E. Indicator cutter & Saklar cutter
-
-
-      Indikator saklar cutter
-      menyala atau mati & Menyalakan atau mematikan sistem cutting '
-    uiTitik: {fileID: 0}
-    mesinHighlight: []
-  - teksLegenda: 'F. Indicator heater A&B & Saklar Heater A&B
-
-
-      Indikator saklar
-      heater A & B menyala atau mati & Menyalakan atau mematikan heater A & B '
-    uiTitik: {fileID: 0}
-    mesinHighlight: []
-  - teksLegenda: "G. Indicator printer & Saklar printer\n \nIndikator saklar hitachi
-      menyala atau mati & Menyalakan atau mematikan proses print"
-    uiTitik: {fileID: 0}
-    mesinHighlight: []
-  - teksLegenda: 'H. Indicator sensor foil & Saklar Sensor Foil
-
-
-      Indikator
-      saklar sensor foil menyala atau mati & Menyalakan atau mematikan proses deteksi
-      foil '
-    uiTitik: {fileID: 0}
-    mesinHighlight: []
-  - teksLegenda: 'I. Alarm sealing
-
-
-      Indikator jika terjadi penyimpangan selama
-      proses'
-    uiTitik: {fileID: 0}
-    mesinHighlight: []
-  - teksLegenda: 'J. Saklar panel
-
-
-      Mengatur sistem operasi mesin pada kondisi
-      on/off'
-    uiTitik: {fileID: 0}
-    mesinHighlight: []
-  tampilkanSemuaTitik: 1
+  tampilkanSemuaTitik: 0
   targetDefault: {fileID: 1569334975}
   targetInfoAtas: {fileID: 1170232932}
   targetInfoBawah: {fileID: 2145081115}
   targetPartA: {fileID: 922176583}
   targetPartB: {fileID: 1480624487}
   targetPartC: {fileID: 1688414074}
-  targetPanelControl: {fileID: 2015723723}
   transisiDurasi: 1
   isSedangKalibrasiVR: 0
 --- !u!1 &234940980
@@ -15747,7 +15670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &840519706
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28272,6 +28195,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 3719865058671406943, guid: 4ac7df741a9c0a2418ec19477729ee3d,
+        type: 3}
+      propertyPath: RotationType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3724862853233925068, guid: 4ac7df741a9c0a2418ec19477729ee3d,
         type: 3}
       propertyPath: m_Layer
@@ -33245,7 +33173,7 @@ PrefabInstance:
     - target: {fileID: 8416742705891564269, guid: 4ac7df741a9c0a2418ec19477729ee3d,
         type: 3}
       propertyPath: CharacterControllerYOffset
-      value: 0.25
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 8419555373665091583, guid: 4ac7df741a9c0a2418ec19477729ee3d,
         type: 3}
@@ -39693,7 +39621,7 @@ GameObject:
   - component: {fileID: 1349042983}
   - component: {fileID: 1349042982}
   m_Layer: 20
-  m_Name: Text_A
+  m_Name: Text_F
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39738,7 +39666,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A
+  m_text: F
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -45461,7 +45389,7 @@ MonoBehaviour:
   gambarGrip: {fileID: 21300000, guid: e6780371efdf4f04883f6ceb858e8de2, type: 3}
   suaraStepSukses: {fileID: 0}
   suaraTutorialSelesai: {fileID: 0}
-  tombolNextDebug: {fileID: 0}
+  tombolNextDebug: {fileID: 156553415}
 --- !u!1 &1767019940
 GameObject:
   m_ObjectHideFlags: 0
@@ -48554,6 +48482,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Legend (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5972336995188595692, guid: 246c1b7c62b40ce4a9f2ee3f665179ac,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6066923999795279026, guid: 246c1b7c62b40ce4a9f2ee3f665179ac,
         type: 3}
       propertyPath: m_fontStyle
@@ -48582,48 +48515,6 @@ PrefabInstance:
 --- !u!224 &1967997205 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 464893335972827354, guid: 246c1b7c62b40ce4a9f2ee3f665179ac,
-    type: 3}
-  m_PrefabInstance: {fileID: 1967997204}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1967997206 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2212512908131872533, guid: 246c1b7c62b40ce4a9f2ee3f665179ac,
-    type: 3}
-  m_PrefabInstance: {fileID: 1967997204}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
---- !u!114 &1967997207 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3170489541761056789, guid: 246c1b7c62b40ce4a9f2ee3f665179ac,
-    type: 3}
-  m_PrefabInstance: {fileID: 1967997204}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
---- !u!114 &1967997208 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5418237391234325200, guid: 246c1b7c62b40ce4a9f2ee3f665179ac,
-    type: 3}
-  m_PrefabInstance: {fileID: 1967997204}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &1967997209 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5972336995188595692, guid: 246c1b7c62b40ce4a9f2ee3f665179ac,
     type: 3}
   m_PrefabInstance: {fileID: 1967997204}
   m_PrefabAsset: {fileID: 0}
@@ -49089,7 +48980,7 @@ GameObject:
   - component: {fileID: 1984626981}
   - component: {fileID: 1984626980}
   m_Layer: 20
-  m_Name: Text_B
+  m_Name: Text_G
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49134,7 +49025,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: B
+  m_text: G
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
