@@ -376,7 +376,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 16107501}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.8}
+  m_LocalPosition: {x: 0, y: 0, z: -1.8000003}
   m_LocalScale: {x: 0.12725952, y: 0.2373135, z: 0.23731351}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -385,7 +385,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 37.2, y: -39.299973}
+  m_AnchoredPosition: {x: 34.999977, y: -39.299973}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &16107503
@@ -1054,7 +1054,7 @@ GameObject:
   - component: {fileID: 50607650}
   - component: {fileID: 50607652}
   - component: {fileID: 50607651}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: GambarAsli
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1069,7 +1069,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 50607649}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 2.5636866, y: 0.68327665, z: 1.0071}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1077,7 +1077,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -99, y: 0}
+  m_AnchoredPosition: {x: -94.9, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &50607651
@@ -1976,6 +1976,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122699279}
   m_Mesh: {fileID: -8330774551369914033, guid: 943fdf2df67d32a4381af0f5ca6a681f, type: 3}
+--- !u!1 &127441037 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fdfc0bb12e9113543ab195b8e26f0e44,
+    type: 3}
+  m_PrefabInstance: {fileID: 272196963}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &129703625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2861,7 +2867,7 @@ GameObject:
   - component: {fileID: 154967409}
   - component: {fileID: 154967411}
   - component: {fileID: 154967410}
-  m_Layer: 5
+  m_Layer: 22
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3342,7 +3348,7 @@ GameObject:
   - component: {fileID: 156553417}
   - component: {fileID: 156553416}
   - component: {fileID: 156553415}
-  m_Layer: 5
+  m_Layer: 22
   m_Name: StartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3567,12 +3573,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.47720346, b: 0.4792453, a: 1}
-  otomatisAmbilWarnaDasar: 1
+  objekRenderer: {fileID: 158167711}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
+  otomatisAmbilWarnaDasar: 0
   intensitasWarnaDiam: 0.3
-  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  warnaDiam: {r: 1, g: 1, b: 1, a: 1}
+  kecepatan: 2
 --- !u!1 &169132116
 GameObject:
   m_ObjectHideFlags: 0
@@ -3965,7 +3971,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188530661}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.7999995}
+  m_LocalPosition: {x: 0, y: 0, z: -1.8}
   m_LocalScale: {x: 0.12725952, y: 0.2373135, z: 0.23731351}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3974,7 +3980,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 37.200024, y: -39.299973}
+  m_AnchoredPosition: {x: 35, y: -39.299973}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &192540984
@@ -5367,7 +5373,7 @@ GameObject:
   - component: {fileID: 228898864}
   - component: {fileID: 228898866}
   - component: {fileID: 228898865}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5519,7 +5525,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 229879262}
   m_LocalRotation: {x: -0.34270638, y: 0.60443795, z: -0.33397704, w: -0.63691956}
-  m_LocalPosition: {x: 0, y: 0, z: 127.2}
+  m_LocalPosition: {x: 0, y: 0, z: 130.4}
   m_LocalScale: {x: 0.02391317, y: 0.02391317, z: 0.02391317}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5528,7 +5534,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 57.171, y: -86.36, z: 1.178}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 64.2, y: 1.2}
+  m_AnchoredPosition: {x: 64.3, y: 1.2}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &229879264
@@ -5785,7 +5791,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 232044221}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd21d2d76305d23429cab4692a90d050, type: 3}
   m_Name: 
@@ -5839,36 +5845,60 @@ MonoBehaviour:
     mesinHighlight:
     - {fileID: 7836788912853660114}
     - {fileID: 6593533372474994888}
-  - teksLegenda: 'F. Indicator Heater A&B ; Saklar Heater A&B
+  - teksLegenda: 'F. Indicator Cut Hole & Saklar Cut Hole
 
 
-      Indicator saklar
-      heater A&B menyala atau mati ; Menyalakan atau mematikan heater A&B '
+      Indicator Cut Hole
+      menyala atau mati ; Menyalakan atau mematikan Cut Hole '
     uiTitik: {fileID: 1213208941}
     mesinHighlight:
     - {fileID: 6845710821020653368}
     - {fileID: 9003598024029585288}
-  - teksLegenda: 'G. Indicator Printer & Saklar Printer
+  - teksLegenda: 'G. Indicator No & Saklar No
 
 
-      Indicator saklar
-      hitachi menyala atau mati & Menyalakan atau mematikan proses print '
+      Indicator saklar No menyala
+      atau mati & Menyalakan atau mematikan proses No '
     uiTitik: {fileID: 511484781}
     mesinHighlight:
-    - {fileID: 0}
-    - {fileID: 0}
-  - teksLegenda: 'A.  '
-    uiTitik: {fileID: 0}
-    mesinHighlight: []
-  - teksLegenda: 'A.  '
-    uiTitik: {fileID: 0}
-    mesinHighlight: []
-  - teksLegenda: 'A.  '
-    uiTitik: {fileID: 0}
-    mesinHighlight: []
-  - teksLegenda: 'A.  '
-    uiTitik: {fileID: 0}
-    mesinHighlight: []
+    - {fileID: 1087846249}
+    - {fileID: 7656122710415352094}
+  - teksLegenda: 'H. Indicator Pre Heater & Saklar Pre Heater
+
+
+      Indicator Pre
+      Heater menyala atau mati & Menyalakan atau mematikan Pre Heater'
+    uiTitik: {fileID: 938973244}
+    mesinHighlight:
+    - {fileID: 1767019944}
+    - {fileID: 7155039697720840148}
+  - teksLegenda: 'I. Indicator Poller Heater A&B ; Saklar Poller Heater A&B
+
+
+      Indicator
+      Poller Heater A&B menyala atau mati ; Menyalakan atau mematikan Poller Heater
+      A&B'
+    uiTitik: {fileID: 229879262}
+    mesinHighlight:
+    - {fileID: 836572015}
+    - {fileID: 8565566201260748514}
+    - {fileID: 158167713}
+    - {fileID: 8306864355938166071}
+  - teksLegenda: 'J. Saklar Source
+
+
+      Menyalakan atau mematikan source '
+    uiTitik: {fileID: 1490737897}
+    mesinHighlight:
+    - {fileID: 272196967}
+  - teksLegenda: 'K. Saklar Panel
+
+
+      Mengatur sistem operasi mesin pada kondisi
+      on/off '
+    uiTitik: {fileID: 746768053}
+    mesinHighlight:
+    - {fileID: 1057399621}
 --- !u!1 &234940980
 GameObject:
   m_ObjectHideFlags: 0
@@ -5971,7 +6001,7 @@ GameObject:
   - component: {fileID: 238191392}
   - component: {fileID: 238191391}
   - component: {fileID: 238191390}
-  m_Layer: 5
+  m_Layer: 22
   m_Name: SelesaiButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6497,7 +6527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 264768931}
-  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -6604,7 +6634,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6805112840763613080}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fdfc0bb12e9113543ab195b8e26f0e44,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 272196967}
   m_SourcePrefab: {fileID: 100100000, guid: fdfc0bb12e9113543ab195b8e26f0e44, type: 3}
 --- !u!4 &272196964 stripped
 Transform:
@@ -6612,6 +6646,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 272196963}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &272196965 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: fdfc0bb12e9113543ab195b8e26f0e44,
+    type: 3}
+  m_PrefabInstance: {fileID: 272196963}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &272196967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127441037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
+  objekRenderer: {fileID: 272196965}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 2
 --- !u!1 &278444356
 GameObject:
   m_ObjectHideFlags: 0
@@ -6642,7 +6700,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MachineController
   isMachineOn: 0
-  autoStartForDebug: 0
+  autoStartForDebug: 1
   otomatisNyalaOlehNPC: 1
   delayOtomatisNyala: 4.2
   forceOffComponentsOnStart: 1
@@ -9945,7 +10003,7 @@ GameObject:
   - component: {fileID: 500895048}
   - component: {fileID: 500895047}
   - component: {fileID: 500895046}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: Close_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9960,7 +10018,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 500895044}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0000000057219}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 0.47957274, y: 0.3791563, z: 2.240818}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9969,7 +10027,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 230.27, y: 47.9}
+  m_AnchoredPosition: {x: -291, y: 70.8}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &500895046
@@ -11418,7 +11476,7 @@ Transform:
   m_GameObject: {fileID: 552553113}
   serializedVersion: 2
   m_LocalRotation: {x: 0.042138077, y: -0.709638, z: 0.042660806, w: 0.7020103}
-  m_LocalPosition: {x: 3.10808, y: 0.43425167, z: -0.347}
+  m_LocalPosition: {x: 3.11, y: 0.434, z: -0.485}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11541,7 +11599,7 @@ GameObject:
   - component: {fileID: 562022986}
   - component: {fileID: 562022985}
   m_Layer: 5
-  m_Name: Button__PartC
+  m_Name: Button_PartC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11564,7 +11622,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -36.499985, y: -26.99999}
+  m_AnchoredPosition: {x: -36.499985, y: -28.5}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &562022985
@@ -13725,7 +13783,7 @@ GameObject:
   - component: {fileID: 663723254}
   - component: {fileID: 663723256}
   - component: {fileID: 663723255}
-  m_Layer: 5
+  m_Layer: 22
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14062,7 +14120,10 @@ GameObject:
   - component: {fileID: 681013314}
   - component: {fileID: 681013313}
   - component: {fileID: 681013312}
-  m_Layer: 5
+  - component: {fileID: 681013316}
+  - component: {fileID: 681013315}
+  - component: {fileID: 681013317}
+  m_Layer: 21
   m_Name: ContorPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14114,8 +14175,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 681013311}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -148.40019}
+  m_LocalRotation: {x: -0, y: 0.047981404, z: -0, w: 0.9988483}
+  m_LocalPosition: {x: 0, y: 0, z: -149.4}
   m_LocalScale: {x: 0.28617746, y: 1.0972178, z: 0.73837}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14123,12 +14184,167 @@ RectTransform:
   - {fileID: 1883942267}
   - {fileID: 50607650}
   m_Father: {fileID: 232044225}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 5.5, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -49.100048, y: -28.979996}
+  m_AnchoredPosition: {x: -28.3, y: -28.979996}
   m_SizeDelta: {x: -26.99997, y: -155}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &681013315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681013311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &681013316
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681013311}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &681013317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681013311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd21d2d76305d23429cab4692a90d050, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PopOutPanelController
+  panelUIUtama: {fileID: 681013311}
+  popOutCamera: {fileID: 151018405}
+  layar3D: {fileID: 1432771807}
+  layarFotoAsli: {fileID: 50607649}
+  textLegenda: {fileID: 2023631896}
+  tombolNext: {fileID: 1178409520}
+  tombolPrev: {fileID: 1258500364}
+  tombolClose: {fileID: 500895046}
+  tombolToggleVisual: {fileID: 1793141994}
+  daftarSlide:
+  - teksLegenda: 'A. Motor Control
+
+
+      Mengatur kecepatan motor untuk menyesuaikan
+      proses stripping '
+    uiTitik: {fileID: 1521323647}
+    mesinHighlight:
+    - {fileID: 1268632003}
+  - teksLegenda: 'B. Motor Power On
+
+
+      Menyalakan motor sehingga sealing roll
+      berputar '
+    uiTitik: {fileID: 1943140114}
+    mesinHighlight:
+    - {fileID: 1636836820}
+  - teksLegenda: 'C. Motor Power Off
+
+
+      Menghentikan perputaran motor sehingga
+      sealing roll berhenti berputar '
+    uiTitik: {fileID: 620195816}
+    mesinHighlight:
+    - {fileID: 1915236250}
+  - teksLegenda: "D. Indicator Vibrator & Saklar Vibrator\n\nIndicator saklar vibrator
+      menyala atau mati & Menyalakan atau mematikan Vibrator\n "
+    uiTitik: {fileID: 984640455}
+    mesinHighlight:
+    - {fileID: 7953120689855119242}
+    - {fileID: 6769665458712157194}
+  - teksLegenda: 'E. Indicator Cutter & Saklar Cutter
+
+
+      Indicatpr saklar cutter
+      menyala atau mati & Menyalakan atau mematikan sistem cutting '
+    uiTitik: {fileID: 1532849239}
+    mesinHighlight:
+    - {fileID: 7836788912853660114}
+    - {fileID: 6593533372474994888}
+  - teksLegenda: 'F. Indicator Cut Hole & Saklar Cut Hole
+
+
+      Indicator Cut Hole
+      menyala atau mati ; Menyalakan atau mematikan Cut Hole '
+    uiTitik: {fileID: 1213208941}
+    mesinHighlight:
+    - {fileID: 6845710821020653368}
+    - {fileID: 9003598024029585288}
+  - teksLegenda: 'G. Indicator No & Saklar No
+
+
+      Indicator saklar No menyala
+      atau mati & Menyalakan atau mematikan proses No '
+    uiTitik: {fileID: 511484781}
+    mesinHighlight:
+    - {fileID: 1087846249}
+    - {fileID: 7656122710415352094}
+  - teksLegenda: 'H. Indicator Pre Heater & Saklar Pre Heater
+
+
+      Indicator Pre
+      Heater menyala atau mati & Menyalakan atau mematikan Pre Heater'
+    uiTitik: {fileID: 938973244}
+    mesinHighlight:
+    - {fileID: 1767019944}
+    - {fileID: 7155039697720840148}
+  - teksLegenda: 'I. Indicator Poller Heater A&B ; Saklar Poller Heater A&B
+
+
+      Indicator
+      Poller Heater A&B menyala atau mati ; Menyalakan atau mematikan Poller Heater
+      A&B'
+    uiTitik: {fileID: 229879262}
+    mesinHighlight:
+    - {fileID: 836572015}
+    - {fileID: 8565566201260748514}
+    - {fileID: 158167713}
+    - {fileID: 8306864355938166071}
+  - teksLegenda: 'J. Saklar Source
+
+
+      Menyalakan atau mematikan source '
+    uiTitik: {fileID: 1490737897}
+    mesinHighlight:
+    - {fileID: 272196967}
+  - teksLegenda: 'K. Saklar Panel
+
+
+      Mengatur sistem operasi mesin pada kondisi
+      on/off '
+    uiTitik: {fileID: 746768053}
+    mesinHighlight:
+    - {fileID: 1057399621}
 --- !u!1 &693443039
 GameObject:
   m_ObjectHideFlags: 0
@@ -16681,12 +16897,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.47720346, b: 0.4792453, a: 1}
-  otomatisAmbilWarnaDasar: 1
+  objekRenderer: {fileID: 836572013}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
+  otomatisAmbilWarnaDasar: 0
   intensitasWarnaDiam: 0.3
-  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  warnaDiam: {r: 1, g: 1, b: 1, a: 1}
+  kecepatan: 2
 --- !u!1 &840519705
 GameObject:
   m_ObjectHideFlags: 0
@@ -19091,7 +19307,7 @@ GameObject:
   - component: {fileID: 976970643}
   - component: {fileID: 976970645}
   - component: {fileID: 976970644}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28459,7 +28675,7 @@ PrefabInstance:
     - target: {fileID: 2683195716760517856, guid: 4ac7df741a9c0a2418ec19477729ee3d,
         type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 262143
+      value: 6553599
       objectReference: {fileID: 0}
     - target: {fileID: 2683195716791022644, guid: 4ac7df741a9c0a2418ec19477729ee3d,
         type: 3}
@@ -35681,6 +35897,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011d56aa06d7a2445bc42b702df33a68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PartLabelButton
+--- !u!1 &1057399617 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fdfc0bb12e9113543ab195b8e26f0e44,
+    type: 3}
+  m_PrefabInstance: {fileID: 1433969577}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1057399618 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: fdfc0bb12e9113543ab195b8e26f0e44,
+    type: 3}
+  m_PrefabInstance: {fileID: 1433969577}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1057399621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057399617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
+  objekRenderer: {fileID: 1057399618}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
+  otomatisAmbilWarnaDasar: 1
+  intensitasWarnaDiam: 0.3
+  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
+  kecepatan: 2
 --- !u!1 &1060877436
 GameObject:
   m_ObjectHideFlags: 0
@@ -36296,12 +36542,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.5169811, b: 0.5169811, a: 1}
+  objekRenderer: {fileID: 1087846250}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  kecepatan: 2
+--- !u!23 &1087846250 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 6a59f74e86e9ead45b610530d9c4c0f5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1676003450}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1105992481
 GameObject:
   m_ObjectHideFlags: 0
@@ -36609,7 +36861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 1138513117}
-  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -37304,7 +37556,7 @@ GameObject:
   - component: {fileID: 1178409522}
   - component: {fileID: 1178409521}
   - component: {fileID: 1178409520}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: Button_Next
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38640,8 +38892,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCFactoryShow
   anim: {fileID: 1258284060}
-  walkSpeed: 1
-  turnSpeed: 5
+  walkSpeed: 0.5
+  turnSpeed: 10
   targetPemain: {fileID: 1487329260}
   durasiJalanKeMesin: 2.5
   durasiJalanKembali: 2.5
@@ -38654,14 +38906,14 @@ MonoBehaviour:
     m_Bits: 8
   footOffset: 0.05
   ikWeight: 1
-  autoStartOnPlay: 0
+  autoStartOnPlay: 1
   onNPCSelesaiMencetTombol:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 681013311}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 681013317}
+        m_TargetAssemblyTypeName: PopOutPanelController, Assembly-CSharp
+        m_MethodName: ShowPanel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -38682,7 +38934,7 @@ GameObject:
   - component: {fileID: 1258500366}
   - component: {fileID: 1258500365}
   - component: {fileID: 1258500364}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: Button_Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38974,12 +39226,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.5169811, b: 0.5169811, a: 1}
+  objekRenderer: {fileID: 1268632004}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  kecepatan: 2
+--- !u!23 &1268632004 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 33c201baea0ac1f4db74ad74d38c976c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1446170890}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1269698685
 GameObject:
   m_ObjectHideFlags: 0
@@ -39320,7 +39578,7 @@ GameObject:
   - component: {fileID: 1287689909}
   - component: {fileID: 1287689911}
   - component: {fileID: 1287689910}
-  m_Layer: 5
+  m_Layer: 22
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39985,7 +40243,7 @@ GameObject:
   - component: {fileID: 1302313256}
   - component: {fileID: 1302313257}
   - component: {fileID: 1302313258}
-  m_Layer: 5
+  m_Layer: 22
   m_Name: Desc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41832,7 +42090,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 1369041478}
-  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -42475,7 +42733,7 @@ GameObject:
   - component: {fileID: 1432771808}
   - component: {fileID: 1432771810}
   - component: {fileID: 1432771809}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: RawImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42547,27 +42805,27 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: fdfc0bb12e9113543ab195b8e26f0e44,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.085151
+      value: 0.081538044
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fdfc0bb12e9113543ab195b8e26f0e44,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.085151
+      value: 0.081538044
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fdfc0bb12e9113543ab195b8e26f0e44,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.085151
+      value: 0.081538044
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fdfc0bb12e9113543ab195b8e26f0e44,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.287
+      value: -0.2886
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fdfc0bb12e9113543ab195b8e26f0e44,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.051
+      value: -0.051171
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fdfc0bb12e9113543ab195b8e26f0e44,
         type: 3}
@@ -42627,7 +42885,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fdfc0bb12e9113543ab195b8e26f0e44,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1057399621}
   m_SourcePrefab: {fileID: 100100000, guid: fdfc0bb12e9113543ab195b8e26f0e44, type: 3}
 --- !u!1 &1438634953
 GameObject:
@@ -42934,7 +43196,7 @@ GameObject:
   - component: {fileID: 1442523209}
   - component: {fileID: 1442523211}
   - component: {fileID: 1442523210}
-  m_Layer: 5
+  m_Layer: 22
   m_Name: Panel_POV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44331,7 +44593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 1508120350}
-  warnaGlow: {r: 0, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -44733,7 +44995,7 @@ GameObject:
   - component: {fileID: 1530765181}
   - component: {fileID: 1530765183}
   - component: {fileID: 1530765182}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44948,7 +45210,7 @@ GameObject:
   - component: {fileID: 1538753806}
   - component: {fileID: 1538753808}
   - component: {fileID: 1538753807}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46506,12 +46768,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.5396226, b: 0.5396226, a: 1}
+  objekRenderer: {fileID: 1636836818}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  kecepatan: 2
 --- !u!1 &1643011247
 GameObject:
   m_ObjectHideFlags: 0
@@ -47515,7 +47777,7 @@ GameObject:
   - component: {fileID: 1761699457}
   - component: {fileID: 1761699456}
   - component: {fileID: 1761699460}
-  m_Layer: 5
+  m_Layer: 22
   m_Name: Canvas_TutorialController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47735,12 +47997,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.47720346, b: 0.4792453, a: 1}
-  otomatisAmbilWarnaDasar: 1
+  objekRenderer: {fileID: 1767019942}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
+  otomatisAmbilWarnaDasar: 0
   intensitasWarnaDiam: 0.3
-  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  warnaDiam: {r: 1, g: 1, b: 1, a: 1}
+  kecepatan: 2
 --- !u!1 &1769390573
 GameObject:
   m_ObjectHideFlags: 0
@@ -48428,7 +48690,7 @@ GameObject:
   - component: {fileID: 1793141996}
   - component: {fileID: 1793141995}
   - component: {fileID: 1793141994}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: Toggle_FotoAsli
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49386,7 +49648,7 @@ GameObject:
   - component: {fileID: 1883942267}
   - component: {fileID: 1883942269}
   - component: {fileID: 1883942268}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50262,12 +50524,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.5396226, b: 0.5396226, a: 1}
-  otomatisAmbilWarnaDasar: 1
+  objekRenderer: {fileID: 1915236248}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
+  otomatisAmbilWarnaDasar: 0
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  kecepatan: 2
 --- !u!1 &1919127447
 GameObject:
   m_ObjectHideFlags: 0
@@ -50553,7 +50815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 1941980868}
-  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -50771,7 +51033,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 1953661583}
-  warnaGlow: {r: 0, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -51368,7 +51630,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -36.499985, y: -17.799978}
+  m_AnchoredPosition: {x: -36.499985, y: -18.8}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1979025789
@@ -52071,7 +52333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 2014668550}
-  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -52204,7 +52466,7 @@ GameObject:
   - component: {fileID: 2023631895}
   - component: {fileID: 2023631897}
   - component: {fileID: 2023631896}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52277,12 +52539,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
+  m_fontSize: 35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 40
+  m_fontSizeMax: 35
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -52316,7 +52578,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -195.17056, w: -334.22333}
+  m_margin: {x: 0, y: 0, z: -195.17056, w: -317.72015}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -53083,7 +53345,7 @@ GameObject:
   - component: {fileID: 2059175419}
   - component: {fileID: 2059175420}
   - component: {fileID: 2059175421}
-  m_Layer: 5
+  m_Layer: 22
   m_Name: PlateforImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54782,7 +55044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 2117581897}
-  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -63288,7 +63550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 559928795652500225}
-  warnaGlow: {r: 0, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -66085,12 +66347,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.47720346, b: 0.4792453, a: 1}
+  objekRenderer: {fileID: 1008647456553555469}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  kecepatan: 2
 --- !u!4 &6606475352968067987
 Transform:
   m_ObjectHideFlags: 0
@@ -66368,12 +66630,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.47720346, b: 0.4792453, a: 1}
-  otomatisAmbilWarnaDasar: 1
+  objekRenderer: {fileID: 5168063987856257533}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
+  otomatisAmbilWarnaDasar: 0
   intensitasWarnaDiam: 0.3
-  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  warnaDiam: {r: 1, g: 1, b: 1, a: 1}
+  kecepatan: 2
 --- !u!33 &6772912781951164864
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -66638,7 +66900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 338301556746786193}
-  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -66720,12 +66982,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.47720346, b: 0.4792453, a: 1}
-  otomatisAmbilWarnaDasar: 1
+  objekRenderer: {fileID: 1091269328525796759}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
+  otomatisAmbilWarnaDasar: 0
   intensitasWarnaDiam: 0.3
-  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  warnaDiam: {r: 1, g: 1, b: 1, a: 1}
+  kecepatan: 2
 --- !u!1 &6855977465892348463
 GameObject:
   m_ObjectHideFlags: 0
@@ -67378,12 +67640,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.47720346, b: 0.4792453, a: 1}
+  objekRenderer: {fileID: 864328165192370012}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  kecepatan: 2
 --- !u!23 &7206947332664911713
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -67800,7 +68062,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 7469660299761587078}
-  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -68149,12 +68411,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.47720346, b: 0.4792453, a: 1}
+  objekRenderer: {fileID: 7656122710415352093}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  kecepatan: 2
 --- !u!33 &7723744391547602701
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -68274,12 +68536,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.47720346, b: 0.4792453, a: 1}
-  otomatisAmbilWarnaDasar: 1
+  objekRenderer: {fileID: 7836788912853660113}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
+  otomatisAmbilWarnaDasar: 0
   intensitasWarnaDiam: 0.3
-  warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  warnaDiam: {r: 1, g: 1, b: 1, a: 1}
+  kecepatan: 2
 --- !u!4 &7854271393257541108
 Transform:
   m_ObjectHideFlags: 0
@@ -68455,7 +68717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 7869922822016874866}
-  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -68506,12 +68768,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.47720346, b: 0.4792453, a: 1}
+  objekRenderer: {fileID: 2619018765312913858}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  kecepatan: 2
 --- !u!23 &7955247897813534725
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -68980,12 +69242,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.47720346, b: 0.4792453, a: 1}
+  objekRenderer: {fileID: 4534030335054891332}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  kecepatan: 2
 --- !u!33 &8340875736840923520
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -69389,12 +69651,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.47720346, b: 0.4792453, a: 1}
+  objekRenderer: {fileID: 5960526046228002232}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  kecepatan: 2
 --- !u!1 &8565738136801454047
 GameObject:
   m_ObjectHideFlags: 0
@@ -69817,7 +70079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 4513020706599969556}
-  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -69975,7 +70237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
   objekRenderer: {fileID: 4159158508894810387}
-  warnaGlow: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
@@ -70583,12 +70845,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KelapKelipTutorial
-  objekRenderer: {fileID: 0}
-  warnaGlow: {r: 0, g: 0.47720346, b: 0.4792453, a: 1}
+  objekRenderer: {fileID: 9003598024029585287}
+  warnaGlow: {r: 0, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
-  kecepatan: 2.5
+  kecepatan: 2
 --- !u!4 &9023612945321946057
 Transform:
   m_ObjectHideFlags: 0
@@ -71352,8 +71614,8 @@ SceneRoots:
   - {fileID: 532346786}
   - {fileID: 1446170890}
   - {fileID: 78891058}
-  - {fileID: 1433969577}
   - {fileID: 272196963}
+  - {fileID: 1433969577}
   - {fileID: 1676003450}
   - {fileID: 169132120}
   - {fileID: 2110959969}

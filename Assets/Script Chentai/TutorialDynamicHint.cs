@@ -5,14 +5,10 @@ using BNG;
 public class TutorialDynamicHint : MonoBehaviour
 {
     [Header("Visual Hints")]
-    [Tooltip("Drag objek Hologram/Ghost kamu ke sini")]
     public GameObject ghostObject;
-    
-    [Tooltip("Drag objek Text 'O' (Ring) kamu ke sini")]
     public GameObject ringObject;
 
     [Header("Ghost Animation (Pulsing)")]
-    [Tooltip("Centang untuk membuat Hologram berkedip halus saat muncul")]
     public bool enablePulse = true;
     public float pulseSpeed = 2f;
     [Range(0f, 1f)] public float minAlpha = 0.2f;
@@ -22,11 +18,13 @@ public class TutorialDynamicHint : MonoBehaviour
     private Material ghostMaterial;
     private Color originalColor;
 
+    // >>> TAMBAHAN: Agar bisa dipaksa nyala saat slideshow info
+    [HideInInspector] public bool dipaksaNyalaUntukInfo = false; 
+
     void Start()
     {
         snapZone = GetComponent<SnapZone>();
 
-        // Ambil material untuk animasi pulsing
         if (ghostObject != null)
         {
             Renderer renderer = ghostObject.GetComponent<Renderer>();
@@ -44,17 +42,28 @@ public class TutorialDynamicHint : MonoBehaviour
 
     void Update()
     {
-        // LOGIKA BARU: Jika barang sudah nempel ATAU SnapZone belum giliran aktif, matikan hint!
+        // LOGIKA BARU: Jika dipaksa nyala oleh TV Slideshow, abaikan aturan SnapZone!
+        if (dipaksaNyalaUntukInfo)
+        {
+            ShowHints();
+            PulseGhost();
+            return; // Stop di sini, jangan jalankan kode bawahnya
+        }
+
+        // Logika Asli: Jika barang nempel atau SnapZone mati, matikan hint.
         if (snapZone.HeldItem != null || !snapZone.isActiveAndEnabled) 
         {
             HideHints();
             return;
         }
 
-        // Jika SnapZone ini aktif dan masih kosong, LANGSUNG MUNCULKAN HINT!
         ShowHints();
-        PulseGhost(); // Jalankan animasi pulsing
+        PulseGhost(); 
     }
+
+    // Fungsi dipanggil oleh MonitorCameraController
+    public void PaksaMunculInfo() { dipaksaNyalaUntukInfo = true; }
+    public void HentikanInfo() { dipaksaNyalaUntukInfo = false; HideHints(); }
 
     private void PulseGhost()
     {
