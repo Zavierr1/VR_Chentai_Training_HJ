@@ -23,9 +23,12 @@ public class InputTutorialManager : MonoBehaviour
     public Sprite gambarAnalog;         
     public Sprite gambarGrip;
 
-    [Header("Audio Feedback")]
+    [Header("Audio Feedback & VO")]
     public AudioSource suaraStepSukses;
     public AudioSource suaraTutorialSelesai;
+    
+    [Tooltip("Masukkan sumber suara Voice Over pembukaan ke sini")]
+    public AudioSource suaraVOSelamatDatang;
 
     [Header("Debug / Testing")]
     public UnityEngine.UI.Button tombolNextDebug;
@@ -36,14 +39,18 @@ public class InputTutorialManager : MonoBehaviour
 
     void Start()
     {
-        if (welcomePanel != null) welcomePanel.SetActive(true);
+        // 1. Di awal game, pastikan panel disembunyikan dulu (Delay)
+        if (welcomePanel != null) welcomePanel.SetActive(false);
         if (tombolNextDebug != null) tombolNextDebug.gameObject.SetActive(true);
         if (tombolSelesaiUI != null) tombolSelesaiUI.SetActive(false); 
 
         // KUNCI MESIN UTAMA DI AWAL GAME
         if (monitorMesinUtama != null) monitorMesinUtama.KunciSistemUtama(true);
 
-        MulaiTahap(0); 
+        tahapTutorial = 0; // Tahap 0 sekarang adalah status "Menunggu Intro Selesai"
+        
+        // Jalankan alur otomatis
+        StartCoroutine(SequencePembukaanOtomatis());
     }
 
     void Update()
@@ -70,6 +77,38 @@ public class InputTutorialManager : MonoBehaviour
         }
     }
 
+    // >>> COROUTINE BARU: Mengatur Delay, Panel, dan Voice Over otomatis <<<
+    private IEnumerator SequencePembukaanOtomatis()
+    {
+        // 1. Jeda di awal game (1.5 detik) agar player tidak kaget
+        yield return new WaitForSeconds(1.5f);
+
+        // 2. Munculkan Panel
+        if (welcomePanel != null) welcomePanel.SetActive(true);
+        titleText.text = "SELAMAT DATANG DI VR";
+        descText.text = "Selamat datang di Modul Pelatihan VR Mesin Stripping. Mari kenali posisi tombol pada kontrolermu sebelum mulai bekerja.";
+        
+        if (gambarController != null && gambarFullController != null) 
+        {
+            gambarController.gameObject.SetActive(true);
+            gambarController.sprite = gambarFullController;
+        }
+
+        // 3. Mainkan Voice Over
+        float durasiVO = 4f; // Waktu cadangan jika audio tidak di-assign
+        if (suaraVOSelamatDatang != null && suaraVOSelamatDatang.clip != null)
+        {
+            suaraVOSelamatDatang.Play();
+            durasiVO = suaraVOSelamatDatang.clip.length; // Otomatis mendeteksi panjang suara
+        }
+
+        // 4. Tunggu VO selesai + Jeda ekstra (misal 1.5 detik) agar player mencerna teks
+        yield return new WaitForSeconds(durasiVO + 1.5f);
+
+        // 5. Langsung transisi masuk ke tahap instruksi gambar kalibrasi Trigger
+        MulaiTahap(1);
+    }
+
     private void MulaiTahap(int tahap)
     {
         tahapTutorial = tahap;
@@ -78,39 +117,30 @@ public class InputTutorialManager : MonoBehaviour
 
         switch (tahap)
         {
-            case 0:
-                titleText.text = "KENALI KONTROLERMU";
-                descText.text = "Perhatikan posisi tombol pada kontroler VR-mu.";
-                if (gambarController != null && gambarFullController != null) 
-                    gambarController.sprite = gambarFullController;
-                
-                StartCoroutine(JedaTransisi(1, 5f));
-                break;
-
             case 1:
-                titleText.text = "PANDUAN INTERAKSI";
-                descText.text = "Tekan tombol <color=#00FFFF>Trigger</color>\n(L2 / R2) untuk menekan tombol UI.";
+                titleText.text = "CARA MENYENTUH LAYAR (INTERAKSI)";
+                descText.text = "Gunakan jari telunjukmu untuk menekan tombol pelatuk <color=#00FFFF>Trigger</color>.\nIni berfungsi seperti sentuhan 'Tap' pada layar HP.";
                 if (gambarController != null && gambarTrigger != null) 
                     gambarController.sprite = gambarTrigger;
                 break;
 
             case 2:
-                titleText.text = "PANDUAN PERGERAKAN";
-                descText.text = "Gerakkan <color=#00FFFF>Analog Kiri & Kanan</color>\n(L1 / R1) untuk bergerak dan memutar arah.";
+                titleText.text = "CARA BERJALAN (PERGERAKAN)";
+                descText.text = "Gunakan jempolmu untuk menggeser stik <color=#00FFFF>Analog Kiri / Kanan</color>.\nIni sama seperti 'Virtual Joystick' pada game mobile.";
                 if (gambarController != null && gambarAnalog != null) 
                     gambarController.sprite = gambarAnalog;
                 break;
 
             case 3:
-                titleText.text = "PANDUAN MENGAMBIL BARANG";
-                descText.text = "Genggam tombol <color=#00FFFF>Grip</color>\n(L3 / R3) untuk mengambil part mesin.";
+                titleText.text = "CARA MENGAMBIL BARANG";
+                descText.text = "Gunakan jari tengahmu untuk menahan tombol genggam <color=#00FFFF>Grip</color>\ndi bagian samping gagang kontroler untuk meraih objek.";
                 if (gambarController != null && gambarGrip != null) 
                     gambarController.sprite = gambarGrip;
                 break;
 
             case 4:
-                titleText.text = "KALIBRASI SELESAI!";
-                descText.text = "<color=green>Kerja Bagus!</color>\nSistem telah terbuka. Silakan tekan tombol 'Selesai' di bawah.";
+                titleText.text = "TUTORIAL SELESAI!";
+                descText.text = "<color=green>Kerja Bagus!</color>\nKamu sudah siap. Arahkan tanganmu dan tekan tombol 'Selesai'\ndi bawah menggunakan Trigger (Telunjuk) untuk memulai.";
                 
                 if (gambarController != null) gambarController.gameObject.SetActive(false); 
                 if (suaraTutorialSelesai != null) suaraTutorialSelesai.Play();
@@ -123,7 +153,11 @@ public class InputTutorialManager : MonoBehaviour
 
     public void LewatiTahapIniDebug()
     {
-        if (tahapTutorial == 0) LanjutKeTahapBerikutnya(1);
+        if (tahapTutorial == 0) 
+        {
+            StopAllCoroutines(); // Matikan sequence otomatis kalau di-skip paksa
+            MulaiTahap(1);
+        }
         else if (tahapTutorial == 1) LanjutKeTahapBerikutnya(2);
         else if (tahapTutorial == 2) LanjutKeTahapBerikutnya(3);
         else if (tahapTutorial == 3) LanjutKeTahapBerikutnya(4);

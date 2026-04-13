@@ -98,7 +98,7 @@ public class MonitorCameraController : MonoBehaviour
         if (isKunci)
         {
             KunciSemuaTombol();
-            UpdateTeksUI("SISTEM TERKUNCI\nHarap selesaikan kalibrasi VR di layar depan Anda terlebih dahulu.");
+            UpdateTeksUI("SISTEM SEMENTARA TERKUNCI\nSelesaikan 'Panduan Awal VR' di layar depanmu sebelum lanjut.");
         }
         else KePosisiDefault(); 
     }
@@ -153,7 +153,7 @@ public class MonitorCameraController : MonoBehaviour
         slideAktif = slideAreaAtas;
 
         MulaiPindahKamera(targetInfoAtas);
-        UpdateTeksUI("INFO AREA ATAS:\nGunakan tombol panah [<] [>] untuk membaca panduan.");
+        UpdateTeksUI("PENGENALAN BAGIAN ATAS:\nKetuk tombol panah [<] [>] (dengan Trigger) untuk membaca detail.");
         TampilkanSlideSekarang();
     }
 
@@ -170,7 +170,7 @@ public class MonitorCameraController : MonoBehaviour
         slideAktif = slideAreaAtas;
 
         MulaiPindahKamera(targetInfoAtas);
-        UpdateTeksUI("REVIEW PANDUAN:\nGunakan tombol panah [<] [>] untuk membaca.");
+        UpdateTeksUI("ULASAN PANDUAN MESIN:\nKetuk tombol panah [<] [>] (dengan Trigger) untuk membaca ulang informasi mesin.");
         TampilkanSlideSekarang();
     }
 
@@ -201,25 +201,25 @@ public class MonitorCameraController : MonoBehaviour
             if (areaTutorialAktif == 0) 
             {
                 areaTutorialAktif = 1; slideAktif = slideInfoPartC; indeksSlideSekarang = 0;
-                MulaiPindahKamera(targetPartC); UpdateTeksUI("INFO KOMPONEN C:\nBerikut adalah daftar komponen yang akan dirakit.");
+                MulaiPindahKamera(targetPartC); UpdateTeksUI("MERAKIT KOMPONEN C:\nAmbil part di meja (tahan Grip) dan letakkan di area hijau transparan.");
                 TampilkanSlideSekarang();
             }
             else if (areaTutorialAktif == 1) 
             {
                 areaTutorialAktif = 2; slideAktif = slideInfoPartB; indeksSlideSekarang = 0;
-                MulaiPindahKamera(targetPartB); UpdateTeksUI("INFO KOMPONEN B:\nBerikut adalah daftar komponen yang akan dirakit.");
+                MulaiPindahKamera(targetPartB); UpdateTeksUI("MERAKIT KOMPONEN B:\nAmbil part di meja (tahan Grip) dan letakkan di area hijau transparan.");
                 TampilkanSlideSekarang();
             }
             else if (areaTutorialAktif == 2) 
             {
                 areaTutorialAktif = 3; slideAktif = slideAreaBawah; indeksSlideSekarang = 0;
-                MulaiPindahKamera(targetInfoBawah); UpdateTeksUI("INFO AREA BAWAH:\nGunakan tombol panah [<] [>] untuk membaca panduan.");
+                MulaiPindahKamera(targetInfoBawah); UpdateTeksUI("PENGENALAN BAGIAN BAWAH:\nKetuk tombol panah [<] [>] (dengan Trigger) untuk membaca detail.");
                 TampilkanSlideSekarang();
             }
             else if (areaTutorialAktif == 3) 
             {
                 areaTutorialAktif = 4; slideAktif = slideInfoPartA; indeksSlideSekarang = 0;
-                MulaiPindahKamera(targetPartA); UpdateTeksUI("INFO KOMPONEN A:\nBerikut adalah daftar komponen yang akan dirakit.");
+                MulaiPindahKamera(targetPartA); UpdateTeksUI("MERAKIT KOMPONEN A:\nAmbil part di meja (tahan Grip) dan letakkan di area hijau transparan.");
                 TampilkanSlideSekarang();
             }
             // HAPUS ELSE IF (areaTutorialAktif == 4). Selesai sekarang ditangani tombolMulaiPemasangan.
@@ -238,22 +238,22 @@ public class MonitorCameraController : MonoBehaviour
             if (areaTutorialAktif == 4) 
             {
                 areaTutorialAktif = 3; slideAktif = slideAreaBawah; indeksSlideSekarang = slideAktif.Count - 1; 
-                MulaiPindahKamera(targetInfoBawah); UpdateTeksUI("INFO AREA BAWAH..."); TampilkanSlideSekarang();
+                MulaiPindahKamera(targetInfoBawah); UpdateTeksUI("MEMBACA:\nPengenalan Bagian Bawah..."); TampilkanSlideSekarang();
             }
             else if (areaTutorialAktif == 3) 
             {
                 areaTutorialAktif = 2; slideAktif = slideInfoPartB; indeksSlideSekarang = slideAktif.Count - 1; 
-                MulaiPindahKamera(targetPartB); UpdateTeksUI("INFO KOMPONEN B..."); TampilkanSlideSekarang();
+                MulaiPindahKamera(targetPartB); UpdateTeksUI("MEMBACA:\nKomponen Blok B..."); TampilkanSlideSekarang();
             }
             else if (areaTutorialAktif == 2) 
             {
                 areaTutorialAktif = 1; slideAktif = slideInfoPartC; indeksSlideSekarang = slideAktif.Count - 1; 
-                MulaiPindahKamera(targetPartC); UpdateTeksUI("INFO KOMPONEN C..."); TampilkanSlideSekarang();
+                MulaiPindahKamera(targetPartC); UpdateTeksUI("MEMBACA:\nKomponen Blok C..."); TampilkanSlideSekarang();
             }
             else if (areaTutorialAktif == 1) 
             {
                 areaTutorialAktif = 0; slideAktif = slideAreaAtas; indeksSlideSekarang = slideAktif.Count - 1; 
-                MulaiPindahKamera(targetInfoAtas); UpdateTeksUI("INFO AREA ATAS..."); TampilkanSlideSekarang();
+                MulaiPindahKamera(targetInfoAtas); UpdateTeksUI("MEMBACA:\nPengenalan Bagian Atas..."); TampilkanSlideSekarang();
             }
         }
     }
@@ -344,20 +344,20 @@ public class MonitorCameraController : MonoBehaviour
 
         if (isSedangKalibrasiVR) return;
 
-        if (!tutorialSelesai) UpdateTeksUI("SISTEM STANDBY.\nTekan [START] untuk mempelajari mesin.");
+        if (!tutorialSelesai) UpdateTeksUI("SISTEM SIAP.\nKetuk tombol [START] (dengan Trigger) untuk mulai belajar.");
         else 
         {
-            if (tahapPerakitan == 1) UpdateTeksUI("SISTEM OFFLINE.\nTekan [Part A] untuk memulai perakitan.");
-            else if (tahapPerakitan == 2) UpdateTeksUI("PROGRES: 33%.\nTekan [Part B] untuk melanjutkan.");
-            else if (tahapPerakitan == 3) UpdateTeksUI("PROGRES: 66%.\nTekan [Part C] untuk melanjutkan.");
-            else UpdateTeksUI("PROGRES: 100%.\nPerakitan selesai. Silakan tekan [FINISH] untuk masuk ke area pabrik utama.");
+            if (tahapPerakitan == 1) UpdateTeksUI("MODE PERAKITAN.\nKetuk tombol [Part A] untuk mulai merakit blok pertama.");
+            else if (tahapPerakitan == 2) UpdateTeksUI("PROGRES: 33% (Hebat!).\nKetuk tombol [Part B] untuk merakit blok kedua.");
+            else if (tahapPerakitan == 3) UpdateTeksUI("PROGRES: 66% (Sedikit Lagi!).\nKetuk tombol [Part C] untuk memasang blok terakhir.");
+            else UpdateTeksUI("PROGRES: 100% (SELESAI!).\nMesin rapi. Ketuk tombol [FINISH] untuk masuk area pabrik utama.");
         }
     }
     
     public void KePartA() { MulaiPindahKamera(targetPartA); KunciSemuaTombol(); if (tombolBack != null) { tombolBack.gameObject.SetActive(true); tombolBack.interactable = true; } MatikanSemuaSlideshow(); if (managerPartA != null) { managerPartA.AktifkanGrup(); managerPartA.UpdateHighlightBerurutan(); } }
     public void KePartB() { MulaiPindahKamera(targetPartB); KunciSemuaTombol(); if (tombolBack != null) { tombolBack.gameObject.SetActive(true); tombolBack.interactable = true; } MatikanSemuaSlideshow(); if (managerPartB != null) { managerPartB.AktifkanGrup(); managerPartB.UpdateHighlightBerurutan(); } }
     public void KePartC() { MulaiPindahKamera(targetPartC); KunciSemuaTombol(); if (tombolBack != null) { tombolBack.gameObject.SetActive(true); tombolBack.interactable = true; } MatikanSemuaSlideshow(); if (managerPartC != null) { managerPartC.AktifkanGrup(); managerPartC.UpdateHighlightBerurutan(); } }
-    public void PartSelesai() { KunciSemuaTombol(); if (tombolNext != null) { tombolNext.gameObject.SetActive(true); tombolNext.interactable = true; } UpdateTeksUI("BAGUS! Komponen terpasang.\nTekan [NEXT] untuk lanjut."); }
+    public void PartSelesai() { KunciSemuaTombol(); if (tombolNext != null) { tombolNext.gameObject.SetActive(true); tombolNext.interactable = true; } UpdateTeksUI("KERJA BAGUS! Pas secara presisi.\nKetuk tombol [NEXT] (dengan Trigger) untuk lanjut."); }
     public void LanjutKeTahapBerikutnya() { tahapPerakitan++; KePosisiDefault(); }
     public void UpdateTeksUI(string pesan) { if (textInstruksi != null) textInstruksi.text = pesan; }
     public void PindahKeSceneBerikutnya() { if (!string.IsNullOrEmpty(namaSceneBerikutnya)) SceneManager.LoadScene(namaSceneBerikutnya); }
