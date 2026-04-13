@@ -18,10 +18,9 @@ public class TutorialDynamicHint : MonoBehaviour
     private Material ghostMaterial;
     private Color originalColor;
 
-    // >>> TAMBAHAN: Agar bisa dipaksa nyala saat slideshow info
     [HideInInspector] public bool dipaksaNyalaUntukInfo = false; 
 
-    void Start()
+    void Awake() // Ganti Start jadi Awake agar referensi aman saat dipaksa bangun
     {
         snapZone = GetComponent<SnapZone>();
 
@@ -42,15 +41,13 @@ public class TutorialDynamicHint : MonoBehaviour
 
     void Update()
     {
-        // LOGIKA BARU: Jika dipaksa nyala oleh TV Slideshow, abaikan aturan SnapZone!
         if (dipaksaNyalaUntukInfo)
         {
             ShowHints();
             PulseGhost();
-            return; // Stop di sini, jangan jalankan kode bawahnya
+            return; 
         }
 
-        // Logika Asli: Jika barang nempel atau SnapZone mati, matikan hint.
         if (snapZone.HeldItem != null || !snapZone.isActiveAndEnabled) 
         {
             HideHints();
@@ -61,9 +58,30 @@ public class TutorialDynamicHint : MonoBehaviour
         PulseGhost(); 
     }
 
-    // Fungsi dipanggil oleh MonitorCameraController
-    public void PaksaMunculInfo() { dipaksaNyalaUntukInfo = true; }
-    public void HentikanInfo() { dipaksaNyalaUntukInfo = false; HideHints(); }
+    // >>> FUNGSI YANG DIPERBARUI <<<
+    public void PaksaMunculInfo() 
+    { 
+        dipaksaNyalaUntukInfo = true; 
+        
+        // 1. Bangunkan GameObject ini paksa dari "kematian" agar Update() bisa jalan!
+        gameObject.SetActive(true); 
+
+        // 2. TAPI matikan komponen alat capitnya (SnapZone) biar player gak curang masukin part pas sesi info!
+        if (snapZone != null) snapZone.enabled = false;
+    }
+
+    // >>> FUNGSI YANG DIPERBARUI <<<
+    public void HentikanInfo() 
+    { 
+        dipaksaNyalaUntukInfo = false; 
+        HideHints(); 
+        
+        // 1. Kembalikan fungsi SnapZone seperti semula
+        if (snapZone != null) snapZone.enabled = true;
+
+        // 2. Tidurkan lagi GameObject-nya. Nanti SnapGroupManager yang akan membangunkan secara resmi saat waktunya merakit.
+        gameObject.SetActive(false);
+    }
 
     private void PulseGhost()
     {

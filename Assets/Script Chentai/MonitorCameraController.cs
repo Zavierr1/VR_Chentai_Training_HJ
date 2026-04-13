@@ -12,7 +12,6 @@ public class SlideInfo
     public GameObject uiTitik; 
     public List<KelapKelipTutorial> mesinHighlight; 
     
-    // >>> TAMBAHAN: Tempat memasukkan Ghost Biru Transparan
     [Tooltip("Tarik objek SnapZone yang punya script TutorialDynamicHint ke sini")]
     public List<TutorialDynamicHint> ghostHighlight; 
 }
@@ -30,12 +29,19 @@ public class MonitorCameraController : MonoBehaviour
 
     [Header("Referensi Tombol UI Utama")]
     public Button tombolStartTutorial; 
-    public Button tombolPanduanPojokKanan; 
+    public Button tombolPanduanPojokKanan; // Tombol '?'
     public Button tombolPartA;
     public Button tombolPartB;
     public Button tombolPartC;
     public Button tombolBack;         
     public Button tombolNext;
+
+    // >>> TAMBAHAN BARU: Tombol Ekstra Panduan <<<
+    [Header("Tombol Ekstra Panduan")]
+    [Tooltip("Tombol 'Klik untuk mulai pemasangan' (Muncul di ujung slide)")]
+    public Button tombolMulaiPemasangan;
+    [Tooltip("Tombol Back/Close saat membuka ulang panduan (Review)")]
+    public Button tombolClosePanduan;
 
     [Header("Scene Transition")]
     public Button tombolFinish; 
@@ -48,12 +54,10 @@ public class MonitorCameraController : MonoBehaviour
     public Button tombolPrevSlide; 
 
     public List<SlideInfo> slideAreaAtas;
-    public List<SlideInfo> slideAreaBawah; 
-    
-    // >>> TAMBAHAN: Daftar slide baru untuk info Part Rakitan
-    public List<SlideInfo> slideInfoPartA;
-    public List<SlideInfo> slideInfoPartB;
     public List<SlideInfo> slideInfoPartC;
+    public List<SlideInfo> slideInfoPartB;
+    public List<SlideInfo> slideAreaBawah; 
+    public List<SlideInfo> slideInfoPartA;
 
     public bool tampilkanSemuaTitik = false;
 
@@ -64,10 +68,10 @@ public class MonitorCameraController : MonoBehaviour
     [Header("Target Posisi (Waypoints)")]
     public Transform targetDefault;
     public Transform targetInfoAtas;
+    public Transform targetPartC;
+    public Transform targetPartB;
     public Transform targetInfoBawah;
     public Transform targetPartA;
-    public Transform targetPartB;
-    public Transform targetPartC;
 
     public float transisiDurasi = 1.0f;
     private Coroutine moveCoroutine;
@@ -153,7 +157,38 @@ public class MonitorCameraController : MonoBehaviour
         TampilkanSlideSekarang();
     }
 
-    // >>> LOGIKA BARU: Rantai Next Slide
+    // >>> FUNGSI BARU: Dipanggil oleh Tombol "?" (Review Panduan) <<<
+    public void BukaPanduanUlang()
+    {
+        KunciSemuaTombol();
+        if (panelLegenda != null) panelLegenda.SetActive(true);
+        if (tombolNextSlide != null) tombolNextSlide.gameObject.SetActive(true);
+        if (tombolPrevSlide != null) tombolPrevSlide.gameObject.SetActive(true);
+        
+        areaTutorialAktif = 0; 
+        indeksSlideSekarang = 0;
+        slideAktif = slideAreaAtas;
+
+        MulaiPindahKamera(targetInfoAtas);
+        UpdateTeksUI("REVIEW PANDUAN:\nGunakan tombol panah [<] [>] untuk membaca.");
+        TampilkanSlideSekarang();
+    }
+
+    // >>> FUNGSI BARU: Dipanggil oleh tombol "Klik untuk mulai pemasangan" <<<
+    public void MulaiPemasanganSistem()
+    {
+        tutorialSelesai = true; // Kunci agar tombol start tidak muncul lagi
+        MatikanSemuaSlideshow();
+        KePosisiDefault();
+    }
+
+    // >>> FUNGSI BARU: Dipanggil oleh tombol "Close/Back" saat review <<<
+    public void TutupPanduanReview()
+    {
+        MatikanSemuaSlideshow();
+        KePosisiDefault();
+    }
+
     public void NextSlide()
     {
         if (indeksSlideSekarang < slideAktif.Count - 1)
@@ -163,40 +198,34 @@ public class MonitorCameraController : MonoBehaviour
         }
         else
         {
-            if (areaTutorialAktif == 0) // Ke Area Bawah
+            if (areaTutorialAktif == 0) 
             {
-                areaTutorialAktif = 1; slideAktif = slideAreaBawah; indeksSlideSekarang = 0;
-                MulaiPindahKamera(targetInfoBawah); UpdateTeksUI("INFO AREA BAWAH:\nGunakan tombol panah [<] [>] untuk membaca panduan.");
-                TampilkanSlideSekarang();
-            }
-            else if (areaTutorialAktif == 1) // Ke Info Part A
-            {
-                areaTutorialAktif = 2; slideAktif = slideInfoPartA; indeksSlideSekarang = 0;
-                MulaiPindahKamera(targetPartA); UpdateTeksUI("INFO KOMPONEN A:\nBerikut adalah daftar komponen yang akan dirakit.");
-                TampilkanSlideSekarang();
-            }
-            else if (areaTutorialAktif == 2) // Ke Info Part B
-            {
-                areaTutorialAktif = 3; slideAktif = slideInfoPartB; indeksSlideSekarang = 0;
-                MulaiPindahKamera(targetPartB); UpdateTeksUI("INFO KOMPONEN B:\nBerikut adalah daftar komponen yang akan dirakit.");
-                TampilkanSlideSekarang();
-            }
-            else if (areaTutorialAktif == 3) // Ke Info Part C
-            {
-                areaTutorialAktif = 4; slideAktif = slideInfoPartC; indeksSlideSekarang = 0;
+                areaTutorialAktif = 1; slideAktif = slideInfoPartC; indeksSlideSekarang = 0;
                 MulaiPindahKamera(targetPartC); UpdateTeksUI("INFO KOMPONEN C:\nBerikut adalah daftar komponen yang akan dirakit.");
                 TampilkanSlideSekarang();
             }
-            else if (areaTutorialAktif == 4) // Selesai
+            else if (areaTutorialAktif == 1) 
             {
-                tutorialSelesai = true;
-                MatikanSemuaSlideshow();
-                KePosisiDefault();
+                areaTutorialAktif = 2; slideAktif = slideInfoPartB; indeksSlideSekarang = 0;
+                MulaiPindahKamera(targetPartB); UpdateTeksUI("INFO KOMPONEN B:\nBerikut adalah daftar komponen yang akan dirakit.");
+                TampilkanSlideSekarang();
             }
+            else if (areaTutorialAktif == 2) 
+            {
+                areaTutorialAktif = 3; slideAktif = slideAreaBawah; indeksSlideSekarang = 0;
+                MulaiPindahKamera(targetInfoBawah); UpdateTeksUI("INFO AREA BAWAH:\nGunakan tombol panah [<] [>] untuk membaca panduan.");
+                TampilkanSlideSekarang();
+            }
+            else if (areaTutorialAktif == 3) 
+            {
+                areaTutorialAktif = 4; slideAktif = slideInfoPartA; indeksSlideSekarang = 0;
+                MulaiPindahKamera(targetPartA); UpdateTeksUI("INFO KOMPONEN A:\nBerikut adalah daftar komponen yang akan dirakit.");
+                TampilkanSlideSekarang();
+            }
+            // HAPUS ELSE IF (areaTutorialAktif == 4). Selesai sekarang ditangani tombolMulaiPemasangan.
         }
     }
 
-    // >>> LOGIKA BARU: Rantai Prev Slide
     public void PrevSlide()
     {
         if (indeksSlideSekarang > 0)
@@ -206,22 +235,22 @@ public class MonitorCameraController : MonoBehaviour
         }
         else
         {
-            if (areaTutorialAktif == 4)
+            if (areaTutorialAktif == 4) 
             {
-                areaTutorialAktif = 3; slideAktif = slideInfoPartB; indeksSlideSekarang = slideAktif.Count - 1; 
-                MulaiPindahKamera(targetPartB); UpdateTeksUI("INFO KOMPONEN B..."); TampilkanSlideSekarang();
-            }
-            else if (areaTutorialAktif == 3)
-            {
-                areaTutorialAktif = 2; slideAktif = slideInfoPartA; indeksSlideSekarang = slideAktif.Count - 1; 
-                MulaiPindahKamera(targetPartA); UpdateTeksUI("INFO KOMPONEN A..."); TampilkanSlideSekarang();
-            }
-            else if (areaTutorialAktif == 2)
-            {
-                areaTutorialAktif = 1; slideAktif = slideAreaBawah; indeksSlideSekarang = slideAktif.Count - 1; 
+                areaTutorialAktif = 3; slideAktif = slideAreaBawah; indeksSlideSekarang = slideAktif.Count - 1; 
                 MulaiPindahKamera(targetInfoBawah); UpdateTeksUI("INFO AREA BAWAH..."); TampilkanSlideSekarang();
             }
-            else if (areaTutorialAktif == 1)
+            else if (areaTutorialAktif == 3) 
+            {
+                areaTutorialAktif = 2; slideAktif = slideInfoPartB; indeksSlideSekarang = slideAktif.Count - 1; 
+                MulaiPindahKamera(targetPartB); UpdateTeksUI("INFO KOMPONEN B..."); TampilkanSlideSekarang();
+            }
+            else if (areaTutorialAktif == 2) 
+            {
+                areaTutorialAktif = 1; slideAktif = slideInfoPartC; indeksSlideSekarang = slideAktif.Count - 1; 
+                MulaiPindahKamera(targetPartC); UpdateTeksUI("INFO KOMPONEN C..."); TampilkanSlideSekarang();
+            }
+            else if (areaTutorialAktif == 1) 
             {
                 areaTutorialAktif = 0; slideAktif = slideAreaAtas; indeksSlideSekarang = slideAktif.Count - 1; 
                 MulaiPindahKamera(targetInfoAtas); UpdateTeksUI("INFO AREA ATAS..."); TampilkanSlideSekarang();
@@ -238,14 +267,12 @@ public class MonitorCameraController : MonoBehaviour
         SlideInfo slideSekarang = slideAktif[indeksSlideSekarang];
         if (slideSekarang.uiTitik != null) slideSekarang.uiTitik.SetActive(true);
         
-        // Nyalakan lampu kelap-kelip merah/kuning lama
         if (slideSekarang.mesinHighlight != null)
         {
             foreach (var highlight in slideSekarang.mesinHighlight)
                 if (highlight != null) highlight.MulaiKedip();
         }
 
-        // >>> TAMBAHAN: Nyalakan Hologram Biru Transparan
         if (slideSekarang.ghostHighlight != null)
         {
             foreach (var ghost in slideSekarang.ghostHighlight)
@@ -254,17 +281,26 @@ public class MonitorCameraController : MonoBehaviour
 
         if (textLegenda != null) textLegenda.text = slideSekarang.teksLegenda;
         
+        bool isLastSlideTotal = (areaTutorialAktif == 4 && indeksSlideSekarang == slideAktif.Count - 1);
         bool bisaMundur = !(areaTutorialAktif == 0 && indeksSlideSekarang == 0);
-        bool bisaMaju = true; 
+        bool bisaMaju = !isLastSlideTotal; // Tidak bisa next kalau udah di mentok kanan
         
         if (tombolPrevSlide != null) tombolPrevSlide.interactable = bisaMundur;
         if (tombolNextSlide != null) tombolNextSlide.interactable = bisaMaju;
+
+        // >>> LOGIKA MUNCULNYA TOMBOL START vs CLOSE <<<
+        if (tombolMulaiPemasangan != null) tombolMulaiPemasangan.gameObject.SetActive(isLastSlideTotal && !tutorialSelesai);
+        
+        // Tombol Close Panduan selalu muncul jika tutorialSelesai = true (artinya player cuma sedang baca ulang)
+        if (tombolClosePanduan != null) tombolClosePanduan.gameObject.SetActive(tutorialSelesai);
     }
 
     private void MatikanSemuaSlideshow()
     {
         if (tombolNextSlide != null) tombolNextSlide.gameObject.SetActive(false);
         if (tombolPrevSlide != null) tombolPrevSlide.gameObject.SetActive(false);
+        if (tombolMulaiPemasangan != null) tombolMulaiPemasangan.gameObject.SetActive(false);
+        if (tombolClosePanduan != null) tombolClosePanduan.gameObject.SetActive(false);
         if (textLegenda != null) textLegenda.text = "";
         if (panelLegenda != null) panelLegenda.SetActive(false);
 
@@ -273,7 +309,6 @@ public class MonitorCameraController : MonoBehaviour
 
     private void MatikanSemuaLampuSlide()
     {
-        // Matikan semua elemen di setiap area
         MatikanSpesifikLampu(slideAreaAtas);
         MatikanSpesifikLampu(slideAreaBawah);
         MatikanSpesifikLampu(slideInfoPartA);
@@ -293,7 +328,6 @@ public class MonitorCameraController : MonoBehaviour
                     if (highlight != null) highlight.BerhentiKedip();
             }
 
-            // >>> TAMBAHAN: Matikan Hologram Biru Transparan
             if (slide.ghostHighlight != null)
             {
                 foreach (var ghost in slide.ghostHighlight)
@@ -320,7 +354,6 @@ public class MonitorCameraController : MonoBehaviour
         }
     }
     
-    // ... (Sisa fungsi KePartA, KePartB, KePartC, dll tetap sama) ...
     public void KePartA() { MulaiPindahKamera(targetPartA); KunciSemuaTombol(); if (tombolBack != null) { tombolBack.gameObject.SetActive(true); tombolBack.interactable = true; } MatikanSemuaSlideshow(); if (managerPartA != null) { managerPartA.AktifkanGrup(); managerPartA.UpdateHighlightBerurutan(); } }
     public void KePartB() { MulaiPindahKamera(targetPartB); KunciSemuaTombol(); if (tombolBack != null) { tombolBack.gameObject.SetActive(true); tombolBack.interactable = true; } MatikanSemuaSlideshow(); if (managerPartB != null) { managerPartB.AktifkanGrup(); managerPartB.UpdateHighlightBerurutan(); } }
     public void KePartC() { MulaiPindahKamera(targetPartC); KunciSemuaTombol(); if (tombolBack != null) { tombolBack.gameObject.SetActive(true); tombolBack.interactable = true; } MatikanSemuaSlideshow(); if (managerPartC != null) { managerPartC.AktifkanGrup(); managerPartC.UpdateHighlightBerurutan(); } }
