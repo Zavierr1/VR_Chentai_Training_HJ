@@ -81,18 +81,20 @@ public class InputTutorialManager : MonoBehaviour
     private IEnumerator SequencePembukaanOtomatis()
     {
         // 1. Jeda di awal game (1.5 detik) agar player tidak kaget
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
 
         // 2. Munculkan Panel
         if (welcomePanel != null) welcomePanel.SetActive(true);
         titleText.text = "SELAMAT DATANG DI VR";
-        descText.text = "Selamat datang di Modul Pelatihan VR Mesin Stripping. Mari kenali posisi tombol pada kontrolermu sebelum mulai bekerja.";
+        descText.text = "Selamat datang di Modul Pelatihan VR Mesin Stripping. Mari kenali posisi tombol pada kontrolermu sebelum mulai merakit.";
         
         if (gambarController != null && gambarFullController != null) 
         {
             gambarController.gameObject.SetActive(true);
             gambarController.sprite = gambarFullController;
         }
+
+        yield return new WaitForSeconds(2f);
 
         // 3. Mainkan Voice Over
         float durasiVO = 4f; // Waktu cadangan jika audio tidak di-assign
@@ -103,7 +105,7 @@ public class InputTutorialManager : MonoBehaviour
         }
 
         // 4. Tunggu VO selesai + Jeda ekstra (misal 1.5 detik) agar player mencerna teks
-        yield return new WaitForSeconds(durasiVO + 1.5f);
+        yield return new WaitForSeconds(durasiVO + 5f);
 
         // 5. Langsung transisi masuk ke tahap instruksi gambar kalibrasi Trigger
         MulaiTahap(1);
@@ -125,7 +127,7 @@ public class InputTutorialManager : MonoBehaviour
                 break;
 
             case 2:
-                titleText.text = "CARA BERJALAN (PERGERAKAN)";
+                titleText.text = "CARA BERGERAK & MENGARAHKAN PANDANGAN";
                 descText.text = "Gunakan jempolmu untuk menggeser stik <color=#00FFFF>Analog Kiri / Kanan</color>.\nIni sama seperti 'Virtual Joystick' pada game mobile.";
                 if (gambarController != null && gambarAnalog != null) 
                     gambarController.sprite = gambarAnalog;
@@ -140,7 +142,7 @@ public class InputTutorialManager : MonoBehaviour
 
             case 4:
                 titleText.text = "TUTORIAL SELESAI!";
-                descText.text = "<color=green>Kerja Bagus!</color>\nKamu sudah siap. Arahkan tanganmu dan tekan tombol 'Selesai'\ndi bawah menggunakan Trigger (Telunjuk) untuk memulai.";
+                descText.text = "<color=green>Kerja Bagus!</color>\nArahkan tanganmu dan tekan tombol 'Selesai'\ndi bawah menggunakan Trigger untuk memulai. Perhatikan layar di sebelah kanan!.";
                 
                 if (gambarController != null) gambarController.gameObject.SetActive(false); 
                 if (suaraTutorialSelesai != null) suaraTutorialSelesai.Play();
