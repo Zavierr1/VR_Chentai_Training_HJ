@@ -11,66 +11,51 @@ public class AssessmentSnapValidator : MonoBehaviour
     public string requiredTag = "Untagged";
 
     [Header("Scoring System")]
-    [Tooltip("Jumlah poin yang didapat jika part ini dipasang")]
     public int pointValue = 10; 
-    [Tooltip("Drag object yang memiliki script AssessmentScoreManager ke sini")]
     public AssessmentScoreManager scoreManager;
 
-    [Header("Visual Feedback")]
-    [Tooltip("Warna saat part salah (Merah)")]
-    public Color wrongColor = new Color(1f, 0f, 0f, 0.8f);
+    [Header("Error Feedback")]
+    [Tooltip("Suara saat part yang dimasukkan salah")]
+    public AudioSource errorSound;
+    
+    [Tooltip("Warna part saat dilepas dan salah (Bawaan: Merah)")]
+    public Color warnaPartSalah = Color.red;
+
+    [Header("Urutan Pemasangan (Opsional)")]
+    public SnapZone prerequisiteSnapZone;
 
     private SnapZone snapZone;
     private GrabbablesInTrigger gZone;
-    private SnapZoneRingHelper ringHelper;
-
-    private Color originalRestingColor;
-    private Color originalValidColor;
-
+    
     private const string BLOCK_CODE = "BLOCK_WRONG_ITEM_ASSESSMENT";
+    private Grabbable previouslyHoveredWrongItem = null;
 
     void Start()
     {
         snapZone = GetComponent<SnapZone>();
         gZone = GetComponent<GrabbablesInTrigger>();
-        ringHelper = GetComponentInChildren<SnapZoneRingHelper>();
 
-        if (ringHelper != null)
-        {
-            originalRestingColor = ringHelper.RestingColor;
-            originalValidColor = ringHelper.ValidSnapColor;
-        }
-
-        // --- SISTEM POIN: Daftarkan event otomatis ke BNG ---
         snapZone.OnSnapEvent.AddListener(HandleItemSnapped);
         snapZone.OnDetachEvent.AddListener(HandleItemDetached);
 
         BlockSnapping();
     }
 
-    // Dipanggil otomatis oleh BNG saat barang berhasil menempel
     private void HandleItemSnapped(Grabbable grabbedItem)
     {
-        if (scoreManager != null)
-        {
-            scoreManager.AddPoints(pointValue);
-        }
+        if (scoreManager != null) scoreManager.AddPoints(pointValue);
     }
 
-    // Dipanggil otomatis oleh BNG saat barang dicabut dari SnapZone
     private void HandleItemDetached(Grabbable grabbedItem)
     {
-        if (scoreManager != null)
-        {
-            scoreManager.RemovePoints(pointValue);
-        }
+        if (scoreManager != null) scoreManager.RemovePoints(pointValue);
     }
 
     void Update()
     {
         if (snapZone.HeldItem != null)
         {
-            SetRingColor(true); 
+            previouslyHoveredWrongItem = null;
             return;
         }
 
@@ -78,45 +63,107 @@ public class AssessmentSnapValidator : MonoBehaviour
 
         if (closest != null)
         {
-            if (closest.CompareTag(requiredTag))
+            bool isUrutanBenar = true;
+            if (prerequisiteSnapZone != null && prerequisiteSnapZone.HeldItem == null)
             {
-                SetRingColor(true); 
+                isUrutanBenar = false; 
+            }
+
+            if (closest.CompareTag(requiredTag) && isUrutanBenar)
+            {
+                previouslyHoveredWrongItem = null;
                 AllowSnapping();
             }
             else
             {
-                SetRingColor(false); 
+                previouslyHoveredWrongItem = closest;
                 BlockSnapping();
             }
         }
         else
         {
-            SetRingColor(true);
-            BlockSnapping(); 
+            if (previouslyHoveredWrongItem != null)
+            {
+                if (!previouslyHoveredWrongItem.BeingHeld && IsItemInsideTrigger(previouslyHoveredWrongItem))
+                {
+                    StartCoroutine(WaitAndHandleWrongDrop(previouslyHoveredWrongItem));
+                }
+                previouslyHoveredWrongItem = null;
+            }
+            BlockSnapping();
         }
     }
 
-    private void SetRingColor(bool isValid)
+    private System.Collections.IEnumerator WaitAndHandleWrongDrop(Grabbable wrongItem)
     {
-        if (ringHelper != null)
+        yield return new WaitForSeconds(0.15f);
+        if (wrongItem == null) yield break;
+
+        SnapZone terpasangDiZonaMana = wrongItem.GetComponentInParent<SnapZone>();
+
+        if (terpasangDiZonaMana == null && !wrongItem.BeingHeld)
         {
-            if (isValid)
+            Debug.Log("<color=red>[ASSESSMENT] Part salah dijatuhkan di SnapZone ini!</color>");
+            if (errorSound != null) errorSound.Play();
+
+            // >>> PANGGIL EFEK MERAH KE BARANG <<<
+            StartCoroutine(FlashPartMerahLaluKembalikan(wrongItem));
+        }
+    }
+
+    // >>> FUNGSI BARU: Mengubah warna part menjadi merah, jeda sebentar, lalu kembalikan ke meja <<<
+    private System.Collections.IEnumerator FlashPartMerahLaluKembalikan(Grabbable wrongItem)
+    {
+        // 1. Ambil semua material (Renderer) di part tersebut
+        Renderer[] renderers = wrongItem.GetComponentsInChildren<Renderer>();
+        Dictionary<Renderer, Color> originalColors = new Dictionary<Renderer, Color>();
+
+        // 2. Simpan warna asli dan ubah ke warna merah
+        foreach (var r in renderers)
+        {
+            if (r.material.HasProperty("_Color"))
             {
-                ringHelper.RestingColor = originalRestingColor;
-                ringHelper.ValidSnapColor = originalValidColor;
+                originalColors[r] = r.material.color;
+                r.material.color = warnaPartSalah;
             }
-            else
+            else if (r.material.HasProperty("_BaseColor")) // Untuk URP (Universal Render Pipeline)
             {
-                ringHelper.RestingColor = wrongColor;
-                ringHelper.ValidSnapColor = wrongColor;
+                originalColors[r] = r.material.GetColor("_BaseColor");
+                r.material.SetColor("_BaseColor", warnaPartSalah);
             }
         }
+
+        // 3. Jeda sebentar (0.5 detik) agar player sempat melihat part-nya berubah merah sebelum menghilang
+        yield return new WaitForSeconds(0.5f);
+
+        // 4. Kembalikan ke warna aslinya agar saat di meja warnanya normal lagi
+        foreach (var r in renderers)
+        {
+            if (originalColors.ContainsKey(r))
+            {
+                if (r.material.HasProperty("_Color")) r.material.color = originalColors[r];
+                else if (r.material.HasProperty("_BaseColor")) r.material.SetColor("_BaseColor", originalColors[r]);
+            }
+        }
+
+        // 5. Tendang part balik ke meja
+        BarangRespawn respawn = wrongItem.GetComponent<BarangRespawn>();
+        if (respawn != null) respawn.KembalikanKeMeja();
+    }
+
+    private bool IsItemInsideTrigger(Grabbable item)
+    {
+        if (item == null) return false;
+        foreach (var kvp in gZone.NearbyGrabbables)
+        {
+            if (kvp.Value == item) return true;
+        }
+        return false;
     }
 
     private void BlockSnapping()
     {
         if (snapZone.OnlyAllowNames == null) snapZone.OnlyAllowNames = new List<string>();
-
         if (!snapZone.OnlyAllowNames.Contains(BLOCK_CODE))
         {
             snapZone.OnlyAllowNames.Clear();
@@ -149,7 +196,6 @@ public class AssessmentSnapValidator : MonoBehaviour
                 closestGrab = g;
             }
         }
-
         return closestGrab;
     }
 }

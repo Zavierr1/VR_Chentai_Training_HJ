@@ -79,8 +79,17 @@ public class TutorialDynamicHint : MonoBehaviour
         // 1. Kembalikan fungsi SnapZone seperti semula
         if (snapZone != null) snapZone.enabled = true;
 
-        // 2. Tidurkan lagi GameObject-nya. Nanti SnapGroupManager yang akan membangunkan secara resmi saat waktunya merakit.
-        gameObject.SetActive(false);
+        // 2. CEGAH BARANG GAIB: Cek dulu apakah ada barang yang sedang nempel?
+        if (snapZone != null && snapZone.HeldItem != null)
+        {
+            // JANGAN DIMATIKAN! Biarkan GameObject tetap hidup karena part sudah terpasang.
+            // Kita cuma mematikan visual Ghost-nya saja (sudah dilakukan oleh HideHints di atas).
+        }
+        else
+        {
+            // Kalau SnapZone masih kosong, baru boleh ditidurkan.
+            gameObject.SetActive(false);
+        }
     }
 
     private void PulseGhost()

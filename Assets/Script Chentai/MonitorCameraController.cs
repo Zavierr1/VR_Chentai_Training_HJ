@@ -49,6 +49,10 @@ public class MonitorCameraController : MonoBehaviour
     public Button tombolClosePanduan;
 
     [Header("Scene Transition")]
+    [Tooltip("Tarik Canvas/Panel ucapan selamat yang muncul di akhir ke sini")]
+    public GameObject panelSelesaiTutorial; 
+    [Tooltip("Tarik Teks (TextMeshPro) untuk ucapan selamat ke sini")]
+    public TextMeshProUGUI teksSelesaiTutorial;
     public Button tombolFinish; 
     public string namaSceneBerikutnya = "NamaSceneKamuDisini";
 
@@ -92,6 +96,12 @@ public class MonitorCameraController : MonoBehaviour
             cctvCamera.position = targetDefault.position;
             cctvCamera.rotation = targetDefault.rotation;
         }
+
+        // >>> MATIKAN PANEL SELAMAT SECARA OTOMATIS SAAT GAME DIMULAI
+        if (panelSelesaiTutorial != null)
+        {
+            panelSelesaiTutorial.SetActive(false);
+        }
         
         MatikanSemuaSlideshow();
     }
@@ -125,7 +135,8 @@ public class MonitorCameraController : MonoBehaviour
             }
             else
             {
-                if (tombolFinish != null) { tombolFinish.gameObject.SetActive(true); tombolFinish.interactable = true; }
+                // Sengaja dikosongkan. Tombol Finish dan layar sukses 
+                // hanya akan dimunculkan manual via TutupControlPanelDanSelesai()
             }
             
             if (tombolPanduanPojokKanan != null) { tombolPanduanPojokKanan.gameObject.SetActive(true); tombolPanduanPojokKanan.interactable = true; }
@@ -437,7 +448,7 @@ public class MonitorCameraController : MonoBehaviour
         // 2. Kembalikan kamera ke posisi awal menghadap mesin utuh
         MulaiPindahKamera(targetDefault); 
         
-        // 3. Tampilkan teks sukses murni tanpa gangguan
+        // 3. Tampilkan teks intsruksi terakhir di panel Control
         UpdateTeksUI("PERAKITAN SELESAI!\nKerja bagus, seluruh komponen mesin telah berhasil dipasang dengan sempurna.");
         
         // >>> SAFEGUARD: Paksa semua Snap Group untuk nyala kembali! <<<
@@ -447,6 +458,45 @@ public class MonitorCameraController : MonoBehaviour
         // Mainkan suara sukses (opsional jika kamu punya file suaranya)
         // if (suaraStepSukses != null) suaraStepSukses.Play(); 
     }   
+    
+    // >>> FUNGSI BARU: Hook fungsi ini ke Tombol "CLOSE" yang ada di panel merah (Control Panel)
+    public void TutupControlPanelDanSelesai()
+    {
+        if (tahapPerakitan > 3)
+        {
+            // Skenario 1: Player meng-close panel setelah semua tahapan perakitan selesai!
+            KunciSemuaTombol();
+            MatikanSemuaSlideshow();
+            
+            // Munculkan Canvas "SELAMAT"
+            if (panelSelesaiTutorial != null)
+            {
+                panelSelesaiTutorial.SetActive(true);
+            }
+            
+            // Isi teks ucapan selamat
+            if (teksSelesaiTutorial != null)
+            {
+                teksSelesaiTutorial.text = "<color=yellow>SELAMAT!</color>\nAnda telah menyelesaikan mode Tutorial.\nSilakan tekan tombol Finish untuk melanjutkan ke mode Assessment.";
+            }
+
+            // Nyalakan tombol Finish (Bisa diletakkan di dalam Canvas tersebut)
+            if (tombolFinish != null)
+            {
+                tombolFinish.gameObject.SetActive(true);
+                tombolFinish.interactable = true;
+            }
+            
+            UpdateTeksUI(""); // Kosongkan layar tengah
+            MulaiPindahKamera(targetDefault); // Kembali lurus menatap mesin
+        }
+        else
+        {
+            // Skenario 2: Player meng-close panel padahal perakitan (Part A/B/C) belum selesai
+            // Maka bersikaplah normal kembali ke tampilan pemilihan menu Part A/B/C
+            KePosisiDefault();
+        }
+    }
     
     public void PartSelesai() 
     { 

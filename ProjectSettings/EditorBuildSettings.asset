@@ -26,9 +26,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/BNG Framework/Scenes/Quest Demo.unity
     guid: 20abffae0ea5004438fe0e95b6627841
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Testing.unity
     guid: dab43cd26233c5a49a895e802eaa6d34
+  - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: 048991cddfe3a8c43a5023777666ab2f
+  - enabled: 1
+    path: Assets/Assessment.unity
+    guid: 79bbc773bb374f04bb0805c3605b818d
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: f947ec7ddde7bd547944dc1d4fdf65b9,
       type: 2}

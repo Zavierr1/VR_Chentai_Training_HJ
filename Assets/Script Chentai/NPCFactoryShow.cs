@@ -44,6 +44,9 @@ public class NPCFactoryShow : MonoBehaviour
     [Tooltip("Apa yang terjadi setelah NPC selesai memencet tombol? (Misal: Munculkan UI Pop Out)")]
     public UnityEvent onNPCSelesaiMencetTombol;
 
+    [Tooltip("Apa yang terjadi saat NPC sudah sepenuhnya kembali ke posisi awal dan diam (Idle)?")]
+    public UnityEvent onNPCKembaliKePosisi;
+
     void Start()
     {
         if (autoStartOnPlay)
@@ -114,6 +117,10 @@ public class NPCFactoryShow : MonoBehaviour
         
         Quaternion rotasiAkhir = rotasiAwalStandby * Quaternion.Euler(0, sudutMenghadapConveyor, 0);
         yield return StartCoroutine(PutarKeRotasi(rotasiAkhir));
+
+        // 8. SELESAI SEMUA ANIMASI! PANGGIL EVENT PENYELESAIAN ASSESSMENT
+        Debug.Log("[NPC] 8. Sequence selesai. Memicu Event Sukses...");
+        onNPCKembaliKePosisi?.Invoke();
     }
 
     private IEnumerator PutarMenghadap(Transform target)

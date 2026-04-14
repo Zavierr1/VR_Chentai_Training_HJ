@@ -27,10 +27,12 @@ public class MachineController : MonoBehaviour
     public TabletSpawner tabletSpawner;
     
     // >>> TAMBAHAN: Referensi ke NPC kamu
-    [Header("Referensi NPC")]
-    [Tooltip("Drag karakter NPC yang memiliki script NPCFactoryShow ke sini")]
+    [Header("Referensi NPC & Timer")]
+    [Tooltip("Drag karakter NPC yang memiliki script NPCFactoryShow ke sini")]  
     public NPCFactoryShow npcPekerja;
 
+    [Tooltip("Drag script AssessmentTimer dari UI ke sini agar saat 9 part terpasang timer berhenti")]  
+    public AssessmentTimer timerAssessment;
     [Header("Sistem Keamanan (Multi Snap Zone)")]
     [Tooltip("Centang jika mesin WAJIB menunggu part terpasang")]
     public bool wajibAdaPart = true;
@@ -173,6 +175,11 @@ public class MachineController : MonoBehaviour
         // >>> LOGIKA NORMAL: Jika bermain tanpa debug, NPC jalan saat semua part beres dipasang
         if (wajibAdaPart && partTerpasangSaatIni >= targetJumlahPart && !autoStartForDebug)
         {
+            if (timerAssessment != null)
+            {
+                timerAssessment.BerhentiTimerKarenaBerhasil();
+            }
+
             if (npcPekerja != null && !npcSudahDipanggil)
             {
                 Debug.Log("Semua part terpasang: Memulai pertunjukan NPC!");
