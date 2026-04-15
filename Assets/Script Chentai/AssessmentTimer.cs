@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using BNG; // Tambahkan ini untuk mengakses script Grabbable dari BNG
+using BNG; 
+using UnityEngine.SceneManagement; 
 
 public class AssessmentTimer : MonoBehaviour
 {
@@ -19,15 +20,23 @@ public class AssessmentTimer : MonoBehaviour
     [Tooltip("Masukkan semua part/barang (Grabbable) yang ada di meja ke dalam list ini agar dikunci sebelum mulai")]
     public Grabbable[] bendaAssessment;
 
-    [Header("Panel Hasil Assessment")]
-    [Tooltip("Masukkan Script Assessment Score Manager untuk mengambil skor akhir (opsional)")]
+    [Header("Panel Hasil Akhir (Unified)")]
     public AssessmentScoreManager scoreManager;
-    [Tooltip("Tarik Panel/Canvas UI Kemenangan ke sini")]
-    public GameObject panelHasilSukses;
-    [Tooltip("Tarik TextMeshPro untuk menampilkan Pesan, Waktu, & Skor")]
-    public TextMeshProUGUI teksHasilSukses;
+    [Tooltip("Tarik Panel/Canvas UI Hasil (Satu panel untuk Menang/Kalah) ke sini")]
+    public GameObject panelHasilAkhir;
+    [Tooltip("Tarik TextMeshPro untuk menampilkan Pesan Sukses / Gagal")]
+    public TextMeshProUGUI teksHasilAkhir;
+    
+    [Header("Tombol Navigasi Hasil")]
+    [Tooltip("Tombol untuk kembali ke Main Menu (Muncul saat Sukses)")]
+    public UnityEngine.UI.Button tombolFinish;
+    [Tooltip("Tombol untuk mengulang ujian (Muncul saat Gagal)")]
+    public UnityEngine.UI.Button tombolRestart;
+    
+    [Header("Pengaturan Scene")]
+    [Tooltip("Ketik nama scene Main Menu kamu dengan persis (huruf besar/kecil berpengaruh)")]
+    public string namaSceneMainMenu = "Nama_Scene_Main_Menu";
 
-    // --- Status Publik agar bisa dicek oleh script lain ---
     [HideInInspector]
     public bool isAssessmentJalan = false;
     
@@ -36,88 +45,114 @@ public class AssessmentTimer : MonoBehaviour
 
     void Start()
     {
-        // 1. Kunci semua part agar tidak bisa diambil player sebelum menekan tombol mulai
         KunciSemuaBarang(true);
-
-        // 2. Set waktu ke nilai awal (misal 300)
         sisaWaktu = waktuAssessment;
-        
-        // 3. Tampilkan teks 05:00 di awal sebelum mulai
         UpdateTeksTimer(sisaWaktu);
 
-        // 4. Pastikan panel hasil disembunyikan di awal
-        if (panelHasilSukses != null) 
-            panelHasilSukses.SetActive(false);
+        // Pastikan panel hasil disembunyikan di awal
+        if (panelHasilAkhir != null) panelHasilAkhir.SetActive(false);
 
-        // 5. Sambungkan event tombol jika tombol Mulai di-assign
-        if (tombolMulai != null)
-        {
-            tombolMulai.onClick.AddListener(MulaiAssessment);
-        }
+        // Sambungkan event tombol secara otomatis lewat script
+        if (tombolMulai != null) tombolMulai.onClick.AddListener(MulaiAssessment);
+        if (tombolFinish != null) tombolFinish.onClick.AddListener(KembaliKeMainMenu);
+        if (tombolRestart != null) tombolRestart.onClick.AddListener(RestartAssessment);
     }
 
-    // Fungsi ini dipanggil otomatis ketika tombol ditekan
     public void MulaiAssessment()
     {
         if (sudahSelesai) return;
 
         isAssessmentJalan = true;
-
-        // Buka kunci barang agar player sudah mulai bisa merakit!
         KunciSemuaBarang(false);
         
-        // Sembunyikan tombol Mulai dari layar
-        if (tombolMulai != null)
+        // >>> MODIFIKASI: Matikan seluruh Panel (Parent) agar tombol Start & Main Menu hilang bareng
+        if (tombolMulai != null) 
         {
-            tombolMulai.gameObject.SetActive(false);
+            tombolMulai.transform.parent.gameObject.SetActive(false);
         }
 
         Debug.Log("<color=green>[ASSESSMENT] Waktu Dimulai!</color>");
     }
 
-    // >>> DIPANGGIL OLEH MachineController SAAT SEMUA BARANG TERPASANG (SEBELUM NPC JALAN) <<<
     public void BerhentiTimerKarenaBerhasil()
     {
         if (!isAssessmentJalan) return;
         
-        isAssessmentJalan = false; // Matikan segera agar detiknya tidak berkurang selagi NPC animasi
+        isAssessmentJalan = false; 
         sudahSelesai = true; 
         
-        KunciSemuaBarang(true); // Kunci ulang semua benda jika masih ada yang melayang/sisa
+        KunciSemuaBarang(true); 
 
-        Debug.Log("<color=green>[ASSESSMENT] Mesin menyala! Timer dihentikan. Menunggu animasi NPC selesai.</color>");
+        Debug.Log("<color=green>[ASSESSMENT] Mesin menyala! Timer dihentikan.</color>");
     }
 
-    // >>> DIPANGGIL DARI EVENT NPCFactoryShow (onNPCKembaliKePosisi) SAAT NPC SUDAH BALIK KE POSISI <<<
+    // >>> LOGIKA KETIKA MENANG (WAKTU BELUM HABIS TAPI MESIN NYALA) <<<
     public void TampilkanPanelHasilSukses()
     {
-        // Hitung waktu yang ditorehkan (Waktu Max - Sisa Waktu)
         float waktuYangDipakai = waktuAssessment - sisaWaktu;
         int menit = Mathf.FloorToInt(waktuYangDipakai / 60);
         int detik = Mathf.FloorToInt(waktuYangDipakai % 60);
         string waktuFormat = string.Format("{0:00}:{1:00}", menit, detik);
 
-        // Ambil Skor dari indikator lain
-        int skorAkhir = (scoreManager != null) ? scoreManager.currentScore : 100; // Asumsi 100 kalau tidak pakai manager
+        int skorAkhir = (scoreManager != null) ? scoreManager.currentScore : 100; 
 
-        // Tampilkan Teks!
-        if (teksHasilSukses != null)
+        if (teksHasilAkhir != null)
         {
-            teksHasilSukses.text = $"<color=yellow>SELAMAT!</color>\n\n" +
+            teksHasilAkhir.text = $"<color=yellow>SELAMAT!</color>\n\n" +
                                    $"Anda berhasil merakit mesin dengan sempurna.\n" +
                                    $"Waktu yang Terpakai: <color=green>{waktuFormat}</color>\n" +
                                    $"Skor Akhir Anda: <color=yellow>{skorAkhir}</color>";
         }
 
-        if (panelHasilSukses != null)
-        {
-            panelHasilSukses.SetActive(true);
-        }
-        
-        // Sembunyikan Teks Timer yang lama jika perlu
-        if (teksTimer != null) teksTimer.gameObject.SetActive(false);
+        MunculkanPanel(true); // Panggil fungsi pembantu (True = Mode Menang)
     }
 
+    // >>> LOGIKA KETIKA KALAH (WAKTU HABIS) <<<
+    private void WaktuHabis()
+    {
+        Debug.Log("<color=red>[ASSESSMENT] WAKTU HABIS! GAGAL.</color>");
+        
+        sudahSelesai = true;
+        KunciSemuaBarang(true); // Kunci agar pemain tidak bisa lanjut merakit
+
+        if (teksHasilAkhir != null)
+        {
+            teksHasilAkhir.text = "<color=red>WAKTU HABIS!</color>\n\n" +
+                                  "Anda gagal menyelesaikan perakitan mesin dalam batas waktu yang ditentukan.\n" +
+                                  "Silakan coba lagi.";
+        }
+
+        MunculkanPanel(false); // Panggil fungsi pembantu (False = Mode Kalah)
+    }
+
+    // >>> FUNGSI PEMBANTU MENGATUR TOMBOL PANEL <<<
+    private void MunculkanPanel(bool isMenang)
+    {
+        if (panelHasilAkhir != null) panelHasilAkhir.SetActive(true);
+        if (teksTimer != null) teksTimer.gameObject.SetActive(false);
+
+        // Logika nyala/mati tombol: Kalau menang muncul Finish, kalau kalah muncul Restart
+        if (tombolFinish != null) tombolFinish.gameObject.SetActive(isMenang);
+        if (tombolRestart != null) tombolRestart.gameObject.SetActive(!isMenang);
+    }
+
+    // >>> FUNGSI NAVIGASI TOMBOL <<<
+    public void KembaliKeMainMenu() // <--- UBAH DI SINI
+    {
+        if (!string.IsNullOrEmpty(namaSceneMainMenu))
+        {
+            SceneManager.LoadScene(namaSceneMainMenu);
+        }
+        else Debug.LogError("Nama Scene Main Menu belum diisi di Inspector!");
+    }
+
+    private void RestartAssessment()
+    {
+        // Memuat ulang scene yang sedang aktif saat ini
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    // >>> INI FUNGSI YANG TADI KELUPAAN! <<<
     private void KunciSemuaBarang(bool isKunci)
     {
         if (bendaAssessment != null && bendaAssessment.Length > 0)
@@ -135,7 +170,6 @@ public class AssessmentTimer : MonoBehaviour
 
     void Update()
     {
-        // Jika assessment sedang berjalan, kurangi waktu terus menerus
         if (isAssessmentJalan)
         {
             if (sisaWaktu > 0)
@@ -143,45 +177,26 @@ public class AssessmentTimer : MonoBehaviour
                 sisaWaktu -= Time.deltaTime;
                 UpdateTeksTimer(sisaWaktu);
             }
-            else // Bila waktu tepat menyentuh angka 0
+            else 
             {
                 sisaWaktu = 0;
-                isAssessmentJalan = false; // Matikan timer
+                isAssessmentJalan = false; 
                 UpdateTeksTimer(sisaWaktu);
                 WaktuHabis();
             }
         }
     }
 
-    // Fungsi untuk mengubah angka detik/float menjadi format Jam:Menit (MM:SS)
     private void UpdateTeksTimer(float waktu)
     {
         if (teksTimer != null)
         {
             int menit = Mathf.FloorToInt(waktu / 60);
             int detik = Mathf.FloorToInt(waktu % 60);
-            
-            // Format angka agar selalu dua digit, contohnya "05:09", bukan "5:9"
             teksTimer.text = string.Format("{0:00}:{1:00}", menit, detik);
             
-            // Opsional: Bikin teks jadi MERAH kalau waktu sisa di bawah 1 menit (60 detik)
-            if (waktu < 60f)
-            {
-                teksTimer.color = Color.red;
-            }
-            else
-            {
-                teksTimer.color = Color.white; // Asumsi warna dasar timer adalah putih
-            }
+            if (waktu < 60f) teksTimer.color = Color.red;
+            else teksTimer.color = Color.white; 
         }
-    }
-
-    // Fungsi ini terpanggil murni saat timer menyentuh 00:00
-    private void WaktuHabis()
-    {
-        Debug.Log("<color=red>[ASSESSMENT] WAKTU HABIS! GAGAL.</color>");
-        
-        // TODO: Anda bisa panggil event memunculkan Panel "GAGAL" di sini nantinya
-        // Contoh: panelGagal.SetActive(true);
     }
 }

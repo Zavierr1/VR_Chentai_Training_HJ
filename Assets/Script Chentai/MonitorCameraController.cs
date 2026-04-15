@@ -40,6 +40,7 @@ public class MonitorCameraController : MonoBehaviour
     public Button tombolPartC;
     public Button tombolBack;         
     public Button tombolNext;
+    public Button tombolReset; // Tombol untuk lanjut ke scene berikutnya setelah tutorial selesai
 
     // >>> TAMBAHAN BARU: Tombol Ekstra Panduan <<<
     [Header("Tombol Ekstra Panduan")]
@@ -97,13 +98,16 @@ public class MonitorCameraController : MonoBehaviour
             cctvCamera.rotation = targetDefault.rotation;
         }
 
-        // >>> MATIKAN PANEL SELAMAT SECARA OTOMATIS SAAT GAME DIMULAI
         if (panelSelesaiTutorial != null)
         {
             panelSelesaiTutorial.SetActive(false);
         }
         
         MatikanSemuaSlideshow();
+
+        // >>> TAMBAHAN BARU: Bersihkan layar TV secara default saat game mulai <<<
+        KunciSemuaTombol();
+        UpdateTeksUI("");
     }
 
     public void KunciSistemUtama(bool isKunci)
@@ -121,6 +125,9 @@ public class MonitorCameraController : MonoBehaviour
         KunciSemuaTombol(); 
         if (isSedangKalibrasiVR) return;
 
+        // >>> TAMBAHAN: Nyalakan tombol reset kapanpun tampilan TV kembali ke posisi default <<<
+        if (tombolReset != null) tombolReset.gameObject.SetActive(true);
+
         if (!tutorialSelesai)
         {
             if (tombolStartTutorial != null) { tombolStartTutorial.gameObject.SetActive(true); tombolStartTutorial.interactable = true; }
@@ -132,11 +139,6 @@ public class MonitorCameraController : MonoBehaviour
                 if (tombolPartA != null) { tombolPartA.gameObject.SetActive(true); tombolPartA.interactable = (tahapPerakitan == 1); }
                 if (tombolPartB != null) { tombolPartB.gameObject.SetActive(true); tombolPartB.interactable = (tahapPerakitan == 2); }
                 if (tombolPartC != null) { tombolPartC.gameObject.SetActive(true); tombolPartC.interactable = (tahapPerakitan == 3); }
-            }
-            else
-            {
-                // Sengaja dikosongkan. Tombol Finish dan layar sukses 
-                // hanya akan dimunculkan manual via TutupControlPanelDanSelesai()
             }
             
             if (tombolPanduanPojokKanan != null) { tombolPanduanPojokKanan.gameObject.SetActive(true); tombolPanduanPojokKanan.interactable = true; }
@@ -153,6 +155,7 @@ public class MonitorCameraController : MonoBehaviour
         if (tombolBack != null) tombolBack.gameObject.SetActive(false); 
         if (tombolPanduanPojokKanan != null) tombolPanduanPojokKanan.gameObject.SetActive(false);
         if (tombolFinish != null) tombolFinish.gameObject.SetActive(false);
+        if (tombolReset != null) tombolReset.gameObject.SetActive(false);
     }
 
     public void MulaiTutorial()

@@ -1,44 +1,63 @@
 using UnityEngine;
+using UnityEngine.SceneManagement; // Dibutuhkan untuk memuat ulang scene
 
 public class MainMenuManager : MonoBehaviour
 {
-    [Header("Pengaturan UI")]
-    [Tooltip("Tarik Canvas Main Menu-mu ke sini")]
+    [Header("Pengaturan UI Utama")]
     public GameObject canvasMainMenu;
-    
-    [Tooltip("Tarik GameObject yang memegang script InputTutorialManager ke sini")]
-    public GameObject objekTutorialManager;
 
-    [Header("Opsional: Teleport Player")]
-    [Tooltip("Tarik objek PlayerController/XR Rig BNG ke sini jika ingin player dipindah")]
+    [Header("Mode Tutorial (Satu Scene)")]
+    public GameObject objekTutorialManager;
+    
+    [Header("Teleport Player (Khusus Tutorial)")]
     public Transform playerRig;
-    [Tooltip("Titik berdiri player di depan mesin")]
-    public Transform titikMulaiTutorial;
+    public Transform titikMulaiSistem;
+
+    [Header("Mode Assessment (Pindah Scene)")]
+    public string namaSceneAssessment = "Scene_Assessment_Mesin";
 
     void Start()
     {
-        // Kondisi saat awal game: Menu nyala, Tutorial mati
         if (canvasMainMenu != null) canvasMainMenu.SetActive(true);
         if (objekTutorialManager != null) objekTutorialManager.SetActive(false);
     }
 
-    // FUNGSI INI DIHUBUNGKAN KE TOMBOL "MULAI TUTORIAL" DI MAIN MENU
+    // >>> FUNGSI BARU: RESET GAME (UNTUK MENGATASI BUG) <<<
+    public void ResetGame()
+    {
+        Debug.Log("Resetting: Mengembalikan semua ke awal...");
+        
+        // Perintah ini akan memuat ulang scene yang sedang dimainkan saat ini.
+        // Sangat ampuh untuk membersihkan bug atau state script yang error.
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     public void MulaiModeTutorial()
     {
-        // 1. Matikan layar Main Menu
         if (canvasMainMenu != null) canvasMainMenu.SetActive(false);
-
-        // 2. (Opsional) Teleport player ke depan mesin jika menu beradanya agak jauh
-        if (playerRig != null && titikMulaiTutorial != null)
+        
+        if (playerRig != null && titikMulaiSistem != null)
         {
-            playerRig.position = titikMulaiTutorial.position;
-            // Gunakan rotasi Y saja agar player tidak miring/nunduk
-            playerRig.rotation = Quaternion.Euler(0, titikMulaiTutorial.eulerAngles.y, 0);
+            playerRig.position = titikMulaiSistem.position;
+            playerRig.rotation = Quaternion.Euler(0, titikMulaiSistem.eulerAngles.y, 0);
         }
 
-        // 3. Bangunkan Tutorial Manager!
-        // Karena di InputTutorialManager ada fungsi Start() yang memanggil SequencePembukaanOtomatis,
-        // begitu objek ini dinyalakan, tutorial akan otomatis berjalan.
         if (objekTutorialManager != null) objekTutorialManager.SetActive(true);
+    }
+
+    public void MulaiModeAssessment()
+    {
+        if (!string.IsNullOrEmpty(namaSceneAssessment))
+        {
+            SceneManager.LoadScene(namaSceneAssessment); 
+        }
+    }
+
+    public void KeluarGame()
+    {
+        Application.Quit();
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
 }
