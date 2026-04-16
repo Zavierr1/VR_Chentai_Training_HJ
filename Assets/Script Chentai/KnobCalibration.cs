@@ -1,12 +1,17 @@
 using UnityEngine;
-using BNG; // Wajib untuk sistem Haptic dan Grabbable BNG
+using BNG;
 
 [RequireComponent(typeof(Grabbable))]
 public class KnobCalibration : MonoBehaviour
 {
+    public enum AxisPutaran { X, Y, Z }
+
     [Header("Pengaturan Target Kalibrasi")]
+    [Tooltip("Pilih sumbu putar knob-mu (Jika muternya di Z, ubah ke Z)")]
+    public AxisPutaran sumbuRotasi = AxisPutaran.Z; // <--- SEKARANG BISA DIPILIH DI INSPECTOR
+
     [Tooltip("Target putaran saat ini (diatur otomatis oleh CalibrationManager)")]
-    public float targetRotasiY = 180f;
+    public float targetRotasi = 180f;
     
     [Tooltip("Toleransi derajat. Jika masuk range ini, dianggap SUKSES")]
     public float toleransiSukses = 5f; 
@@ -22,93 +27,79 @@ public class KnobCalibration : MonoBehaviour
     private bool sudahBunyiKlik = false;
     
     [HideInInspector]
-    public bool isKalibrasiSukses = false; // Dibaca oleh CalibrationManager nanti
+    public bool isKalibrasiSukses = false;
 
     void Start()
     {
         grabbableKomponen = GetComponent<Grabbable>();
-        
-        // Opsional: Matikan Grab di awal game, biar player nggak iseng muter
-        // sebelum fase kalibrasi dimulai.
         grabbableKomponen.enabled = false; 
     }
 
-    // Fungsi ini dipanggil dari CalibrationManager nanti
     public void MulaiFaseKalibrasi(float targetRandom)
     {
-        targetRotasiY = targetRandom;
+        targetRotasi = targetRandom;
         isKalibrasiSukses = false;
         sudahBunyiKlik = false;
         
-        // Aktifkan agar bisa dipegang
         grabbableKomponen.enabled = true; 
-        
-        Debug.Log($"[KNOB] Fase kalibrasi dimulai. Cari titik di sekitar: {targetRotasiY} derajat.");
+        Debug.Log($"[KNOB] Fase kalibrasi dimulai. Cari titik di sekitar: {targetRotasi} derajat.");
     }
 
-    // Fungsi untuk mematikan interaksi saat kalibrasi selesai
     public void SelesaiKalibrasi()
     {
         grabbableKomponen.enabled = false;
     }
 
+    // Fungsi bantuan untuk mengambil nilai rotasi sesuai sumbu yang dipilih
+    private float AmbilRotasiSaatIni()
+    {
+        if (sumbuRotasi == AxisPutaran.X) return transform.localEulerAngles.x;
+        if (sumbuRotasi == AxisPutaran.Y) return transform.localEulerAngles.y;
+        return transform.localEulerAngles.z; // Default ke Z jika dipilih Z
+    }
+
     void Update()
     {
-        // 1. Cek apakah kenop sedang digenggam oleh player
         if (grabbableKomponen.BeingHeld)
         {
             CekPutaranDanGetar();
         }
         else
         {
-            // Reset status bunyi kalau player lepas tangan, biar bisa bunyi lagi kalau dipegang ulang
             if (!isKalibrasiSukses) sudahBunyiKlik = false; 
         }
     }
 
     private void CekPutaranDanGetar()
     {
-        // 2. Ambil rotasi lokal Y dari kenop saat ini (Pastikan sumbu putarmu benar Y. Jika salah, ganti ke X atau Z)
-        // Kita pakai eulerAngles lokal karena kenop ini adalah child dari objek Press
-        float rotasiSaatIni = transform.localEulerAngles.y;
+        // 1. Ambil rotasi sesuai sumbu yang di-setting
+        float rotasiSaatIni = AmbilRotasiSaatIni();
 
-        // 3. Hitung selisih jarak rotasi saat ini dengan target
-        float selisihJarak = Mathf.DeltaAngle(rotasiSaatIni, targetRotasiY);
-        selisihJarak = Mathf.Abs(selisihJarak); // Jadikan positif
+        // 2. Hitung selisih
+        float selisihJarak = Mathf.DeltaAngle(rotasiSaatIni, targetRotasi);
+        selisihJarak = Mathf.Abs(selisihJarak); 
 
-        // 4. Logika Sweet Spot (Sukses)
+        // 3. Logika Sukses
         if (selisihJarak <= toleransiSukses)
         {
             isKalibrasiSukses = true;
-
-            // Mainkan suara KLIK sekali saja saat masuk zona
             if (!sudahBunyiKlik)
             {
                 if (suaraKlikSukses != null) suaraKlikSukses.Play();
-                
-                // >>> PERBAIKAN DI SINI: Menggunakan GetPrimaryGrabber() <<<
                 InputBridge.Instance.VibrateController(0.5f, 0.2f, 0.1f, grabbableKomponen.GetPrimaryGrabber().HandSide);
-                
                 sudahBunyiKlik = true;
             }
         }
         else
         {
-            // Kalau keluar dari zona, berarti belum sukses
             isKalibrasiSukses = false;
             sudahBunyiKlik = false;
 
-            // 5. Logika Radar Haptic (Makin dekat, makin getar)
-            // Misal: radius radar kita adalah 45 derajat.
             float radiusRadar = 45f;
-            
             if (selisihJarak <= radiusRadar)
             {
-                // Hitung kekuatan getaran: kalau selisih 45 = getar 0. Kalau selisih 10 = getar kuat.
                 float persentaseGetaran = 1f - (selisihJarak / radiusRadar);
                 float kekuatanGetar = persentaseGetaran * getaranMaksimal;
-
-                // >>> PERBAIKAN DI SINI JUGA: Menggunakan GetPrimaryGrabber() <<<
                 InputBridge.Instance.VibrateController(0.1f, kekuatanGetar, 0.05f, grabbableKomponen.GetPrimaryGrabber().HandSide);
             }
         }
@@ -116,14 +107,12 @@ public class KnobCalibration : MonoBehaviour
 
     public float GetPersentaseAkurasi()
     {
-        float rotasiSaatIni = transform.localEulerAngles.y;
-        float selisihJarak = Mathf.DeltaAngle(rotasiSaatIni, targetRotasiY);
+        // Gunakan fungsi bantuan yang sama untuk hitung UI Slider
+        float rotasiSaatIni = AmbilRotasiSaatIni();
+        float selisihJarak = Mathf.DeltaAngle(rotasiSaatIni, targetRotasi);
         selisihJarak = Mathf.Abs(selisihJarak);
 
-        // Kita asumsikan jarak terjauh yang dideteksi UI adalah 45 derajat
         float rangeMaksimal = 45f;
-        
-        // Hitung persentase: 1.0 = tepat di target, 0.0 = di luar range 45 derajat
         float skor = 1f - Mathf.Clamp01(selisihJarak / rangeMaksimal);
         return skor;
     }

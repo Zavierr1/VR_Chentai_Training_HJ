@@ -7342,7 +7342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MachineController
   isMachineOn: 0
-  autoStartForDebug: 0
+  autoStartForDebug: 1
   otomatisNyalaOlehNPC: 1
   delayOtomatisNyala: 4.2
   forceOffComponentsOnStart: 1
@@ -40722,7 +40722,7 @@ MonoBehaviour:
   tabletPrefab: {fileID: 7249038105907269318, guid: afbe3134116ef0d49855398945fce717,
     type: 3}
   spawnPoint: {fileID: 1142732350}
-  tabletLifetime: 50
+  tabletLifetime: 500
   ejectorMesin: {fileID: 635528158}
   pressEffect: {fileID: 0}
   pressSound: {fileID: 0}
@@ -40981,7 +40981,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a4015a3aa308b344b9d59b6a7d83c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnobCalibration
-  targetRotasiY: 180
+  sumbuRotasi: 2
+  targetRotasi: 180
   toleransiSukses: 5
   getaranMaksimal: 0.8
   suaraKlikSukses: {fileID: 0}
@@ -41079,7 +41080,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -67596,6 +67597,7 @@ GameObject:
   - component: {fileID: 1153403455}
   - component: {fileID: 1153403458}
   - component: {fileID: 6206058875104586309}
+  - component: {fileID: 6206058875104586310}
   m_Layer: 0
   m_Name: KNOB
   m_TagString: Untagged
@@ -71983,12 +71985,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3103409409686055592}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.003004074, y: 0.016453564, z: 2.7088122}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 4.2843, y: 0.43251, z: 0.090249}
+  m_LocalScale: {x: 0.082322, y: 0.082322, z: 0.082322}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6445869021299607772}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5391350934867811870
 MeshFilter:
@@ -73169,6 +73171,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6120472, y: 0.6121809, z: 0.27581596}
   m_Center: {x: -0.00034555793, y: -0.0077530444, z: -0.0096135065}
+--- !u!59 &6206058875104586310
+HingeJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3103409409686055592}
+  serializedVersion: 3
+  m_ConnectedBody: {fileID: 1007325153}
+  m_ConnectedArticulationBody: {fileID: 0}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: 0, y: 0, z: 0.1}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_UseSpring: 0
+  m_Spring:
+    spring: 0
+    damper: 0
+    targetPosition: 0
+  m_UseMotor: 0
+  m_Motor:
+    targetVelocity: 0
+    force: 0
+    freeSpin: 0
+  m_UseLimits: 0
+  m_ExtendedLimits: 0
+  m_UseAcceleration: 0
+  m_Limits:
+    min: 0
+    max: 0
+    bounciness: 0
+    bounceMinVelocity: 0.2
+    contactDistance: 0
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 100
+  m_ConnectedMassScale: 100
 --- !u!23 &6206276474085758476
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -73596,7 +73637,6 @@ Transform:
   - {fileID: 1573586048}
   - {fileID: 848734523}
   - {fileID: 1736070988}
-  - {fileID: 5347678807657762703}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &6467369921437884456
@@ -79143,6 +79183,7 @@ SceneRoots:
   - {fileID: 3562678619575434749}
   - {fileID: 221581266}
   - {fileID: 1201658138}
+  - {fileID: 5347678807657762703}
   - {fileID: 6445869021299607772}
   - {fileID: 5431694717833556859}
   - {fileID: 1232201131}
