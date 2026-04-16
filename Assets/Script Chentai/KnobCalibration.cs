@@ -113,4 +113,18 @@ public class KnobCalibration : MonoBehaviour
             }
         }
     }
+
+    public float GetPersentaseAkurasi()
+    {
+        float rotasiSaatIni = transform.localEulerAngles.y;
+        float selisihJarak = Mathf.DeltaAngle(rotasiSaatIni, targetRotasiY);
+        selisihJarak = Mathf.Abs(selisihJarak);
+
+        // Kita asumsikan jarak terjauh yang dideteksi UI adalah 45 derajat
+        float rangeMaksimal = 45f;
+        
+        // Hitung persentase: 1.0 = tepat di target, 0.0 = di luar range 45 derajat
+        float skor = 1f - Mathf.Clamp01(selisihJarak / rangeMaksimal);
+        return skor;
+    }
 }

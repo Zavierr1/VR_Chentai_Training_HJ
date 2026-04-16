@@ -24,7 +24,11 @@ public class CalibrationManager : MonoBehaviour
 
     [Header("Event Sukses")]
     public UnityEvent onKalibrasiBerhasilSelesai;
-
+    
+    [Header("Referensi UI Akurasi Knob")]
+    public UnityEngine.UI.Slider sliderAkurasiKnob;
+    public Image barAkurasiKnob; // Masukkan komponen Image dari "Fill" slider ke sini
+    
     private int suhuSaatIni;
     private bool isFaseKalibrasiAktif = false;
     private bool sudahSelesai = false;
@@ -79,8 +83,6 @@ public class CalibrationManager : MonoBehaviour
         if (panelKalibrasi != null) panelKalibrasi.SetActive(true);
     }
 
-    // ... (Sisa fungsi TambahSuhu, UpdateTampilanSuhuLengkap, dll tetap sama) ...
-    
     public void TambahSuhu()
     {
         if (!isFaseKalibrasiAktif) return;
@@ -121,8 +123,24 @@ public class CalibrationManager : MonoBehaviour
     void Update()
     {
         if (isFaseKalibrasiAktif && !sudahSelesai) {
+            
+            // >>> TAMBAHAN LOGIKA UPDATE UI SLIDER KNOB <<<
+            if (knobPillowBlock != null && sliderAkurasiKnob != null)
+            {
+                float progress = knobPillowBlock.GetPersentaseAkurasi();
+                sliderAkurasiKnob.value = progress;
+                
+                // Ubah warna bar perlahan dari Merah (jauh) ke Hijau (pas di target)
+                if (barAkurasiKnob != null)
+                {
+                    barAkurasiKnob.color = Color.Lerp(Color.red, Color.green, progress);
+                }
+            }
+
+            // Cek kondisi sukses
             bool suhuAman = (suhuSaatIni >= 100 && suhuSaatIni <= 120);
             bool knobAman = (knobPillowBlock != null && knobPillowBlock.isKalibrasiSukses);
+            
             if (suhuAman && knobAman) StartCoroutine(ProsesKalibrasiSukses());
         }
     }
@@ -131,9 +149,13 @@ public class CalibrationManager : MonoBehaviour
     {
         sudahSelesai = true;
         isFaseKalibrasiAktif = false;
+        
         if (knobPillowBlock != null) knobPillowBlock.SelesaiKalibrasi(); 
         if (teksStatusSuhu != null) teksStatusSuhu.text = "SISTEM NORMAL";
+        
+        // Jeda bentar biar player sadar mereka udah berhasil
         yield return new WaitForSeconds(2f);
+        
         if (panelKalibrasi != null) panelKalibrasi.SetActive(false);
         if (mesinUtama != null) mesinUtama.StartMachine();
         onKalibrasiBerhasilSelesai?.Invoke();
