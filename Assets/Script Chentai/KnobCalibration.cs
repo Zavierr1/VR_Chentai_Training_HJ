@@ -6,43 +6,37 @@ public class KnobCalibration : MonoBehaviour
 {
     public enum AxisPutaran { X, Y, Z }
 
-    [Header("Pengaturan Target Kalibrasi")]
-    [Tooltip("Pilih sumbu putar knob-mu (Jika muternya di Z, ubah ke Z)")]
-    public AxisPutaran sumbuRotasi = AxisPutaran.Z; // <--- SEKARANG BISA DIPILIH DI INSPECTOR
-
-    [Tooltip("Target putaran saat ini (diatur otomatis oleh CalibrationManager)")]
-    public float targetRotasi = 180f;
+    [Header("Pengaturan Mekanik Putaran")]
+    public AxisPutaran sumbuRotasi = AxisPutaran.Z;
     
-    [Tooltip("Toleransi derajat. Jika masuk range ini, dianggap SUKSES")]
-    public float toleransiSukses = 5f; 
+    [Tooltip("Berapa derajat putaran untuk mengubah 1 angka? (Misal: 5 derajat = angka naik/turun 1)")]
+    public float derajatPerAngka = 5f;
 
-    [Header("Feedback Haptic & Audio")]
-    [Tooltip("Intensitas getaran maksimal saat mendekati target (0 - 1)")]
-    public float getaranMaksimal = 0.8f;
-    [Tooltip("Audio yang diputar saat masuk ke titik yang pas (Sweet Spot)")]
+    [Header("Feedback Audio & Haptic")]
+    [Tooltip("Bunyi keras 'TEK' saat Sealing Roll sejajar di angka 100")]
     public AudioSource suaraKlikSukses;
+    [Tooltip("Bunyi 'tik' kecil seperti roda gigi saat diputar (Opsional)")]
+    public AudioSource suaraTikKecil; 
 
-    // --- Variabel Internal ---
     private Grabbable grabbableKomponen;
-    private bool sudahBunyiKlik = false;
+    private CalibrationManager managerKalibrasi;
     
-    [HideInInspector]
-    public bool isKalibrasiSukses = false;
+    private float rotasiSebelumnya;
+    private float akumulasiPutaran = 0f;
 
-    void Start()
+    void Awake()
     {
         grabbableKomponen = GetComponent<Grabbable>();
         grabbableKomponen.enabled = false; 
     }
 
-    public void MulaiFaseKalibrasi(float targetRandom)
+    public void SetupKnobUntukKalibrasi(CalibrationManager manager)
     {
-        targetRotasi = targetRandom;
-        isKalibrasiSukses = false;
-        sudahBunyiKlik = false;
+        managerKalibrasi = manager;
+        grabbableKomponen.enabled = true;
         
-        grabbableKomponen.enabled = true; 
-        Debug.Log($"[KNOB] Fase kalibrasi dimulai. Cari titik di sekitar: {targetRotasi} derajat.");
+        rotasiSebelumnya = AmbilRotasiSaatIni();
+        akumulasiPutaran = 0f;
     }
 
     public void SelesaiKalibrasi()
@@ -50,70 +44,55 @@ public class KnobCalibration : MonoBehaviour
         grabbableKomponen.enabled = false;
     }
 
-    // Fungsi bantuan untuk mengambil nilai rotasi sesuai sumbu yang dipilih
     private float AmbilRotasiSaatIni()
     {
         if (sumbuRotasi == AxisPutaran.X) return transform.localEulerAngles.x;
         if (sumbuRotasi == AxisPutaran.Y) return transform.localEulerAngles.y;
-        return transform.localEulerAngles.z; // Default ke Z jika dipilih Z
+        return transform.localEulerAngles.z;
     }
 
     void Update()
     {
         if (grabbableKomponen.BeingHeld)
         {
-            CekPutaranDanGetar();
-        }
-        else
-        {
-            if (!isKalibrasiSukses) sudahBunyiKlik = false; 
-        }
-    }
+            float rotasiSekarang = AmbilRotasiSaatIni();
+            
+            // Hitung selisih putaran
+            float delta = Mathf.DeltaAngle(rotasiSebelumnya, rotasiSekarang);
+            rotasiSebelumnya = rotasiSekarang;
 
-    private void CekPutaranDanGetar()
-    {
-        // 1. Ambil rotasi sesuai sumbu yang di-setting
-        float rotasiSaatIni = AmbilRotasiSaatIni();
+            akumulasiPutaran += delta;
 
-        // 2. Hitung selisih
-        float selisihJarak = Mathf.DeltaAngle(rotasiSaatIni, targetRotasi);
-        selisihJarak = Mathf.Abs(selisihJarak); 
-
-        // 3. Logika Sukses
-        if (selisihJarak <= toleransiSukses)
-        {
-            isKalibrasiSukses = true;
-            if (!sudahBunyiKlik)
+            // Jika putaran mencapai batas derajat, ubah angka kerapatan di UI!
+            if (Mathf.Abs(akumulasiPutaran) >= derajatPerAngka)
             {
-                if (suaraKlikSukses != null) suaraKlikSukses.Play();
-                InputBridge.Instance.VibrateController(0.5f, 0.2f, 0.1f, grabbableKomponen.GetPrimaryGrabber().HandSide);
-                sudahBunyiKlik = true;
+                // Hitung berapa step (bisa +1 atau -1 tergantung arah putaran)
+                int langkahAngka = Mathf.FloorToInt(akumulasiPutaran / derajatPerAngka);
+                akumulasiPutaran -= (langkahAngka * derajatPerAngka);
+
+                if (langkahAngka != 0 && managerKalibrasi != null)
+                {
+                    managerKalibrasi.UbahKerapatanDariKnob(langkahAngka);
+
+                    // Getaran mekanik ringan saat memutar
+                    InputBridge.Instance.VibrateController(0.05f, 0.1f, 0.05f, grabbableKomponen.GetPrimaryGrabber().HandSide);
+                    if (suaraTikKecil != null) suaraTikKecil.Play();
+                }
             }
         }
         else
         {
-            isKalibrasiSukses = false;
-            sudahBunyiKlik = false;
-
-            float radiusRadar = 45f;
-            if (selisihJarak <= radiusRadar)
-            {
-                float persentaseGetaran = 1f - (selisihJarak / radiusRadar);
-                float kekuatanGetar = persentaseGetaran * getaranMaksimal;
-                InputBridge.Instance.VibrateController(0.1f, kekuatanGetar, 0.05f, grabbableKomponen.GetPrimaryGrabber().HandSide);
-            }
+            rotasiSebelumnya = AmbilRotasiSaatIni(); 
         }
     }
 
-    public float GetPersentaseAkurasi()
+    public void BeriFeedbackSukses(bool sedangDipegang)
     {
-        // Gunakan fungsi bantuan yang sama untuk hitung UI Slider
-        float rotasiSaatIni = AmbilRotasiSaatIni();
-        float selisihJarak = Mathf.DeltaAngle(rotasiSaatIni, targetRotasi);
-        selisihJarak = Mathf.Abs(selisihJarak);
-
-        float rangeMaksimal = 45f;
-        float skor = 1f - Mathf.Clamp01(selisihJarak / rangeMaksimal);
-        return skor;
+        if (suaraKlikSukses != null) suaraKlikSukses.Play();
+        if (sedangDipegang && grabbableKomponen.BeingHeld)
+        {
+            // Getar kencang menandakan Sealing Roll terkunci mantap
+            InputBridge.Instance.VibrateController(0.8f, 0.5f, 0.1f, grabbableKomponen.GetPrimaryGrabber().HandSide);
+        }
     }
 }

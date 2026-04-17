@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events; // >>> TAMBAHAN: Wajib untuk sistem Event UI
+using UnityEngine.Events;
 
 public class NPCFactoryShow : MonoBehaviour
 {
@@ -39,13 +39,16 @@ public class NPCFactoryShow : MonoBehaviour
     [Header("Debug")]
     public bool autoStartOnPlay = true;
 
-    // >>> TAMBAHAN BARU: Event untuk memicu UI Pop-Out
     [Header("Event UI & Interaksi")]
     [Tooltip("Apa yang terjadi setelah NPC selesai memencet tombol? (Misal: Munculkan UI Pop Out)")]
     public UnityEvent onNPCSelesaiMencetTombol;
 
     [Tooltip("Apa yang terjadi saat NPC sudah sepenuhnya kembali ke posisi awal dan diam (Idle)?")]
     public UnityEvent onNPCKembaliKePosisi;
+
+    // >>> TAMBAHAN BARU: Variabel untuk nahan NPC <<<
+    [HideInInspector] 
+    public bool sedangMenungguKalibrasi = false;
 
     void Start()
     {
@@ -56,6 +59,13 @@ public class NPCFactoryShow : MonoBehaviour
     public void MesinSelesaiDiperbaiki()
     {
         StartCoroutine(SequenceKerjaProfesional());
+    }
+
+    // >>> FUNGSI BARU: Dipanggil saat kalibrasi selesai untuk melanjutkan animasi <<<
+    public void LanjutkanReaksiNPC()
+    {
+        sedangMenungguKalibrasi = false;
+        Debug.Log("[NPC] Menerima sinyal kalibrasi beres. Melanjutkan reaksi...");
     }
 
     private IEnumerator SequenceKerjaProfesional()
@@ -79,8 +89,7 @@ public class NPCFactoryShow : MonoBehaviour
         anim.SetTrigger("PushButton");
         yield return new WaitForSeconds(durasiPencetTombol);
 
-        // >>> PANGGIL EVENT POP-OUT UI DI SINI <<<
-        // Tepat setelah NPC selesai memencet tombol, dia akan memberi sinyal untuk memunculkan layar UI!
+        // Panggil event untuk memunculkan UI Panel Kalibrasi
         onNPCSelesaiMencetTombol?.Invoke();
 
         // 3. MENGHADAP PEMAIN (KAMERA)
@@ -93,9 +102,19 @@ public class NPCFactoryShow : MonoBehaviour
             yield return StartCoroutine(PutarMenghadap(targetPemain));
         }
 
-        // 4. THUMBS UP
-        Debug.Log("[NPC] 4. Mesin aman, Thumbs Up!");
+        // >>> BAGIAN BARU: SET IDLE DAN TUNGGU PEMAIN <<<
+        Debug.Log("[NPC] 3.5 Menunggu pemain menyelesaikan kalibrasi...");
         anim.ResetTrigger("PushButton");
+        anim.SetTrigger("Idle"); // Paksa NPC diam berdiri tegap ngeliatin player
+        
+        sedangMenungguKalibrasi = true;
+        // Kode akan BERHENTI di baris ini sampai variabel di atas jadi false
+        yield return new WaitUntil(() => !sedangMenungguKalibrasi); 
+        // ========================================================
+
+        // 4. THUMBS UP
+        Debug.Log("[NPC] 4. Kalibrasi sukses, Thumbs Up!");
+        anim.ResetTrigger("Idle"); // Matikan idle, ganti animasi thumbs
         anim.SetTrigger("Thumbs");
         yield return new WaitForSeconds(durasiThumbs);
 
@@ -118,16 +137,16 @@ public class NPCFactoryShow : MonoBehaviour
         Quaternion rotasiAkhir = rotasiAwalStandby * Quaternion.Euler(0, sudutMenghadapConveyor, 0);
         yield return StartCoroutine(PutarKeRotasi(rotasiAkhir));
 
-        // 8. SELESAI SEMUA ANIMASI! PANGGIL EVENT PENYELESAIAN ASSESSMENT
+        // 8. SELESAI
         Debug.Log("[NPC] 8. Sequence selesai. Memicu Event Sukses...");
         onNPCKembaliKePosisi?.Invoke();
     }
 
+    // ... (Fungsi Coroutine Putar, Jalan, IK Kaki di bawahnya tidak ada yang berubah, tetap sama seperti sebelumnya) ...
     private IEnumerator PutarMenghadap(Transform target)
     {
         Vector3 arahKeTarget = target.position - transform.position;
         arahKeTarget.y = 0; 
-        
         if (arahKeTarget != Vector3.zero)
         {
             Quaternion targetRotasi = Quaternion.LookRotation(arahKeTarget);

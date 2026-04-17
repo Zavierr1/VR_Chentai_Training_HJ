@@ -65,10 +65,11 @@ public class AssessmentTimer : MonoBehaviour
         isAssessmentJalan = true;
         KunciSemuaBarang(false);
         
-        // >>> MODIFIKASI: Matikan seluruh Panel (Parent) agar tombol Start & Main Menu hilang bareng
+        // >>> PERBAIKAN: Hanya matikan gameObject tombol Mulai-nya saja, 
+        // JANGAN matikan parent-nya agar UI Timer tetap terlihat.
         if (tombolMulai != null) 
         {
-            tombolMulai.transform.parent.gameObject.SetActive(false);
+            tombolMulai.gameObject.SetActive(false);
         }
 
         Debug.Log("<color=green>[ASSESSMENT] Waktu Dimulai!</color>");
@@ -128,14 +129,25 @@ public class AssessmentTimer : MonoBehaviour
     // >>> FUNGSI PEMBANTU MENGATUR TOMBOL PANEL <<<
     private void MunculkanPanel(bool isMenang)
     {
+        // 1. Nyalakan panel hasil akhir
         if (panelHasilAkhir != null) panelHasilAkhir.SetActive(true);
+        
+        // 2. Matikan angka timer
         if (teksTimer != null) teksTimer.gameObject.SetActive(false);
 
-        // Logika nyala/mati tombol: Kalau menang muncul Finish, kalau kalah muncul Restart
+        // >>> TAMBAHAN BARU: Matikan sisa background/panel awal agar tidak numpuk
+        if (tombolMulai != null && tombolMulai.transform.parent != null)
+        {
+            // PENTING: Pastikan panelHasilAkhir BUKAN child dari parent tombolMulai ini di Unity, 
+            // agar Win Panel tidak ikut mati.
+            tombolMulai.transform.parent.gameObject.SetActive(false);
+        }
+
+        // 3. Logika nyala/mati tombol
         if (tombolFinish != null) tombolFinish.gameObject.SetActive(isMenang);
         if (tombolRestart != null) tombolRestart.gameObject.SetActive(!isMenang);
     }
-
+    
     // >>> FUNGSI NAVIGASI TOMBOL <<<
     public void KembaliKeMainMenu() // <--- UBAH DI SINI
     {

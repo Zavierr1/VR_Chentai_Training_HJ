@@ -26,6 +26,7 @@ public class MonitorCameraController : MonoBehaviour
     public SnapGroupManager managerPartA;
     public SnapGroupManager managerPartB;
     public SnapGroupManager managerPartC;
+    public bool debugBypassPerakitan = false;
 
     [Header("Voice Over")]
     [Tooltip("Masukkan AudioSource untuk VO Perakitan")]
@@ -465,9 +466,10 @@ public class MonitorCameraController : MonoBehaviour
     // >>> FUNGSI BARU: Hook fungsi ini ke Tombol "CLOSE" yang ada di panel merah (Control Panel)
     public void TutupControlPanelDanSelesai()
     {
-        if (tahapPerakitan > 3)
+        // >>> PERHATIKAN: Sekarang kita tambahkan "|| debugBypassPerakitan" <<<
+        if (tahapPerakitan > 3 || debugBypassPerakitan)
         {
-            // Skenario 1: Player meng-close panel setelah semua tahapan perakitan selesai!
+            // Skenario 1: Player meng-close panel setelah semua tahapan perakitan selesai (atau Debug aktif)
             KunciSemuaTombol();
             MatikanSemuaSlideshow();
             
@@ -495,7 +497,7 @@ public class MonitorCameraController : MonoBehaviour
         }
         else
         {
-            // Skenario 2: Player meng-close panel padahal perakitan (Part A/B/C) belum selesai
+            // Skenario 2: Player meng-close panel padahal perakitan belum selesai
             // Maka bersikaplah normal kembali ke tampilan pemilihan menu Part A/B/C
             KePosisiDefault();
         }
