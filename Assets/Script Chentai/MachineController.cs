@@ -46,6 +46,10 @@ public class MachineController : MonoBehaviour
     private float lastToggleTime = 0f;
     private float toggleCooldown = 0.5f;
 
+    [Header("Pengaturan Assessment (Ujian)")]
+    [Tooltip("Centang HANYA DI SCENE ASSESSMENT: Timer tidak akan berhenti saat rakitan selesai, tapi menunggu sampai kalibrasi sukses.")]
+    public bool tungguKalibrasiUntukTimer = false;
+
     public Animator[] machineAnimators;
 
     [Header("Machine Sound")]
@@ -172,10 +176,10 @@ public class MachineController : MonoBehaviour
         partTerpasangSaatIni++;
         Debug.Log($"Alat terpasang di Snap Zone! Mesin siap dinyalakan. Jumlah part terpasang: {partTerpasangSaatIni}");
 
-        // >>> LOGIKA NORMAL: Jika bermain tanpa debug, NPC jalan saat semua part beres dipasang
         if (wajibAdaPart && partTerpasangSaatIni >= targetJumlahPart && !autoStartForDebug)
         {
-            if (timerAssessment != null)
+            // >>> LOGIKA AMAN: Timer berhenti saat rakitan selesai HANYA JIKA saklar kalibrasi dimatikan
+            if (timerAssessment != null && !tungguKalibrasiUntukTimer)
             {
                 timerAssessment.BerhentiTimerKarenaBerhasil();
             }

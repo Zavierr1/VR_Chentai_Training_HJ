@@ -6,6 +6,9 @@ public class BarangRespawn : MonoBehaviour
     private Vector3 posisiAwal;
     private Quaternion rotasiAwal;
     
+    // >>> TAMBAHAN: Variabel penyimpan status awal <<<
+    private bool isKinematicAwal; 
+    
     private Rigidbody rb;
     private Grabbable grabbable;
 
@@ -17,6 +20,12 @@ public class BarangRespawn : MonoBehaviour
         
         rb = GetComponent<Rigidbody>();
         grabbable = GetComponent<Grabbable>();
+
+        // >>> TAMBAHAN: Catat status awal Kinematic <<<
+        if (rb != null)
+        {
+            isKinematicAwal = rb.isKinematic;
+        }
     }
 
     public void KembalikanKeMeja()
@@ -24,14 +33,17 @@ public class BarangRespawn : MonoBehaviour
         // 1. Jika barang masih dipegang tangan player saat menyentuh lantai, lepas paksa!
         if (grabbable != null && grabbable.BeingHeld)
         {
-            grabbable.DropItem(false, false); //
+            grabbable.DropItem(false, false); 
         }
 
-        // 2. Reset kecepatan jatuh biar pas balik ke meja gak mantul/meluncur
+        // 2. Reset fisik dan kecepatan jatuh
         if (rb != null)
         {
-            rb.linearVelocity = Vector3.zero; //
-            rb.angularVelocity = Vector3.zero; //
+            rb.linearVelocity = Vector3.zero; 
+            rb.angularVelocity = Vector3.zero; 
+            
+            // >>> FIX: Kembalikan status Kinematic ke aslinya <<<
+            rb.isKinematic = isKinematicAwal;
         }
 
         // 3. Kembalikan ke posisi awal

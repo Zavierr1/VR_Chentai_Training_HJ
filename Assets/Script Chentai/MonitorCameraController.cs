@@ -88,6 +88,9 @@ public class MonitorCameraController : MonoBehaviour
     private Coroutine moveCoroutine;
     private int tahapPerakitan = 1; 
 
+    [Header("Referensi Pop-Out Control Panel")]
+    public PopOutPanelController panelControlPopOut;
+
     private bool tutorialSelesai = false;
     [HideInInspector] public bool isSedangKalibrasiVR = false;
 
@@ -441,37 +444,54 @@ public class MonitorCameraController : MonoBehaviour
         } 
     }
 
-    public void SelesaikanSemuaPerakitan()
+    public void SemuaPartTelahTerpasang()
     {
-        tahapPerakitan = 4; // Tandai bahwa semua tahap sudah beres
+        tahapPerakitan = 4; // Tandai bahwa semua tahap sudah beres (100%)
         
-        // 1. Bersihkan semua tombol dan UI gambar
-        KunciSemuaTombol(); 
-        MatikanSemuaSlideshow(); 
+        // Kembalikan kamera ke layar TV utama
+        KePosisiDefault(); 
         
-        // 2. Kembalikan kamera ke posisi awal menghadap mesin utuh
-        MulaiPindahKamera(targetDefault); 
+        // Beri tahu pemain untuk menunggu NPC
+        UpdateTeksUI("PERAKITAN SELESAI!\nBagus sekali. Sekarang tunggu rekan kerjamu (NPC) untuk menyalakan dan mengecek mesin.");
         
-        // 3. Tampilkan teks intsruksi terakhir di panel Control
-        UpdateTeksUI("PERAKITAN SELESAI!\nKerja bagus, seluruh komponen mesin telah berhasil dipasang dengan sempurna.");
-        
-        // >>> SAFEGUARD: Paksa semua Snap Group untuk nyala kembali! <<<
+        // SAFEGUARD: Paksa semua Snap Group nyala kembali jika player ingin melihat-lihat
         if (managerPartA != null) managerPartA.AktifkanGrup();
         if (managerPartB != null) managerPartB.AktifkanGrup();
         if (managerPartC != null) managerPartC.AktifkanGrup();
-        // Mainkan suara sukses (opsional jika kamu punya file suaranya)
-        // if (suaraStepSukses != null) suaraStepSukses.Play(); 
-    }   
+    }
+
+    // ==========================================================
+    // 2. FUNGSI UNTUK NPC (Dipanggil HANYA saat NPC kembali ke pos awal)
+    // ==========================================================
+    public void MunculkanControlPanelDariNPC()
+    {
+        // Pastikan kamera sedang di TV Utama
+        KePosisiDefault(); 
+        
+        // Update teks instruksi
+        UpdateTeksUI("PENGECEKAN SELESAI!\nMesin beroperasi normal. Silakan periksa detail pada Control Panel yang muncul.");
+        
+        // MUNCULKAN POP-OUT PANEL SECARA OTOMATIS
+        if (panelControlPopOut != null)
+        {
+            panelControlPopOut.ShowPanel();
+        }
+    }
     
     // >>> FUNGSI BARU: Hook fungsi ini ke Tombol "CLOSE" yang ada di panel merah (Control Panel)
     public void TutupControlPanelDanSelesai()
     {
-        // >>> PERHATIKAN: Sekarang kita tambahkan "|| debugBypassPerakitan" <<<
+        // Cek apakah sudah di tahap akhir atau mode debug aktif
         if (tahapPerakitan > 3 || debugBypassPerakitan)
         {
-            // Skenario 1: Player meng-close panel setelah semua tahapan perakitan selesai (atau Debug aktif)
             KunciSemuaTombol();
             MatikanSemuaSlideshow();
+
+            // >>> FIX: Pastikan panel pop-out ditutup secara fisik dan logika <<<
+            if (panelControlPopOut != null)
+            {
+                panelControlPopOut.HidePanel();
+            }
             
             // Munculkan Canvas "SELAMAT"
             if (panelSelesaiTutorial != null)
@@ -479,26 +499,22 @@ public class MonitorCameraController : MonoBehaviour
                 panelSelesaiTutorial.SetActive(true);
             }
             
-            // Isi teks ucapan selamat
             if (teksSelesaiTutorial != null)
             {
                 teksSelesaiTutorial.text = "<color=yellow>SELAMAT!</color>\nAnda telah menyelesaikan mode Tutorial.\nSilakan tekan tombol Finish untuk melanjutkan ke mode Assessment.";
             }
 
-            // Nyalakan tombol Finish (Bisa diletakkan di dalam Canvas tersebut)
             if (tombolFinish != null)
             {
                 tombolFinish.gameObject.SetActive(true);
                 tombolFinish.interactable = true;
             }
             
-            UpdateTeksUI(""); // Kosongkan layar tengah
-            MulaiPindahKamera(targetDefault); // Kembali lurus menatap mesin
+            UpdateTeksUI(""); 
+            MulaiPindahKamera(targetDefault); 
         }
         else
         {
-            // Skenario 2: Player meng-close panel padahal perakitan belum selesai
-            // Maka bersikaplah normal kembali ke tampilan pemilihan menu Part A/B/C
             KePosisiDefault();
         }
     }
