@@ -179,6 +179,18 @@ public class InputTutorialManager : MonoBehaviour
 
     public void TutupWelcomePanel()
     {
+        // Hentikan VO Selamat Datang (jika masih bunyi)
+        if (suaraVOSelamatDatang != null && suaraVOSelamatDatang.isPlaying)
+        {
+            suaraVOSelamatDatang.Stop();
+        }
+
+        // >>> REVISI: Hentikan VO Selesai Kalibrasi Kontroler jika pemain langsung klik Selesai <<<
+        if (suaraTutorialSelesai != null && suaraTutorialSelesai.isPlaying)
+        {
+            suaraTutorialSelesai.Stop();
+        }
+
         if (welcomePanel != null) welcomePanel.SetActive(false);
         if (monitorMesinUtama != null) monitorMesinUtama.KunciSistemUtama(false);
     }

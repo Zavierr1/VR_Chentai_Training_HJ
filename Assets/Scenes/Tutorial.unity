@@ -2072,7 +2072,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 27150ae187de40444a547498ba16d7c6, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -29278,10 +29278,10 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
-  RemoteGrabbable: 0
+  RemoteGrabbable: 1
   RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
   CanDropMidGrab: 0
@@ -29289,7 +29289,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -29300,7 +29300,7 @@ MonoBehaviour:
   handPoseType: 2
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -39329,7 +39329,7 @@ PrefabInstance:
     - target: {fileID: 8416742705891564269, guid: 4ac7df741a9c0a2418ec19477729ee3d,
         type: 3}
       propertyPath: CharacterControllerYOffset
-      value: 0.3
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 8419555373665091583, guid: 4ac7df741a9c0a2418ec19477729ee3d,
         type: 3}
@@ -41269,7 +41269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1103368093
 RectTransform:
   m_ObjectHideFlags: 0
@@ -41348,19 +41348,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1103368096}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1761699460}
-        m_TargetAssemblyTypeName: InputTutorialManager, Assembly-CSharp
-        m_MethodName: LewatiTahapIniDebug
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1103368096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53130,10 +53118,10 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
-  RemoteGrabbable: 0
+  RemoteGrabbable: 1
   RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
   CanDropMidGrab: 0
@@ -53141,7 +53129,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -53152,7 +53140,7 @@ MonoBehaviour:
   handPoseType: 2
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -55113,9 +55101,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 232044221}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 232044226}
+        m_TargetAssemblyTypeName: MonitorCameraController, Assembly-CSharp
+        m_MethodName: ResetTutorialDariAwal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -69996,10 +69984,10 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
-  RemoteGrabbable: 0
+  RemoteGrabbable: 1
   RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
   CanDropMidGrab: 0
@@ -70007,7 +69995,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -70018,7 +70006,7 @@ MonoBehaviour:
   handPoseType: 2
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -71009,7 +70997,7 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 1
@@ -71020,7 +71008,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -77475,7 +77463,7 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 1
@@ -77486,7 +77474,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -77497,7 +77485,7 @@ MonoBehaviour:
   handPoseType: 1
   SelectedHandPose: {fileID: 11400000, guid: 462b38d8f05558c41bf157a0b17c8c5d, type: 2}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -80107,10 +80095,10 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
-  RemoteGrabbable: 0
+  RemoteGrabbable: 1
   RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
   CanDropMidGrab: 0
@@ -80118,7 +80106,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -80129,7 +80117,7 @@ MonoBehaviour:
   handPoseType: 2
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -80474,10 +80462,10 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
-  RemoteGrabbable: 0
+  RemoteGrabbable: 1
   RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
   CanDropMidGrab: 0
@@ -80485,7 +80473,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -80496,7 +80484,7 @@ MonoBehaviour:
   handPoseType: 2
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -80826,10 +80814,10 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
-  RemoteGrabbable: 0
+  RemoteGrabbable: 1
   RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
   CanDropMidGrab: 0
@@ -80837,7 +80825,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -80848,7 +80836,7 @@ MonoBehaviour:
   handPoseType: 2
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -81508,7 +81496,7 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 1
@@ -81519,7 +81507,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1

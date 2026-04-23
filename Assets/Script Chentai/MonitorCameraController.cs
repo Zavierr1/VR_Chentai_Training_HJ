@@ -211,7 +211,13 @@ public class MonitorCameraController : MonoBehaviour
         tutorialSelesai = true; // Kunci agar tombol start tidak muncul lagi
         MatikanSemuaSlideshow();
 
-        // >>> TAMBAHAN VO: Mainkan suara saat masuk mode perakitan <<<
+        // >>> Hentikan HANYA VO Tutorial (Pengenalan Mesin) jika masih ngoceh <<<
+        if (voMulaiTutorial != null && voMulaiTutorial.isPlaying)
+        {
+            voMulaiTutorial.Stop();
+        }
+
+        // Mainkan VO Pemasangan
         if (voMulaiPemasangan != null)
         {
             voMulaiPemasangan.Play();
@@ -399,6 +405,12 @@ public class MonitorCameraController : MonoBehaviour
     
     public void KePartA() 
     { 
+        // >>> Hentikan VO Pemasangan jika pemain bergerak cepat langsung klik Part A <<<
+        if (voMulaiPemasangan != null && voMulaiPemasangan.isPlaying)
+        {
+            voMulaiPemasangan.Stop();
+        }
+
         MulaiPindahKamera(targetPartA); 
         KunciSemuaTombol(); 
         if (tombolBack != null) 
@@ -411,7 +423,7 @@ public class MonitorCameraController : MonoBehaviour
         { 
             managerPartA.AktifkanGrup(); 
             managerPartA.UpdateHighlightBerurutan(); 
-        } 
+        }
     }
 
     public void KePartB() 
@@ -568,5 +580,16 @@ public class MonitorCameraController : MonoBehaviour
         }
         cctvCamera.position = target.position;
         cctvCamera.rotation = target.rotation;
+    }
+
+    public void ResetTutorialDariAwal()
+    {
+        MatikanSemuaSlideshow(); // Matikan UI yang sedang aktif
+        
+        // Perintahkan MainMenuManager untuk langsung loncat ke tutorial setelah reload
+        MainMenuManager.autoStartTutorial = true; 
+        
+        // Reload Scene agar semua physics mesin, posisi part, dan status script kembali bersih 100%
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
 }

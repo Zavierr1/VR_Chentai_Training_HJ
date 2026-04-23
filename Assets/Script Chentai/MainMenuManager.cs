@@ -16,19 +16,29 @@ public class MainMenuManager : MonoBehaviour
     [Header("Mode Assessment (Pindah Scene)")]
     public string namaSceneAssessment = "Scene_Assessment_Mesin";
 
+    public static bool autoStartTutorial = false;
+
     void Start()
     {
-        if (canvasMainMenu != null) canvasMainMenu.SetActive(true);
-        if (objekTutorialManager != null) objekTutorialManager.SetActive(false);
+        // Cek apakah scene ini di-reload dari tombol Reset Tutorial
+        if (autoStartTutorial)
+        {
+            autoStartTutorial = false; // Matikan flag agar tidak looping
+            MulaiModeTutorial(); // Langsung jalankan tutorial, bypass Main Menu!
+        }
+        else
+        {
+            // Kondisi normal (Game baru pertama dibuka)
+            if (canvasMainMenu != null) canvasMainMenu.SetActive(true);
+            if (objekTutorialManager != null) objekTutorialManager.SetActive(false);
+        }
     }
 
-    // >>> FUNGSI BARU: RESET GAME (UNTUK MENGATASI BUG) <<<
+    // Fungsi ini mengembalikan game BENAR-BENAR ke awal (ke layar Main Menu)
     public void ResetGame()
     {
-        Debug.Log("Resetting: Mengembalikan semua ke awal...");
-        
-        // Perintah ini akan memuat ulang scene yang sedang dimainkan saat ini.
-        // Sangat ampuh untuk membersihkan bug atau state script yang error.
+        Debug.Log("Resetting: Mengembalikan semua ke awal (Main Menu)...");
+        autoStartTutorial = false; 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

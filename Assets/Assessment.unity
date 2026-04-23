@@ -1291,6 +1291,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1303380995}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &44025971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2688,7 +2700,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 27150ae187de40444a547498ba16d7c6, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -3313,7 +3325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AssessmentSnapValidator
   requiredTag: SliderBawah
   errorSound: {fileID: 1205445415}
-  warnaPartSalah: {r: 1, g: 0, b: 0, a: 0.36078432}
+  warnaPartSalah: {r: 1, g: 1, b: 1, a: 0}
   prerequisiteSnapZone: {fileID: 378318270}
 --- !u!1 &140813979
 GameObject:
@@ -9492,6 +9504,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1303380995}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &354643991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9958,7 +9982,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AssessmentSnapValidator
   requiredTag: SliderAtas
   errorSound: {fileID: 1205445415}
-  warnaPartSalah: {r: 1, g: 0, b: 0, a: 0.36078432}
+  warnaPartSalah: {r: 1, g: 1, b: 1, a: 0}
   prerequisiteSnapZone: {fileID: 407750339}
 --- !u!1 &382061817
 GameObject:
@@ -10552,7 +10576,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AssessmentSnapValidator
   requiredTag: SilingRoll_Cover
   errorSound: {fileID: 1205445415}
-  warnaPartSalah: {r: 1, g: 0, b: 0, a: 0.36078432}
+  warnaPartSalah: {r: 1, g: 1, b: 1, a: 0}
   prerequisiteSnapZone: {fileID: 1778865914}
 --- !u!1 &409109824
 GameObject:
@@ -15839,7 +15863,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 593568927}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1303380995}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &593568927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17329,7 +17365,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 674359541}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1303380995}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &674359541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20532,7 +20580,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AssessmentSnapValidator
   requiredTag: SilingRoll_Kanan
   errorSound: {fileID: 1205445415}
-  warnaPartSalah: {r: 1, g: 0, b: 0, a: 0.36078432}
+  warnaPartSalah: {r: 1, g: 1, b: 1, a: 0}
   prerequisiteSnapZone: {fileID: 1735932061}
 --- !u!1 &836572011
 GameObject:
@@ -21017,6 +21065,18 @@ MonoBehaviour:
       - m_Target: {fileID: 94452857}
         m_TargetAssemblyTypeName: CalibrationManager, Assembly-CSharp
         m_MethodName: TambahSuhu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1303380995}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21959,7 +22019,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: d6061854a93fedc4e9902ae944b937ad, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -37115,6 +37175,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 6074074610480678380, guid: 4ac7df741a9c0a2418ec19477729ee3d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6088443520909069395, guid: 4ac7df741a9c0a2418ec19477729ee3d,
         type: 3}
       propertyPath: m_Layer
@@ -39433,7 +39498,7 @@ PrefabInstance:
     - target: {fileID: 8416742705891564269, guid: 4ac7df741a9c0a2418ec19477729ee3d,
         type: 3}
       propertyPath: CharacterControllerYOffset
-      value: 0.3
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 8419555373665091583, guid: 4ac7df741a9c0a2418ec19477729ee3d,
         type: 3}
@@ -41050,7 +41115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AssessmentSnapValidator
   requiredTag: SilingRoll_Kiri
   errorSound: {fileID: 1205445415}
-  warnaPartSalah: {r: 1, g: 0, b: 0, a: 0.36078432}
+  warnaPartSalah: {r: 1, g: 1, b: 1, a: 0}
   prerequisiteSnapZone: {fileID: 834559399}
 --- !u!1 &1078296208
 GameObject:
@@ -48738,7 +48803,7 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 1
@@ -48749,7 +48814,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -48760,7 +48825,7 @@ MonoBehaviour:
   handPoseType: 2
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -50941,6 +51006,18 @@ MonoBehaviour:
       - m_Target: {fileID: 2120386711}
         m_TargetAssemblyTypeName: AssessmentTimer, Assembly-CSharp
         m_MethodName: MulaiAssessment
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1303380995}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -53670,7 +53747,7 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 1
@@ -53681,7 +53758,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -53692,7 +53769,7 @@ MonoBehaviour:
   handPoseType: 2
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -56397,7 +56474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AssessmentSnapValidator
   requiredTag: CoverK_Depan
   errorSound: {fileID: 1205445415}
-  warnaPartSalah: {r: 1, g: 0, b: 0, a: 0.36078432}
+  warnaPartSalah: {r: 1, g: 1, b: 1, a: 0}
   prerequisiteSnapZone: {fileID: 1812960282}
 --- !u!1 &1736070987
 GameObject:
@@ -57369,7 +57446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AssessmentSnapValidator
   requiredTag: SilingRoll_Tighter
   errorSound: {fileID: 1205445415}
-  warnaPartSalah: {r: 1, g: 0, b: 0, a: 0.36078432}
+  warnaPartSalah: {r: 1, g: 1, b: 1, a: 0}
   prerequisiteSnapZone: {fileID: 1061519209}
 --- !u!1 &1783728556
 GameObject:
@@ -58030,7 +58107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AssessmentSnapValidator
   requiredTag: CoverK_Kiri
   errorSound: {fileID: 1205445415}
-  warnaPartSalah: {r: 1, g: 0, b: 0, a: 0.36078432}
+  warnaPartSalah: {r: 1, g: 1, b: 1, a: 0}
   prerequisiteSnapZone: {fileID: 1820600192}
 --- !u!1 &1820600190
 GameObject:
@@ -58286,7 +58363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AssessmentSnapValidator
   requiredTag: CoverK_Kanan
   errorSound: {fileID: 1205445415}
-  warnaPartSalah: {r: 1, g: 0, b: 0, a: 0.36078432}
+  warnaPartSalah: {r: 1, g: 1, b: 1, a: 0}
   prerequisiteSnapZone: {fileID: 0}
 --- !u!1 &1828139240
 GameObject:
@@ -70168,7 +70245,7 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 1
@@ -70179,7 +70256,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -70190,7 +70267,7 @@ MonoBehaviour:
   handPoseType: 2
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -71099,10 +71176,10 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
-  RemoteGrabbable: 0
+  RemoteGrabbable: 1
   RemoteGrabMechanic: 0
   RemoteGrabDistance: 2
   CanDropMidGrab: 0
@@ -71110,7 +71187,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -76951,7 +77028,7 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 1
@@ -76962,7 +77039,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -76973,7 +77050,7 @@ MonoBehaviour:
   handPoseType: 1
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -79450,7 +79527,7 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 1
@@ -79461,7 +79538,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -79472,7 +79549,7 @@ MonoBehaviour:
   handPoseType: 2
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -79799,7 +79876,7 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 1
@@ -79810,7 +79887,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -79821,7 +79898,7 @@ MonoBehaviour:
   handPoseType: 2
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -80150,7 +80227,7 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 1
@@ -80161,7 +80238,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -80172,7 +80249,7 @@ MonoBehaviour:
   handPoseType: 2
   SelectedHandPose: {fileID: 0}
   CustomHandPose: 0
-  SecondaryGrabBehavior: 0
+  SecondaryGrabBehavior: 2
   TwoHandedPosition: 0
   TwoHandedPostionLerpAmount: 0.5
   TwoHandedRotation: 1
@@ -80796,7 +80873,7 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 0
   Grabtype: 2
-  GrabPhysics: 4
+  GrabPhysics: 1
   GrabMechanic: 1
   GrabSpeed: 15
   RemoteGrabbable: 1
@@ -80807,7 +80884,7 @@ MonoBehaviour:
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
