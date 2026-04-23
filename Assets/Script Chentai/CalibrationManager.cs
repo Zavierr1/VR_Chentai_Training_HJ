@@ -7,6 +7,10 @@ using BNG;
 
 public class CalibrationManager : MonoBehaviour
 {
+    [Header("Mode Configuration")]
+    [Tooltip("Centang jika ini adalah Scene Assessment agar hint kelap-kelip TIDAK muncul")]
+    public bool isAssessmentMode = false;
+
     [Header("Referensi UI: SUHU MESIN")]
     public GameObject panelKalibrasi;
     public TextMeshProUGUI teksAngkaSuhu;
@@ -30,7 +34,7 @@ public class CalibrationManager : MonoBehaviour
     
     // --- VARIABEL DATA ---
     private int suhuSaatIni;
-    private int kerapatanSealingRoll; // <--- Variabel baru khusus Knob
+    private int kerapatanSealingRoll; 
     private bool isFaseKalibrasiAktif = false;
     private bool sudahSelesai = false;
     private bool flagKnobSukses = false;
@@ -65,7 +69,16 @@ public class CalibrationManager : MonoBehaviour
         // 2. NGACAK KERAPATAN SEALING ROLL (Gunakan fisik Knob untuk benerin persis ke 100)
         kerapatanSealingRoll = Random.Range(0, 2) == 0 ? Random.Range(50, 99) : Random.Range(101, 150);
 
-        if (knobPillowBlock != null) knobPillowBlock.SetupKnobUntukKalibrasi(this);
+        if (knobPillowBlock != null) 
+        {
+            knobPillowBlock.SetupKnobUntukKalibrasi(this);
+            
+            // >>> NYALAKAN HINT KELAP-KELIP JIKA BUKAN ASSESSMENT <<<
+            if (!isAssessmentMode)
+            {
+                knobPillowBlock.SetStatusHint(true);
+            }
+        }
 
         isFaseKalibrasiAktif = true;
         sudahSelesai = false;
@@ -118,28 +131,23 @@ public class CalibrationManager : MonoBehaviour
     {
         if (teksPersentaseKnob != null) teksPersentaseKnob.text = $"{kerapatanSealingRoll}%";
 
-        // 1. GERAKAN JARUM: Kirim angka mentah langsung ke Slider (50 sampai 150)
-        // Nilai 100 otomatis akan berada persis di tengah slider.
         if (sliderAkurasiKnob != null) 
         {
             sliderAkurasiKnob.value = kerapatanSealingRoll;
         }
 
-        // 2. WARNA JARUM: Hitung jarak dari 100 HANYA untuk mengubah warna Merah -> Hijau
         float jarakDariTarget = Mathf.Abs(kerapatanSealingRoll - 100);
         float progressAkurasi = 1f - Mathf.Clamp01(jarakDariTarget / 50f); 
 
         if (barAkurasiKnob != null) 
         {
-            // Sekarang barAkurasiKnob akan mewarnai "Jarum" nya
             barAkurasiKnob.color = Color.Lerp(Color.red, Color.green, progressAkurasi);
         }
 
-        // 3. LOGIKA SUKSES
         if (kerapatanSealingRoll == 100 && !flagKnobSukses)
         {
             flagKnobSukses = true;
-            if (knobPillowBlock != null) knobPillowBlock.BeriFeedbackSukses(true); // Bunyi TEK!
+            if (knobPillowBlock != null) knobPillowBlock.BeriFeedbackSukses(true);
         }
         else if (kerapatanSealingRoll != 100)
         {

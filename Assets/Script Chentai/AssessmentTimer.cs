@@ -12,6 +12,10 @@ public class AssessmentTimer : MonoBehaviour
     [Tooltip("Masukkan Teks UI (TextMeshPro) yang dipakai untuk angka Timer ke sini")]
     public TextMeshProUGUI teksTimer;
 
+    // >>> TAMBAHAN BARU: Variabel untuk Teks Instruksi Awal (dari perbaikan kita sebelumnya)
+    [Tooltip("Tarik objek teks instruksi (New Text) atau Panel biru utamanya ke sini")]
+    public GameObject teksInstruksiAwal;
+
     [Header("Pengaturan Waktu")]
     [Tooltip("Waktu maksimal Assessment dalam detik. (300 detik = 5 Menit)")]
     public float waktuAssessment = 300f; 
@@ -21,7 +25,6 @@ public class AssessmentTimer : MonoBehaviour
     public Grabbable[] bendaAssessment;
 
     [Header("Panel Hasil Akhir (Unified)")]
-    public AssessmentScoreManager scoreManager;
     [Tooltip("Tarik Panel/Canvas UI Hasil (Satu panel untuk Menang/Kalah) ke sini")]
     public GameObject panelHasilAkhir;
     [Tooltip("Tarik TextMeshPro untuk menampilkan Pesan Sukses / Gagal")]
@@ -32,6 +35,13 @@ public class AssessmentTimer : MonoBehaviour
     public UnityEngine.UI.Button tombolFinish;
     [Tooltip("Tombol untuk mengulang ujian (Muncul saat Gagal)")]
     public UnityEngine.UI.Button tombolRestart;
+
+    // >>> TAMBAHAN BARU: Variabel Audio Victory & Failed <<<
+    [Header("Audio Feedback")]
+    [Tooltip("Suara yang diputar saat pemain LULUS (Tepat Waktu)")]
+    public AudioSource suaraVictory;
+    [Tooltip("Suara yang diputar saat pemain GAGAL (Waktu Habis)")]
+    public AudioSource suaraFailed;
     
     [Header("Pengaturan Scene")]
     [Tooltip("Ketik nama scene Main Menu kamu dengan persis (huruf besar/kecil berpengaruh)")]
@@ -49,10 +59,8 @@ public class AssessmentTimer : MonoBehaviour
         sisaWaktu = waktuAssessment;
         UpdateTeksTimer(sisaWaktu);
 
-        // Pastikan panel hasil disembunyikan di awal
         if (panelHasilAkhir != null) panelHasilAkhir.SetActive(false);
 
-        // Sambungkan event tombol secara otomatis lewat script
         if (tombolMulai != null) tombolMulai.onClick.AddListener(MulaiAssessment);
         if (tombolFinish != null) tombolFinish.onClick.AddListener(KembaliKeMainMenu);
         if (tombolRestart != null) tombolRestart.onClick.AddListener(RestartAssessment);
@@ -65,8 +73,6 @@ public class AssessmentTimer : MonoBehaviour
         isAssessmentJalan = true;
         KunciSemuaBarang(false);
         
-        // >>> PERBAIKAN: Hanya matikan gameObject tombol Mulai-nya saja, 
-        // JANGAN matikan parent-nya agar UI Timer tetap terlihat.
         if (tombolMulai != null) 
         {
             tombolMulai.gameObject.SetActive(false);
@@ -95,17 +101,17 @@ public class AssessmentTimer : MonoBehaviour
         int detik = Mathf.FloorToInt(waktuYangDipakai % 60);
         string waktuFormat = string.Format("{0:00}:{1:00}", menit, detik);
 
-        int skorAkhir = (scoreManager != null) ? scoreManager.currentScore : 100; 
-
         if (teksHasilAkhir != null)
         {
-            teksHasilAkhir.text = $"<color=yellow>SELAMAT!</color>\n\n" +
-                                   $"Anda berhasil merakit mesin dengan sempurna.\n" +
-                                   $"Waktu yang Terpakai: <color=green>{waktuFormat}</color>\n" +
-                                   $"Skor Akhir Anda: <color=yellow>{skorAkhir}</color>";
+            teksHasilAkhir.text = $"<color=yellow>LULUS!</color>\n\n" +
+                                   $"Anda berhasil merakit mesin dan mengkalibrasinya dengan sempurna.\n" +
+                                   $"Selesai dalam Waktu: <color=green>{waktuFormat}</color>";
         }
 
-        MunculkanPanel(true); // Panggil fungsi pembantu (True = Mode Menang)
+        // >>> MAIN-KAN SUARA VICTORY <<<
+        if (suaraVictory != null) suaraVictory.Play();
+
+        MunculkanPanel(true);
     }
 
     // >>> LOGIKA KETIKA KALAH (WAKTU HABIS) <<<
@@ -114,42 +120,38 @@ public class AssessmentTimer : MonoBehaviour
         Debug.Log("<color=red>[ASSESSMENT] WAKTU HABIS! GAGAL.</color>");
         
         sudahSelesai = true;
-        KunciSemuaBarang(true); // Kunci agar pemain tidak bisa lanjut merakit
+        KunciSemuaBarang(true); 
 
         if (teksHasilAkhir != null)
         {
             teksHasilAkhir.text = "<color=red>WAKTU HABIS!</color>\n\n" +
-                                  "Anda gagal menyelesaikan perakitan mesin dalam batas waktu yang ditentukan.\n" +
-                                  "Silakan coba lagi.";
+                                  "Sayang sekali, semua part mesin belum terpasang dan dikalibrasi dengan sempurna.\n" +
+                                  "Klik tombol restart untuk mencoba kembali.";
         }
 
-        MunculkanPanel(false); // Panggil fungsi pembantu (False = Mode Kalah)
+        // >>> MAIN-KAN SUARA FAILED <<<
+        if (suaraFailed != null) suaraFailed.Play();
+
+        MunculkanPanel(false); 
     }
 
-    // >>> FUNGSI PEMBANTU MENGATUR TOMBOL PANEL <<<
     private void MunculkanPanel(bool isMenang)
     {
-        // 1. Nyalakan panel hasil akhir
         if (panelHasilAkhir != null) panelHasilAkhir.SetActive(true);
-        
-        // 2. Matikan angka timer
         if (teksTimer != null) teksTimer.gameObject.SetActive(false);
 
-        // >>> TAMBAHAN BARU: Matikan sisa background/panel awal agar tidak numpuk
+        if (teksInstruksiAwal != null) teksInstruksiAwal.SetActive(false);
+
         if (tombolMulai != null && tombolMulai.transform.parent != null)
         {
-            // PENTING: Pastikan panelHasilAkhir BUKAN child dari parent tombolMulai ini di Unity, 
-            // agar Win Panel tidak ikut mati.
             tombolMulai.transform.parent.gameObject.SetActive(false);
         }
 
-        // 3. Logika nyala/mati tombol
         if (tombolFinish != null) tombolFinish.gameObject.SetActive(isMenang);
         if (tombolRestart != null) tombolRestart.gameObject.SetActive(!isMenang);
     }
     
-    // >>> FUNGSI NAVIGASI TOMBOL <<<
-    public void KembaliKeMainMenu() // <--- UBAH DI SINI
+    public void KembaliKeMainMenu() 
     {
         if (!string.IsNullOrEmpty(namaSceneMainMenu))
         {
@@ -160,11 +162,9 @@ public class AssessmentTimer : MonoBehaviour
 
     private void RestartAssessment()
     {
-        // Memuat ulang scene yang sedang aktif saat ini
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    // >>> INI FUNGSI YANG TADI KELUPAAN! <<<
     private void KunciSemuaBarang(bool isKunci)
     {
         if (bendaAssessment != null && bendaAssessment.Length > 0)
@@ -173,7 +173,6 @@ public class AssessmentTimer : MonoBehaviour
             {
                 if (part != null)
                 {
-                    // Di BNG Framework, kita bisa disable script Grabbable-nya sementara
                     part.enabled = !isKunci; 
                 }
             }

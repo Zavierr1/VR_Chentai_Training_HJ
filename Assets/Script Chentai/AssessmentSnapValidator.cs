@@ -10,10 +10,6 @@ public class AssessmentSnapValidator : MonoBehaviour
     [Tooltip("Ketik Tag dari barang yang BENAR (Sama seperti di SnapGroupManager)")]
     public string requiredTag = "Untagged";
 
-    [Header("Scoring System")]
-    public int pointValue = 10; 
-    public AssessmentScoreManager scoreManager;
-
     [Header("Error Feedback")]
     [Tooltip("Suara saat part yang dimasukkan salah")]
     public AudioSource errorSound;
@@ -35,6 +31,8 @@ public class AssessmentSnapValidator : MonoBehaviour
         snapZone = GetComponent<SnapZone>();
         gZone = GetComponent<GrabbablesInTrigger>();
 
+        // Event listener ini tetap kita pertahankan jika di masa depan 
+        // kamu ingin menambahkan efek suara sukses saat dipasang/dilepas
         snapZone.OnSnapEvent.AddListener(HandleItemSnapped);
         snapZone.OnDetachEvent.AddListener(HandleItemDetached);
 
@@ -43,12 +41,12 @@ public class AssessmentSnapValidator : MonoBehaviour
 
     private void HandleItemSnapped(Grabbable grabbedItem)
     {
-        if (scoreManager != null) scoreManager.AddPoints(pointValue);
+        // Pemasangan berhasil. Sistem skor angka sudah dihapus.
     }
 
     private void HandleItemDetached(Grabbable grabbedItem)
     {
-        if (scoreManager != null) scoreManager.RemovePoints(pointValue);
+        // Barang dilepas. Sistem skor angka sudah dihapus.
     }
 
     void Update()
@@ -106,19 +104,15 @@ public class AssessmentSnapValidator : MonoBehaviour
             Debug.Log("<color=red>[ASSESSMENT] Part salah dijatuhkan di SnapZone ini!</color>");
             if (errorSound != null) errorSound.Play();
 
-            // >>> PANGGIL EFEK MERAH KE BARANG <<<
             StartCoroutine(FlashPartMerahLaluKembalikan(wrongItem));
         }
     }
 
-    // >>> FUNGSI BARU: Mengubah warna part menjadi merah, jeda sebentar, lalu kembalikan ke meja <<<
     private System.Collections.IEnumerator FlashPartMerahLaluKembalikan(Grabbable wrongItem)
     {
-        // 1. Ambil semua material (Renderer) di part tersebut
         Renderer[] renderers = wrongItem.GetComponentsInChildren<Renderer>();
         Dictionary<Renderer, Color> originalColors = new Dictionary<Renderer, Color>();
 
-        // 2. Simpan warna asli dan ubah ke warna merah
         foreach (var r in renderers)
         {
             if (r.material.HasProperty("_Color"))
@@ -126,17 +120,15 @@ public class AssessmentSnapValidator : MonoBehaviour
                 originalColors[r] = r.material.color;
                 r.material.color = warnaPartSalah;
             }
-            else if (r.material.HasProperty("_BaseColor")) // Untuk URP (Universal Render Pipeline)
+            else if (r.material.HasProperty("_BaseColor")) 
             {
                 originalColors[r] = r.material.GetColor("_BaseColor");
                 r.material.SetColor("_BaseColor", warnaPartSalah);
             }
         }
 
-        // 3. Jeda sebentar (0.5 detik) agar player sempat melihat part-nya berubah merah sebelum menghilang
         yield return new WaitForSeconds(0.5f);
 
-        // 4. Kembalikan ke warna aslinya agar saat di meja warnanya normal lagi
         foreach (var r in renderers)
         {
             if (originalColors.ContainsKey(r))
@@ -146,7 +138,6 @@ public class AssessmentSnapValidator : MonoBehaviour
             }
         }
 
-        // 5. Tendang part balik ke meja
         BarangRespawn respawn = wrongItem.GetComponent<BarangRespawn>();
         if (respawn != null) respawn.KembalikanKeMeja();
     }

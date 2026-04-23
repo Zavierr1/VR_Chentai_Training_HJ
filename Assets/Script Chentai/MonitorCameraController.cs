@@ -28,6 +28,10 @@ public class MonitorCameraController : MonoBehaviour
     public SnapGroupManager managerPartC;
     public bool debugBypassPerakitan = false;
 
+    [Header("Audio Feedback")]
+    [Tooltip("Suara saat muncul layar SELAMAT (Victory)")]
+    public AudioSource suaraVictory;
+
     [Header("Voice Over")]
     [Tooltip("Masukkan AudioSource untuk VO Perakitan")]
     public AudioSource voMulaiTutorial;
@@ -487,17 +491,8 @@ public class MonitorCameraController : MonoBehaviour
             KunciSemuaTombol();
             MatikanSemuaSlideshow();
 
-            // >>> FIX: Pastikan panel pop-out ditutup secara fisik dan logika <<<
-            if (panelControlPopOut != null)
-            {
-                panelControlPopOut.HidePanel();
-            }
-            
-            // Munculkan Canvas "SELAMAT"
-            if (panelSelesaiTutorial != null)
-            {
-                panelSelesaiTutorial.SetActive(true);
-            }
+            if (panelControlPopOut != null) panelControlPopOut.HidePanel();
+            if (panelSelesaiTutorial != null) panelSelesaiTutorial.SetActive(true);
             
             if (teksSelesaiTutorial != null)
             {
@@ -509,6 +504,9 @@ public class MonitorCameraController : MonoBehaviour
                 tombolFinish.gameObject.SetActive(true);
                 tombolFinish.interactable = true;
             }
+
+            // >>> TAMBAHKAN BARIS INI <<<
+            if (suaraVictory != null) suaraVictory.Play();
             
             UpdateTeksUI(""); 
             MulaiPindahKamera(targetDefault); 

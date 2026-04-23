@@ -18,6 +18,11 @@ public class KnobCalibration : MonoBehaviour
     [Tooltip("Bunyi 'tik' kecil seperti roda gigi saat diputar (Opsional)")]
     public AudioSource suaraTikKecil; 
 
+    // >>> TAMBAHAN: Referensi ke script Kelap Kelip <<<
+    [Header("Tutorial Hint")]
+    [Tooltip("Masukkan script KelapKelipTutorial yang menempel di Knob ini")]
+    public KelapKelipTutorial efekKelapKelip;
+
     private Grabbable grabbableKomponen;
     private CalibrationManager managerKalibrasi;
     
@@ -28,6 +33,9 @@ public class KnobCalibration : MonoBehaviour
     {
         grabbableKomponen = GetComponent<Grabbable>();
         grabbableKomponen.enabled = false; 
+        
+        // Coba cari otomatis kalau belum di-drag di Inspector
+        if (efekKelapKelip == null) efekKelapKelip = GetComponent<KelapKelipTutorial>();
     }
 
     public void SetupKnobUntukKalibrasi(CalibrationManager manager)
@@ -39,9 +47,20 @@ public class KnobCalibration : MonoBehaviour
         akumulasiPutaran = 0f;
     }
 
+    // >>> FUNGSI BARU: Untuk menyalakan/mematikan kelap-kelip <<<
+    public void SetStatusHint(bool aktif)
+    {
+        if (efekKelapKelip != null)
+        {
+            if (aktif) efekKelapKelip.MulaiKedip();
+            else efekKelapKelip.BerhentiKedip();
+        }
+    }
+
     public void SelesaiKalibrasi()
     {
         grabbableKomponen.enabled = false;
+        SetStatusHint(false); // Pastikan mati saat kalibrasi selesai
     }
 
     private float AmbilRotasiSaatIni()
@@ -55,6 +74,9 @@ public class KnobCalibration : MonoBehaviour
     {
         if (grabbableKomponen.BeingHeld)
         {
+            // >>> MATIKAN HINT KETIKA KNOB DIPEANG/DIPUTAR <<<
+            SetStatusHint(false);
+
             float rotasiSekarang = AmbilRotasiSaatIni();
             
             // Hitung selisih putaran
