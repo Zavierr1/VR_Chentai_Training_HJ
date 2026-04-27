@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using BNG;
 using UnityEngine.Events; 
 
-// Tambahan agar Event UI yang bisa mengirim teks (string) muncul di Inspector
 [System.Serializable]
 public class StringEvent : UnityEvent<string> {}
 
@@ -12,34 +11,40 @@ public class StringEvent : UnityEvent<string> {}
 public class SnapData
 {
     public SnapZone snapZone;
-    [Tooltip("Gunakan Tag yang sama untuk semua part yang identik (misal: 'Cover')")]
-    public string tagYangBenar = "Cover";
-
-    public KelapKelipTutorial highlightMeja;
     
-    [Tooltip("Tarik komponen Grabbable dari objek meja ke sini")]
+    [Tooltip("Tag spesifik untuk part ini (Digunakan jika Mode Ambil Bebas dimatikan)")]
+    public string tagSpesifik = "Untagged";
+
+    [Header("Referensi Objek di Meja")]
+    public KelapKelipTutorial highlightMeja;
     public Grabbable bendaDiMeja; 
 
+    [Header("Instruksi UI")]
     [TextArea(2, 3)]
-    [Tooltip("Teks instruksi yang akan muncul di TV saat giliran slot ini diisi")]
-    public string instruksiPart = "Ambil salah satu cover dan pasang ke mesin...";
+    public string instruksiPart = "Pasang komponen ini...";
 }
 
 public class SnapGroupManager : MonoBehaviour
 {
+    [Header("Konfigurasi Mode")]
+    [Tooltip("CENTANG untuk Part 1 (Cover): Pemain bebas ambil cover mana saja.")]
+    public bool isIdenticalPartPool = false;
+
+    [Header("Pengaturan Tag (Hanya Mode Ambil Bebas)")]
+    [Tooltip("Ketik satu Tag yang sama untuk semua barang identik di grup ini (Misal: 'Cover')")]
+    public string tagGrupIdentik = "Cover";
+
     [Header("Status Grup")]
     public bool grupAktifDiAwal = false;
 
-    [Header("Urutan Pemasangan & Syarat Tag")]
+    [Header("Urutan Pemasangan (Snap Zone)")]
     public List<SnapData> urutanSnap; 
 
-    [Header("Grup Selanjutnya (Target Unlock)")]
+    [Header("Grup Selanjutnya")]
     public List<SnapGroupManager> managerGrupBerikutnya;
 
     [Header("Event UI & Kamera")]
     public UnityEvent onGrupSelesai;
-    
-    [Tooltip("Hubungkan ke fungsi UpdateTeksUI di MonitorCameraController")]
     public StringEvent onUpdateInstruksiUI;
     
     private bool isSudahSelesai = false; 
@@ -52,12 +57,20 @@ public class SnapGroupManager : MonoBehaviour
     public void CekStatusGrup()
     {
         StopAllCoroutines();
-        StartCoroutine(PengecekanTertunda());
+        if (gameObject.activeInHierarchy) StartCoroutine(PengecekanTertunda());
     }
 
     private IEnumerator PengecekanTertunda()
     {
         yield return new WaitForSeconds(0.05f);
+
+        foreach (var data in urutanSnap)
+        {
+            if (data.bendaDiMeja != null)
+            {
+                data.bendaDiMeja.enabled = grupAktifDiAwal; 
+            }
+        }
 
         bool semuaTerpasangDanBenar = true;
 
@@ -68,7 +81,6 @@ public class SnapGroupManager : MonoBehaviour
 
             bool currentAdaBarang = currentData.snapZone.HeldItem != null;
 
-            // Jika grup belum aktif (misal Part B belum waktunya), sembunyikan semua Snap Zone
             if (!grupAktifDiAwal)
             {
                 if (currentAdaBarang) currentData.snapZone.ReleaseAll();
@@ -77,31 +89,24 @@ public class SnapGroupManager : MonoBehaviour
                 continue;
             }
 
-            // --- LOGIKA HOLOGRAM (SNAP ZONE) BERURUTAN ---
             if (i == 0)
             {
-                // Snap Zone pertama selalu aktif jika grup aktif
                 currentData.snapZone.gameObject.SetActive(true);
             }
             else
             {
                 SnapData previousData = urutanSnap[i - 1];
                 bool prevAdaBarang = previousData.snapZone.HeldItem != null;
-                bool prevTagBenar = prevAdaBarang && previousData.snapZone.HeldItem.gameObject.CompareTag(previousData.tagYangBenar);
                 
-                // Snap Zone selanjutnya HANYA muncul jika posisi sebelumnya sudah terisi dengan Tag yang benar
-                if (prevTagBenar || currentAdaBarang)
-                {
-                    currentData.snapZone.gameObject.SetActive(true);
-                }
-                else
-                {
-                    currentData.snapZone.gameObject.SetActive(false);
-                }
+                string tagLalu = isIdenticalPartPool ? tagGrupIdentik : previousData.tagSpesifik;
+                bool prevTagBenar = prevAdaBarang && previousData.snapZone.HeldItem.gameObject.CompareTag(tagLalu);
+                
+                if (prevTagBenar || currentAdaBarang) currentData.snapZone.gameObject.SetActive(true);
+                else currentData.snapZone.gameObject.SetActive(false);
             }
 
-            // Cek apakah slot ini sudah terisi dengan benar
-            if (!currentAdaBarang || !currentData.snapZone.HeldItem.gameObject.CompareTag(currentData.tagYangBenar))
+            string tagTarget = isIdenticalPartPool ? tagGrupIdentik : currentData.tagSpesifik;
+            if (!currentAdaBarang || !currentData.snapZone.HeldItem.gameObject.CompareTag(tagTarget))
             {
                 semuaTerpasangDanBenar = false;
             }
@@ -109,13 +114,10 @@ public class SnapGroupManager : MonoBehaviour
 
         UpdateHighlightBerurutan();
 
-        // Aktifkan grup selanjutnya otomatis jika grup ini sudah lengkap
         if (semuaTerpasangDanBenar)
         {
             foreach (SnapGroupManager nextManager in managerGrupBerikutnya)
-            {
                 if (nextManager != null) nextManager.AktifkanGrup();
-            }
 
             if (!isSudahSelesai)
             {
@@ -123,10 +125,7 @@ public class SnapGroupManager : MonoBehaviour
                 isSudahSelesai = true;   
             }
         }
-        else
-        {
-            isSudahSelesai = false; 
-        }
+        else isSudahSelesai = false;
     }
 
     public void UpdateHighlightBerurutan()
@@ -137,24 +136,57 @@ public class SnapGroupManager : MonoBehaviour
 
         foreach (var data in urutanSnap)
         {
-            bool isSnapped = data.snapZone != null && data.snapZone.HeldItem != null;
+            if (data.bendaDiMeja == null) continue;
 
-            if (isSnapped)
+            // CARA PALING AMAN: Cek apakah fisik barang ini masuk ke SnapZone manapun di grup ini
+            bool isObjectSnapped = false;
+            foreach (var cekSnap in urutanSnap)
             {
-                // Jika sudah terpasang, matikan highlight di meja
+                if (cekSnap.snapZone != null && cekSnap.snapZone.HeldItem != null)
+                {
+                    if (cekSnap.snapZone.HeldItem.gameObject == data.bendaDiMeja.gameObject)
+                    {
+                        isObjectSnapped = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isObjectSnapped)
+            {
+                // Kalau fisik barangnya udah nempel di mesin, matikan kelap-kelipnya di meja
                 if (data.highlightMeja != null) data.highlightMeja.BerhentiKedip();
             }
             else
             {
-                // >>> LOGIKA BEBAS: Semua barang yang belum terpasang akan menyala bersamaan <<<
-                if (data.highlightMeja != null) data.highlightMeja.MulaiKedip();
-                if (data.bendaDiMeja != null) data.bendaDiMeja.enabled = true;
-
-                // Hanya kirim instruksi teks untuk slot kosong pertama yang menjadi tujuan saat ini
-                if (!foundFirstEmpty)
+                if (isIdenticalPartPool)
                 {
-                    onUpdateInstruksiUI?.Invoke(data.instruksiPart);
-                    foundFirstEmpty = true;
+                    // MODE BEBAS (Part 1): Semua barang di meja yang BELUM nempel, tetap kedip
+                    if (data.highlightMeja != null) data.highlightMeja.MulaiKedip();
+                    data.bendaDiMeja.enabled = true;
+                    
+                    // Instruksi UI cuma ambil dari slot kosong pertama di mesin
+                    if (!foundFirstEmpty && (data.snapZone == null || data.snapZone.HeldItem == null))
+                    {
+                        onUpdateInstruksiUI?.Invoke(data.instruksiPart);
+                        foundFirstEmpty = true;
+                    }
+                }
+                else
+                {
+                    // MODE BERURUTAN (Part 2 & 3): Cuma barang giliran selanjutnya yang kedip
+                    if (!foundFirstEmpty)
+                    {
+                        if (data.highlightMeja != null) data.highlightMeja.MulaiKedip();
+                        data.bendaDiMeja.enabled = true;
+                        onUpdateInstruksiUI?.Invoke(data.instruksiPart);
+                        foundFirstEmpty = true;
+                    }
+                    else
+                    {
+                        if (data.highlightMeja != null) data.highlightMeja.BerhentiKedip();
+                        data.bendaDiMeja.enabled = false;
+                    }
                 }
             }
         }
@@ -163,31 +195,18 @@ public class SnapGroupManager : MonoBehaviour
     public void MatikanHighlight()
     {
         foreach (var data in urutanSnap)
-        {
             if (data.highlightMeja != null) data.highlightMeja.BerhentiKedip();
-        }
     }
     
-    public void AktifkanGrup()
-    {
-        grupAktifDiAwal = true;
-        CekStatusGrup(); 
-    }
+    public void AktifkanGrup() { grupAktifDiAwal = true; CekStatusGrup(); }
 
     public void NonaktifkanGrup()
     {
-        // Jangan nonaktifkan jika sudah ada barang yang menempel
         bool adaYangNempel = false;
         foreach (SnapData data in urutanSnap)
-        {
-            if (data.snapZone != null && data.snapZone.HeldItem != null)
-            {
-                adaYangNempel = true;
-                break;
-            }
-        }
+            if (data.snapZone != null && data.snapZone.HeldItem != null) { adaYangNempel = true; break; }
+        
         if (adaYangNempel) return;
-
         grupAktifDiAwal = false;
         CekStatusGrup(); 
     }

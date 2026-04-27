@@ -16,6 +16,7 @@ TagManager:
   - SilingRoll_Cover
   - SliderAtas
   - SliderBawah
+  - Cover
   layers:
   - Default
   - TransparentFX
