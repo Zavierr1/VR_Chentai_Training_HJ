@@ -7643,7 +7643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MachineController
   isMachineOn: 0
-  autoStartForDebug: 1
+  autoStartForDebug: 0
   otomatisNyalaOlehNPC: 1
   delayOtomatisNyala: 4.2
   forceOffComponentsOnStart: 1
@@ -14766,7 +14766,7 @@ Transform:
   m_GameObject: {fileID: 572751192}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.008, y: 0, z: -0.014}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.090000026, y: 0.09, z: 0.090000026}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -43797,7 +43797,6 @@ Transform:
   - {fileID: 1305758294898809984}
   - {fileID: 5100511691220019968}
   - {fileID: 567519075473284596}
-  - {fileID: 6656017181029121833}
   - {fileID: 6140087703539216360}
   - {fileID: 6374292906714770528}
   - {fileID: 5683686586054239180}
@@ -56148,7 +56147,7 @@ Transform:
   m_GameObject: {fileID: 1735932059}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.009, y: 0.78, z: 1.314}
+  m_LocalPosition: {x: 0.003, y: 0.78, z: 1.298}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -56393,7 +56392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca45ebcc2c280e84096001334e3c70cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialDynamicHint
-  ghostObject: {fileID: 0}
+  ghostObject: {fileID: 572751192}
   ringObject: {fileID: 1490134911}
   enablePulse: 1
   pulseSpeed: 2
@@ -56951,7 +56950,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1761699455}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -57006,7 +57005,7 @@ MonoBehaviour:
   gambarController: {fileID: 2059175421}
   monitorMesinUtama: {fileID: 232044226}
   tombolSelesaiUI: {fileID: 238191388}
-  gambarFullController: {fileID: 21300000, guid: 691c201ed9296ef49957254488a1cd06,
+  gambarFullController: {fileID: 21300000, guid: 8fc6111102241894d95f44c170824b0c,
     type: 3}
   gambarTrigger: {fileID: 21300000, guid: 0b534f831171ef941b4c508a16747853, type: 3}
   gambarAnalog: {fileID: 21300000, guid: c7325bf7e5309a34294eecc71892e469, type: 3}
@@ -70776,24 +70775,6 @@ MonoBehaviour:
   UseCustomInspector: 1
   lastFlickTime: 0
   FlickForce: 1
---- !u!1 &3050044961572593492
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6656017181029121833}
-  - component: {fileID: 9026517887307388917}
-  - component: {fileID: 3080807394396241025}
-  m_Layer: 0
-  m_Name: Cube.088
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!23 &3052272645448132257
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -70860,55 +70841,6 @@ Transform:
   - {fileID: 1986795599}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &3080807394396241025
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3050044961572593492}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 2a3e5d266a1ceed40a3b8c566aed046f, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &3080946796131227419
 GameObject:
   m_ObjectHideFlags: 0
@@ -77034,21 +76966,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 3.7258081, z: 2}
   m_Center: {x: 0, y: -0.8629031, z: 0}
---- !u!4 &6656017181029121833
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3050044961572593492}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.9771898, y: 0.76536053, z: 2.6776733}
-  m_LocalScale: {x: 0.0067568864, y: 0.023135941, z: 0.03305873}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1201658138}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6671122755312459007
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -80744,7 +80661,7 @@ MonoBehaviour:
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 0
   intensitasWarnaDiam: 0.5
-  warnaDiam: {r: 1, g: 1, b: 1, a: 1}
+  warnaDiam: {r: 32, g: 32, b: 32, a: 1}
   kecepatan: 1
 --- !u!114 &8672832285986237157
 MonoBehaviour:
@@ -81566,14 +81483,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1116629742174761192}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &9026517887307388917
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3050044961572593492}
-  m_Mesh: {fileID: -3959075476843439929, guid: 58b2ff5f5a117684897db93b732e59b5, type: 3}
 --- !u!33 &9030767493127852907
 MeshFilter:
   m_ObjectHideFlags: 0
