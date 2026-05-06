@@ -120,7 +120,7 @@ public class InputTutorialManager : MonoBehaviour
 
             case 4:
                 titleText.text = "TUTORIAL SELESAI!";
-                descText.text = "<color=green>Kerja Bagus!</color>\nTekan tombol 'Selesai' di bawah ini untuk memulai.";
+                descText.text = "<color=green>Kerja Bagus!</color>\nTekan tombol 'Selesai' di bawah ini untuk memulai dan perhatikan layar di kanan.";
                 
                 if (gambarController != null) gambarController.gameObject.SetActive(false); 
                 if (suaraTutorialSelesai != null) suaraTutorialSelesai.Play();

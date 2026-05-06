@@ -5,7 +5,8 @@ public class AnimAudioTrigger : MonoBehaviour
 {
     private AudioSource audioSource;
 
-    void Start()
+    // Ganti Start menjadi Awake agar inisialisasi terjadi sebelum frame 0 animasi berjalan
+    void Awake()
     {
         audioSource = GetComponent<AudioSource>();
     }
@@ -13,9 +14,20 @@ public class AnimAudioTrigger : MonoBehaviour
     // Fungsi ini akan dipanggil saat animasi bergerak
     public void PlaySlideSound()
     {
-        if (audioSource != null && !audioSource.isPlaying)
+        // Tambahkan baris ini untuk tes
+        Debug.Log("FUNGSI PLAYSLIDESOUND BERHASIL TERPANGGIL!"); 
+
+        if (audioSource != null)
         {
-            audioSource.Play();
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+                Debug.Log("AUDIO SEDANG DI-PLAY!"); // Tes tambahan
+            }
+        }
+        else
+        {
+            Debug.LogWarning("AnimAudioTrigger: AudioSource tidak ditemukan!");
         }
     }
 
