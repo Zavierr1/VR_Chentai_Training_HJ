@@ -24,6 +24,10 @@ public class AssessmentTimer : MonoBehaviour
     [Tooltip("Masukkan semua part/barang (Grabbable) yang ada di meja ke dalam list ini agar dikunci sebelum mulai")]
     public Grabbable[] bendaAssessment;
 
+    [Header("Referensi Kalibrasi")]
+    [Tooltip("Tarik game object yang memiliki script CalibrationManager ke sini")]
+    public CalibrationManager kalibrasiManager;
+
     [Header("Panel Hasil Akhir (Unified)")]
     [Tooltip("Tarik Panel/Canvas UI Hasil (Satu panel untuk Menang/Kalah) ke sini")]
     public GameObject panelHasilAkhir;
@@ -121,6 +125,12 @@ public class AssessmentTimer : MonoBehaviour
         
         sudahSelesai = true;
         KunciSemuaBarang(true); 
+
+        // >>> TAMBAHAN BARU: Matikan panel kalibrasi jika sedang terbuka <<<
+        if (kalibrasiManager != null)
+        {
+            kalibrasiManager.BatalkanKalibrasiOtomatis();
+        }
 
         if (teksHasilAkhir != null)
         {

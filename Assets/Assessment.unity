@@ -65457,6 +65457,7 @@ MonoBehaviour:
   - {fileID: 1595999547}
   - {fileID: 8672832285986237150}
   - {fileID: 8955665828041417959}
+  kalibrasiManager: {fileID: 94452857}
   panelHasilAkhir: {fileID: 508554421}
   teksHasilAkhir: {fileID: 1017238977}
   tombolFinish: {fileID: 593568926}

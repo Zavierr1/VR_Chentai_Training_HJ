@@ -183,4 +183,19 @@ public class CalibrationManager : MonoBehaviour
         if (mesinUtama != null) mesinUtama.StartMachine();
         onKalibrasiBerhasilSelesai?.Invoke();
     }
+
+    public void BatalkanKalibrasiOtomatis()
+    {
+        // Menghentikan fungsi tombol dan knob
+        isFaseKalibrasiAktif = false;
+        sudahSelesai = true;
+        
+        // Mematikan panel UI Kalibrasi
+        if (panelKalibrasi != null) 
+        {
+            panelKalibrasi.SetActive(false);
+        }
+
+        Debug.Log("<color=yellow>[KALIBRASI] Dihentikan paksa karena waktu habis.</color>");
+    }
 }
