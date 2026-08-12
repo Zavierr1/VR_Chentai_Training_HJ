@@ -1,16 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// SimpleCable — Verlet rope that drives armature bones smoothly.
-///
-/// SETUP:
-/// 1. Assign startPoint (fixed anchor)
-/// 2. Assign endPoint   (moving inkjet head)
-/// 3. Drag bones IN ORDER: root → tip
-/// 4. Set boneForwardAxis to match your Blender bone orientation
-///    (try Y first, then -Y or X if bones look wrong)
-/// </summary>
+// SimpleCable — Verlet rope that drives armature bones smoothly.
+//
+// SETUP:
+// 1. Assign startPoint (fixed anchor)
+// 2. Assign endPoint   (moving inkjet head)
+// 3. Drag bones IN ORDER: root → tip
+// 4. Set boneForwardAxis to match your Blender bone orientation
+//    (try Y first, then -Y or X if bones look wrong)
 public class SimpleCable : MonoBehaviour
 {
     [Header("Cable Targets")]
@@ -21,7 +19,7 @@ public class SimpleCable : MonoBehaviour
     public Transform[] bones;
 
     [Header("Bone Axis — match your Blender rig")]
-    public BoneAxis boneForwardAxis = BoneAxis.Y;   // Try Y first (Blender default)
+    public BoneAxis boneForwardAxis = BoneAxis.Y;   // Try Y first (Blender default).
     public BoneAxis boneUpAxis      = BoneAxis.Z;
 
     public enum BoneAxis { X, Y, Z, NegX, NegY, NegZ }
@@ -43,6 +41,7 @@ public class SimpleCable : MonoBehaviour
     private List<Vector3> prev = new List<Vector3>();
     private float segLen;
 
+    // Initializes the verlet points along a straight line between the endpoints.
     void Start()
     {
         segLen = totalCableLength / (segmentCount - 1);
@@ -56,17 +55,20 @@ public class SimpleCable : MonoBehaviour
         }
     }
 
+    // Physics step: simulate then constrain the rope.
     void FixedUpdate()
     {
         Simulate();
         Constrain();
     }
 
+    // Applies the solved positions to the bones after animation.
     void LateUpdate()
     {
         DriveBones();
     }
 
+    // Applies gravity to each interior segment.
     void Simulate()
     {
         for (int i = 1; i < segmentCount - 1; i++)
@@ -77,6 +79,7 @@ public class SimpleCable : MonoBehaviour
         }
     }
 
+    // Keeps the rope at its target length via iterative distance constraints.
     void Constrain()
     {
         for (int iter = 0; iter < stiffnessIterations; iter++)
@@ -97,6 +100,7 @@ public class SimpleCable : MonoBehaviour
         }
     }
 
+    // Maps each bone to a position/rotation along the verlet curve.
     void DriveBones()
     {
         if (bones == null || bones.Length == 0) return;
@@ -107,17 +111,17 @@ public class SimpleCable : MonoBehaviour
         {
             if (bones[b] == null) continue;
 
-            // Map bone index → smooth position along verlet curve
+            // Map bone index → smooth position along the verlet curve.
             float t     = (float)b / Mathf.Max(bCount - 1, 1);
             float fIdx  = t * (segmentCount - 1);
             int   idxA  = Mathf.FloorToInt(fIdx);
             int   idxB  = Mathf.Min(idxA + 1, segmentCount - 1);
             float blend = fIdx - idxA;
 
-            // Interpolated position
+            // Interpolated position.
             bones[b].position = Vector3.Lerp(cur[idxA], cur[idxB], blend);
 
-            // Direction to next segment
+            // Direction to the next segment.
             int     nextSeg = Mathf.Min(idxA + 1, segmentCount - 1);
             Vector3 dir     = cur[nextSeg] - cur[idxA];
 
@@ -129,6 +133,7 @@ public class SimpleCable : MonoBehaviour
         }
     }
 
+    // Converts a world direction to the bone's local axis orientation.
     Quaternion AxisToRotation(Vector3 forward, Vector3 up)
     {
         Quaternion lookRot = Quaternion.LookRotation(forward, up);
@@ -143,6 +148,7 @@ public class SimpleCable : MonoBehaviour
         }
     }
 
+    // Draws the verlet curve and its endpoints in the editor.
     void OnDrawGizmos()
     {
         if (cur == null || cur.Count == 0) return;

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Spawns a finished tablet at a fixed point, then asks the ejector to roll for a reject.
 public class TabletJadiSpawner : MonoBehaviour
 {
     [Header("Pengaturan Spawn")]
@@ -12,22 +13,24 @@ public class TabletJadiSpawner : MonoBehaviour
     public EjectorController ejectorMesin; // <--- BARIS BARU
 
     [Header("Efek Tambahan (Opsional)")]
-    public ParticleSystem pressEffect; 
+    public ParticleSystem pressEffect;
     public AudioClip pressSound;
     private AudioSource audioSource;
 
+    // Caches the AudioSource for playing the press sound.
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
     }
 
+    // Instantiates the tablet, triggers the ejector roll, and plays the press effects.
     public void SpawnTablet()
     {
         if (tabletPrefab != null && spawnPoint != null)
         {
             GameObject newTablet = Instantiate(tabletPrefab, spawnPoint.position, spawnPoint.rotation);
             Destroy(newTablet, tabletLifetime);
-            
+
             // >>> TAMBAHAN BARU: Suruh ejector melempar dadu probabilitas!
             if (ejectorMesin != null)
             {

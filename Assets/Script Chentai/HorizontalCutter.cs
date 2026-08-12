@@ -1,6 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
+// Moves a cutting blade forward and back in discrete steps along the Z axis,
+// triggers a tablet spawn at the forward end, and destroys any foil the blade
+// touches. Supports looping for continuous operation.
 public class HorizontalCutter : MonoBehaviour
 {
     [Header("Forward (Bang)")]
@@ -31,12 +34,13 @@ public class HorizontalCutter : MonoBehaviour
     [Header("Audio")]
     public AudioSource movementAudio;
     [Tooltip("Satu file audio yang berisi suara maju dan mundur sekaligus")]
-    public AudioClip cutterSound; // <-- Hanya pakai 1 clip sekarang
+    public AudioClip cutterSound; // Only one clip is used now.
 
     private Vector3 startPos;
     private Quaternion startRot;
     private Coroutine routine;
 
+    // Caches the starting transform and starts cutting automatically if enabled.
     private void Start()
     {
         startPos = transform.position;
@@ -45,6 +49,7 @@ public class HorizontalCutter : MonoBehaviour
         if (autoStart) StartCut();
     }
 
+    // Starts the cut routine from the current position.
     public void StartCut()
     {
         startPos = transform.position;
@@ -54,6 +59,7 @@ public class HorizontalCutter : MonoBehaviour
         routine = StartCoroutine(CutRoutine());
     }
 
+    // Runs the forward/back cutting cycle, spawning a tablet at the forward end.
     private IEnumerator CutRoutine()
     {
         do
@@ -63,7 +69,7 @@ public class HorizontalCutter : MonoBehaviour
             int bSteps = Mathf.Max(1, backSteps);
             float forwardStepDist = totalZDistance / fSteps;
 
-            // 1. PLAY AUDIO 1 KALI UNTUK SATU SIKLUS (Maju + Mundur)
+            // 1. PLAY AUDIO ONCE PER CYCLE (forward + backward).
             if (movementAudio != null && cutterSound != null)
             {
                 movementAudio.PlayOneShot(cutterSound);
@@ -76,8 +82,8 @@ public class HorizontalCutter : MonoBehaviour
                 else yield return null;
             }
 
-            // 2. >>> TRIGGER MUNCUL TABLET DI SINI <<<
-            // Tepat saat pisau mentok ke depan, kita panggil fungsi spawn tablet
+            // 2. TRIGGER THE TABLET SPAWN HERE.
+            // Called exactly when the blade reaches the forward end.
             if (spawnerTabletJatuh != null)
             {
                 spawnerTabletJatuh.SpawnTablet();
@@ -102,6 +108,7 @@ public class HorizontalCutter : MonoBehaviour
         routine = null;
     }
 
+    // Returns the movement direction along the chosen Z axis, applying the sign.
     private Vector3 GetZDirection()
     {
         Vector3 forward = useLocalZ ? (startRot * Vector3.forward) : Vector3.forward;
@@ -110,10 +117,11 @@ public class HorizontalCutter : MonoBehaviour
         return forward * sign;
     }
 
-    // 4. >>> MENGHANCURKAN FOIL SAAT TERKENA PISAU <<<
+    // Destroys any foil object that the blade touches.
+    // other: The collider that entered the blade trigger.
     private void OnTriggerEnter(Collider other)
     {
-        // Mengecek apakah objek yang tersentuh pisau memiliki Tag "Foil"
+        // Check whether the touched object has the "Foil" tag.
         if (other.CompareTag("Foil"))
         {
             Destroy(other.gameObject);

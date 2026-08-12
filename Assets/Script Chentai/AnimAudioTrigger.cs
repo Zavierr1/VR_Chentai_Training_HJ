@@ -1,28 +1,31 @@
-using UnityEngine;
+﻿using UnityEngine;
 
+// Plays and stops a slide sound on an attached AudioSource.
+// Intended to be triggered from Animation Events to synchronize audio with movement.
 [RequireComponent(typeof(AudioSource))]
 public class AnimAudioTrigger : MonoBehaviour
 {
     private AudioSource audioSource;
 
-    // Ganti Start menjadi Awake agar inisialisasi terjadi sebelum frame 0 animasi berjalan
+    // Caches the AudioSource component.
+    // Initialized in Awake so it is ready before the first animation frame runs.
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Fungsi ini akan dipanggil saat animasi bergerak
+    // Plays the slide sound if the audio source is available and not already playing.
     public void PlaySlideSound()
     {
-        // Tambahkan baris ini untuk tes
-        Debug.Log("FUNGSI PLAYSLIDESOUND BERHASIL TERPANGGIL!"); 
+        // Test log to confirm this method is being invoked by the animation event.
+        Debug.Log("FUNGSI PLAYSLIDESOUND BERHASIL TERPANGGIL!");
 
         if (audioSource != null)
         {
             if (!audioSource.isPlaying)
             {
                 audioSource.Play();
-                Debug.Log("AUDIO SEDANG DI-PLAY!"); // Tes tambahan
+                Debug.Log("AUDIO SEDANG DI-PLAY!"); // Additional test log.
             }
         }
         else
@@ -31,7 +34,7 @@ public class AnimAudioTrigger : MonoBehaviour
         }
     }
 
-    // Fungsi ini dipanggil saat animasi berhenti
+    // Stops the slide sound if it is currently playing.
     public void StopSlideSound()
     {
         if (audioSource != null && audioSource.isPlaying)

@@ -2,12 +2,13 @@ using UnityEngine;
 using UnityEngine.EventSystems; // Wajib untuk mendeteksi interaksi UI
 using System.Collections;
 
+// Gives UI buttons a subtle zoom on hover and a press-down shrink when clicked.
 public class UIButtonHoverZoom : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     [Header("Pengaturan Zoom")]
     [Tooltip("Seberapa besar tombol membesar saat di-hover (1.1 = tambah 10%)")]
     public float faktorZoom = 1.15f;
-    
+
     [Tooltip("Seberapa kecil tombol menyusut saat diklik (0.9 = susut 10%)")]
     public float faktorKlik = 0.95f;
 
@@ -18,6 +19,7 @@ public class UIButtonHoverZoom : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private Vector3 targetSkala;
     private Coroutine animasiCoroutine;
 
+    // Stores the button's original scale so the animation always returns to it.
     void Awake()
     {
         // Simpan ukuran asli tombol saat game baru mulai
@@ -50,6 +52,7 @@ public class UIButtonHoverZoom : MonoBehaviour, IPointerEnterHandler, IPointerEx
         MulaiAnimasi(skalaAwal * faktorZoom);
     }
 
+    // Starts a scale animation toward the given target.
     private void MulaiAnimasi(Vector3 target)
     {
         targetSkala = target;
@@ -57,6 +60,7 @@ public class UIButtonHoverZoom : MonoBehaviour, IPointerEnterHandler, IPointerEx
         animasiCoroutine = StartCoroutine(AnimasikanSkala());
     }
 
+    // Smoothly lerps the scale toward the target until it's close enough.
     private IEnumerator AnimasikanSkala()
     {
         // Looping transisi halus sampai ukuran mencapai target

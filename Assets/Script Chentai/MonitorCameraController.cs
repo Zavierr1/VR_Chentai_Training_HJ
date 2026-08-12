@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement; 
 
+// Serializable data for one slide of the monitor guide book: legend text, UI dot,
+// machine highlights (blinking), and ghost hints at the snap zones.
 [System.Serializable]
 public class SlideInfo
 {
@@ -16,6 +18,8 @@ public class SlideInfo
     public List<TutorialDynamicHint> ghostHighlight; 
 }
 
+// Controls the in-game monitor/CCTV camera, the guide book slideshow, the part
+// assembly flow (A, B, C), and the success/finish flow for the tutorial.
 public class MonitorCameraController : MonoBehaviour
 {
     [Header("Komponen Utama")]
@@ -39,15 +43,14 @@ public class MonitorCameraController : MonoBehaviour
 
     [Header("Referensi Tombol UI Utama")]
     public Button tombolStartTutorial; 
-    public Button tombolPanduanPojokKanan; // Tombol '?'
+    public Button tombolPanduanPojokKanan; // '?' button.
     public Button tombolPartA;
     public Button tombolPartB;
     public Button tombolPartC;
     public Button tombolBack;         
     public Button tombolNext;
-    public Button tombolReset; // Tombol untuk lanjut ke scene berikutnya setelah tutorial selesai
+    public Button tombolReset; // Button to continue to the next scene after the tutorial.
 
-    // >>> TAMBAHAN BARU: Tombol Ekstra Panduan <<<
     [Header("Tombol Ekstra Panduan")]
     [Tooltip("Tombol 'Klik untuk mulai pemasangan' (Muncul di ujung slide)")]
     public Button tombolMulaiPemasangan;
@@ -98,6 +101,7 @@ public class MonitorCameraController : MonoBehaviour
     private bool tutorialSelesai = false;
     [HideInInspector] public bool isSedangKalibrasiVR = false;
 
+    // Initializes the camera position, hides UI, and clears the TV screen.
     void Start()
     {
         if (targetDefault != null && cctvCamera != null)
@@ -113,11 +117,12 @@ public class MonitorCameraController : MonoBehaviour
         
         MatikanSemuaSlideshow();
 
-        // >>> TAMBAHAN BARU: Bersihkan layar TV secara default saat game mulai <<<
+        // Clear the TV screen by default when the game starts.
         KunciSemuaTombol();
         UpdateTeksUI("");
     }
 
+    // Locks the whole system while VR calibration is in progress.
     public void KunciSistemUtama(bool isKunci)
     {
         isSedangKalibrasiVR = isKunci;
@@ -128,12 +133,13 @@ public class MonitorCameraController : MonoBehaviour
         else KePosisiDefault(); 
     }
 
+    // Restores the default button layout for the TV view.
     private void RefreshTampilanTombolDefault()
     {
         KunciSemuaTombol(); 
         if (isSedangKalibrasiVR) return;
 
-        // >>> TAMBAHAN: Nyalakan tombol reset kapanpun tampilan TV kembali ke posisi default <<<
+        // Always show the reset button whenever the TV returns to the default view.
         if (tombolReset != null) tombolReset.gameObject.SetActive(true);
 
         if (!tutorialSelesai)
@@ -153,6 +159,7 @@ public class MonitorCameraController : MonoBehaviour
         }
     }
 
+    // Hides every navigation button on the monitor.
     private void KunciSemuaTombol()
     {
         if (tombolStartTutorial != null) tombolStartTutorial.gameObject.SetActive(false);
@@ -166,6 +173,7 @@ public class MonitorCameraController : MonoBehaviour
         if (tombolReset != null) tombolReset.gameObject.SetActive(false);
     }
 
+    // Starts the machine introduction tutorial slideshow.
     public void MulaiTutorial()
     {
         KunciSemuaTombol();
@@ -173,7 +181,7 @@ public class MonitorCameraController : MonoBehaviour
         if (tombolNextSlide != null) tombolNextSlide.gameObject.SetActive(true);
         if (tombolPrevSlide != null) tombolPrevSlide.gameObject.SetActive(true);
 
-            // >>> TAMBAHAN: Memutar VO saat tombol start ditekan <<<
+        // Play the VO when the start button is pressed.
         if (voMulaiTutorial != null) 
         {
             voMulaiTutorial.Play();
@@ -188,7 +196,7 @@ public class MonitorCameraController : MonoBehaviour
         TampilkanSlideSekarang();
     }
 
-    // >>> FUNGSI BARU: Dipanggil oleh Tombol "?" (Review Panduan) <<<
+    // Called by the '?' button to review the guide book.
     public void BukaPanduanUlang()
     {
         KunciSemuaTombol();
@@ -205,19 +213,19 @@ public class MonitorCameraController : MonoBehaviour
         TampilkanSlideSekarang();
     }
 
-    // >>> FUNGSI BARU: Dipanggil oleh tombol "Klik untuk mulai pemasangan" <<<
+    // Called by the "Click to start assembly" button.
     public void MulaiPemasanganSistem()
     {
-        tutorialSelesai = true; // Kunci agar tombol start tidak muncul lagi
+        tutorialSelesai = true; // Lock so the start button does not reappear.
         MatikanSemuaSlideshow();
 
-        // >>> Hentikan HANYA VO Tutorial (Pengenalan Mesin) jika masih ngoceh <<<
+        // Stop only the tutorial VO (machine intro) if it is still playing.
         if (voMulaiTutorial != null && voMulaiTutorial.isPlaying)
         {
             voMulaiTutorial.Stop();
         }
 
-        // Mainkan VO Pemasangan
+        // Play the assembly VO.
         if (voMulaiPemasangan != null)
         {
             voMulaiPemasangan.Play();
@@ -226,13 +234,14 @@ public class MonitorCameraController : MonoBehaviour
         KePosisiDefault();
     }
 
-    // >>> FUNGSI BARU: Dipanggil oleh tombol "Close/Back" saat review <<<
+    // Called by the "Close/Back" button while reviewing.
     public void TutupPanduanReview()
     {
         MatikanSemuaSlideshow();
         KePosisiDefault();
     }
 
+    // Advances the slideshow, moving between guide areas when the last slide is reached.
     public void NextSlide()
     {
         if (indeksSlideSekarang < slideAktif.Count - 1)
@@ -242,7 +251,7 @@ public class MonitorCameraController : MonoBehaviour
         }
         else
         {
-            // >>> SEMUA UPDATE TEKS DI SINI DIHAPUS BIAR GAK TIMPA-TIMPAAN <<<
+            // All text updates here were removed to avoid overwriting each other.
             if (areaTutorialAktif == 0) 
             {
                 areaTutorialAktif = 1; slideAktif = slideInfoPartC; indeksSlideSekarang = 0;
@@ -270,6 +279,7 @@ public class MonitorCameraController : MonoBehaviour
         }
     }
 
+    // Goes back through the slideshow, moving between guide areas at the first slide.
     public void PrevSlide()
     {
         if (indeksSlideSekarang > 0)
@@ -279,7 +289,7 @@ public class MonitorCameraController : MonoBehaviour
         }
         else
         {
-            // >>> SEMUA UPDATE TEKS DI SINI JUGA DIHAPUS <<<
+            // All text updates here were also removed.
             if (areaTutorialAktif == 4) 
             {
                 areaTutorialAktif = 3; slideAktif = slideAreaBawah; indeksSlideSekarang = slideAktif.Count - 1; 
@@ -307,6 +317,7 @@ public class MonitorCameraController : MonoBehaviour
         }
     }
 
+    // Shows the current slide: enables its highlights and updates navigation buttons.
     private void TampilkanSlideSekarang()
     {
         MatikanSemuaLampuSlide();
@@ -332,18 +343,19 @@ public class MonitorCameraController : MonoBehaviour
         
         bool isLastSlideTotal = (areaTutorialAktif == 4 && indeksSlideSekarang == slideAktif.Count - 1);
         bool bisaMundur = !(areaTutorialAktif == 0 && indeksSlideSekarang == 0);
-        bool bisaMaju = !isLastSlideTotal; // Tidak bisa next kalau udah di mentok kanan
+        bool bisaMaju = !isLastSlideTotal; // Cannot go next when at the far right end.
         
         if (tombolPrevSlide != null) tombolPrevSlide.interactable = bisaMundur;
         if (tombolNextSlide != null) tombolNextSlide.interactable = bisaMaju;
 
-        // >>> LOGIKA MUNCULNYA TOMBOL START vs CLOSE <<<
+        // LOGIC FOR SHOWING START vs CLOSE BUTTON.
         if (tombolMulaiPemasangan != null) tombolMulaiPemasangan.gameObject.SetActive(isLastSlideTotal && !tutorialSelesai);
         
-        // Tombol Close Panduan selalu muncul jika tutorialSelesai = true (artinya player cuma sedang baca ulang)
+        // The Close Guide button always appears when tutorialSelesai is true (review mode).
         if (tombolClosePanduan != null) tombolClosePanduan.gameObject.SetActive(tutorialSelesai);
     }
 
+    // Disables the slideshow UI and all its highlights.
     private void MatikanSemuaSlideshow()
     {
         if (tombolNextSlide != null) tombolNextSlide.gameObject.SetActive(false);
@@ -356,6 +368,7 @@ public class MonitorCameraController : MonoBehaviour
         MatikanSemuaLampuSlide();
     }
 
+    // Turns off all slide highlights across every guide area.
     private void MatikanSemuaLampuSlide()
     {
         MatikanSpesifikLampu(slideAreaAtas);
@@ -365,6 +378,7 @@ public class MonitorCameraController : MonoBehaviour
         MatikanSpesifikLampu(slideInfoPartC);
     }
 
+    // Turns off the highlights of one slide list.
     private void MatikanSpesifikLampu(List<SlideInfo> daftarSlide)
     {
         foreach (var slide in daftarSlide)
@@ -385,6 +399,7 @@ public class MonitorCameraController : MonoBehaviour
         }
     }
 
+    // Moves the camera back to the default view and restores the button layout.
     public void KePosisiDefault() 
     { 
         MulaiPindahKamera(targetDefault); 
@@ -403,9 +418,10 @@ public class MonitorCameraController : MonoBehaviour
         }
     }
     
+    // Focuses the camera on Part A and activates its snap group.
     public void KePartA() 
     { 
-        // >>> Hentikan VO Pemasangan jika pemain bergerak cepat langsung klik Part A <<<
+        // Stop the assembly VO if the player quickly jumps to Part A.
         if (voMulaiPemasangan != null && voMulaiPemasangan.isPlaying)
         {
             voMulaiPemasangan.Stop();
@@ -426,6 +442,7 @@ public class MonitorCameraController : MonoBehaviour
         }
     }
 
+    // Focuses the camera on Part B and activates its snap group.
     public void KePartB() 
     { 
         MulaiPindahKamera(targetPartB); 
@@ -443,6 +460,7 @@ public class MonitorCameraController : MonoBehaviour
         } 
     }
 
+    // Focuses the camera on Part C and activates its snap group.
     public void KePartC() 
     { 
         MulaiPindahKamera(targetPartC); 
@@ -460,44 +478,43 @@ public class MonitorCameraController : MonoBehaviour
         } 
     }
 
+    // Marks all assembly stages complete and tells the player to wait for the NPC.
     public void SemuaPartTelahTerpasang()
     {
-        tahapPerakitan = 4; // Tandai bahwa semua tahap sudah beres (100%)
+        tahapPerakitan = 4; // Mark all stages as complete (100%).
         
-        // Kembalikan kamera ke layar TV utama
+        // Return the camera to the main TV view.
         KePosisiDefault(); 
         
-        // Beri tahu pemain untuk menunggu NPC
+        // Tell the player to wait for the NPC to start and inspect the machine.
         UpdateTeksUI("PERAKITAN SELESAI!\nBagus sekali. Sekarang tunggu rekan kerjamu (NPC) untuk menyalakan dan mengecek mesin.");
         
-        // SAFEGUARD: Paksa semua Snap Group nyala kembali jika player ingin melihat-lihat
+        // SAFEGUARD: Force all snap groups back on so the player can look around.
         if (managerPartA != null) managerPartA.AktifkanGrup();
         if (managerPartB != null) managerPartB.AktifkanGrup();
         if (managerPartC != null) managerPartC.AktifkanGrup();
     }
 
-    // ==========================================================
-    // 2. FUNGSI UNTUK NPC (Dipanggil HANYA saat NPC kembali ke pos awal)
-    // ==========================================================
+    // Called by the NPC when it returns to its starting position.
     public void MunculkanControlPanelDariNPC()
     {
-        // Pastikan kamera sedang di TV Utama
+        // Make sure the camera is on the main TV.
         KePosisiDefault(); 
         
-        // Update teks instruksi
+        // Update the instruction text.
         UpdateTeksUI("PENGECEKAN SELESAI!\nMesin beroperasi normal. Silakan periksa detail pada Control Panel yang muncul.");
         
-        // MUNCULKAN POP-OUT PANEL SECARA OTOMATIS
+        // SHOW THE POP-OUT PANEL AUTOMATICALLY.
         if (panelControlPopOut != null)
         {
             panelControlPopOut.ShowPanel();
         }
     }
     
-    // >>> FUNGSI BARU: Hook fungsi ini ke Tombol "CLOSE" yang ada di panel merah (Control Panel)
+    // Called by the "CLOSE" button on the red Control Panel.
     public void TutupControlPanelDanSelesai()
     {
-        // Cek apakah sudah di tahap akhir atau mode debug aktif
+        // Check whether we are at the final stage or debug mode is active.
         if (tahapPerakitan > 3 || debugBypassPerakitan)
         {
             KunciSemuaTombol();
@@ -517,7 +534,6 @@ public class MonitorCameraController : MonoBehaviour
                 tombolFinish.interactable = true;
             }
 
-            // >>> TAMBAHKAN BARIS INI <<<
             if (suaraVictory != null) suaraVictory.Play();
             
             UpdateTeksUI(""); 
@@ -529,6 +545,7 @@ public class MonitorCameraController : MonoBehaviour
         }
     }
     
+    // Shows the "NEXT" button when a part assembly is completed.
     public void PartSelesai() 
     { 
         KunciSemuaTombol(); 
@@ -540,24 +557,28 @@ public class MonitorCameraController : MonoBehaviour
         UpdateTeksUI("KERJA BAGUS!.\nTekan tombol [NEXT] untuk lanjut."); 
     }
 
+    // Advances to the next assembly stage.
     public void LanjutKeTahapBerikutnya() 
     { 
         tahapPerakitan++; 
         KePosisiDefault(); 
     }
 
+    // Sets the instruction text on the monitor.
     public void UpdateTeksUI(string pesan) 
     { 
         if (textInstruksi != null) 
             textInstruksi.text = pesan; 
     }
 
+    // Loads the next scene after the tutorial.
     public void PindahKeSceneBerikutnya() 
     { 
         if (!string.IsNullOrEmpty(namaSceneBerikutnya)) 
             SceneManager.LoadScene(namaSceneBerikutnya); 
     }
 
+    // Starts a smooth camera move toward the target waypoint.
     private void MulaiPindahKamera(Transform targetTujuan)
     {
         if (cctvCamera == null || targetTujuan == null) return;
@@ -565,6 +586,7 @@ public class MonitorCameraController : MonoBehaviour
         moveCoroutine = StartCoroutine(ProsesPindahKamera(targetTujuan));
     }
 
+    // Lerps the camera position and rotation to the target over the transition duration.
     private IEnumerator ProsesPindahKamera(Transform target)
     {
         Vector3 posisiAwal = cctvCamera.position;
@@ -582,14 +604,15 @@ public class MonitorCameraController : MonoBehaviour
         cctvCamera.rotation = target.rotation;
     }
 
+    // Restarts the tutorial by reloading the current scene.
     public void ResetTutorialDariAwal()
     {
-        MatikanSemuaSlideshow(); // Matikan UI yang sedang aktif
+        MatikanSemuaSlideshow(); // Turn off any active UI.
         
-        // Perintahkan MainMenuManager untuk langsung loncat ke tutorial setelah reload
+        // Tell MainMenuManager to jump straight into the tutorial after reload.
         MainMenuManager.autoStartTutorial = true; 
         
-        // Reload Scene agar semua physics mesin, posisi part, dan status script kembali bersih 100%
+        // Reload the scene so all physics, part positions, and script states reset cleanly.
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
 }

@@ -1,9 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using BNG; 
 using UnityEngine.SceneManagement; 
 
+// Manages the assessment countdown timer. All parts are locked until the timer
+// starts, and the assessment either completes (machine calibrated in time) or
+// fails (time runs out), showing the appropriate result panel.
 public class AssessmentTimer : MonoBehaviour
 {
     [Header("Pengaturan UI")]
@@ -12,7 +15,7 @@ public class AssessmentTimer : MonoBehaviour
     [Tooltip("Masukkan Teks UI (TextMeshPro) yang dipakai untuk angka Timer ke sini")]
     public TextMeshProUGUI teksTimer;
 
-    // >>> TAMBAHAN BARU: Variabel untuk Teks Instruksi Awal (dari perbaikan kita sebelumnya)
+    // Instruction text shown before the assessment begins.
     [Tooltip("Tarik objek teks instruksi (New Text) atau Panel biru utamanya ke sini")]
     public GameObject teksInstruksiAwal;
 
@@ -40,7 +43,6 @@ public class AssessmentTimer : MonoBehaviour
     [Tooltip("Tombol untuk mengulang ujian (Muncul saat Gagal)")]
     public UnityEngine.UI.Button tombolRestart;
 
-    // >>> TAMBAHAN BARU: Variabel Audio Victory & Failed <<<
     [Header("Audio Feedback")]
     [Tooltip("Suara yang diputar saat pemain LULUS (Tepat Waktu)")]
     public AudioSource suaraVictory;
@@ -51,12 +53,15 @@ public class AssessmentTimer : MonoBehaviour
     [Tooltip("Ketik nama scene Main Menu kamu dengan persis (huruf besar/kecil berpengaruh)")]
     public string namaSceneMainMenu = "Nama_Scene_Main_Menu";
 
+    // Whether the assessment countdown is currently running.
     [HideInInspector]
     public bool isAssessmentJalan = false;
     
     private float sisaWaktu;
     private bool sudahSelesai = false;
 
+    // Locks all parts, initializes the timer, hides the result panel, and wires
+    // up the start/finish/restart buttons.
     void Start()
     {
         KunciSemuaBarang(true);
@@ -70,6 +75,7 @@ public class AssessmentTimer : MonoBehaviour
         if (tombolRestart != null) tombolRestart.onClick.AddListener(RestartAssessment);
     }
 
+    // Starts the assessment: unlocks all parts and hides the start button.
     public void MulaiAssessment()
     {
         if (sudahSelesai) return;
@@ -85,6 +91,7 @@ public class AssessmentTimer : MonoBehaviour
         Debug.Log("<color=green>[ASSESSMENT] Waktu Dimulai!</color>");
     }
 
+    // Stops the timer because the machine was successfully assembled/started.
     public void BerhentiTimerKarenaBerhasil()
     {
         if (!isAssessmentJalan) return;
@@ -97,7 +104,7 @@ public class AssessmentTimer : MonoBehaviour
         Debug.Log("<color=green>[ASSESSMENT] Mesin menyala! Timer dihentikan.</color>");
     }
 
-    // >>> LOGIKA KETIKA MENANG (WAKTU BELUM HABIS TAPI MESIN NYALA) <<<
+    // Shows the success result panel with the elapsed time and plays victory audio.
     public void TampilkanPanelHasilSukses()
     {
         float waktuYangDipakai = waktuAssessment - sisaWaktu;
@@ -112,13 +119,13 @@ public class AssessmentTimer : MonoBehaviour
                                    $"Selesai dalam Waktu: <color=green>{waktuFormat}</color>";
         }
 
-        // >>> MAIN-KAN SUARA VICTORY <<<
         if (suaraVictory != null) suaraVictory.Play();
 
         MunculkanPanel(true);
     }
 
-    // >>> LOGIKA KETIKA KALAH (WAKTU HABIS) <<<
+    // Handles the failure case when time runs out: locks parts, cancels any active
+    // calibration, shows the fail panel, and plays failure audio.
     private void WaktuHabis()
     {
         Debug.Log("<color=red>[ASSESSMENT] WAKTU HABIS! GAGAL.</color>");
@@ -126,7 +133,7 @@ public class AssessmentTimer : MonoBehaviour
         sudahSelesai = true;
         KunciSemuaBarang(true); 
 
-        // >>> TAMBAHAN BARU: Matikan panel kalibrasi jika sedang terbuka <<<
+        // Close the calibration panel if it is currently open.
         if (kalibrasiManager != null)
         {
             kalibrasiManager.BatalkanKalibrasiOtomatis();
@@ -139,12 +146,14 @@ public class AssessmentTimer : MonoBehaviour
                                   "Klik tombol restart untuk mencoba kembali.";
         }
 
-        // >>> MAIN-KAN SUARA FAILED <<<
         if (suaraFailed != null) suaraFailed.Play();
 
         MunculkanPanel(false); 
     }
 
+    // Displays the unified result panel and toggles the Finish/Restart buttons
+    // depending on whether the player passed or failed.
+    // isMenang: True for the success panel, false for the failure panel.
     private void MunculkanPanel(bool isMenang)
     {
         if (panelHasilAkhir != null) panelHasilAkhir.SetActive(true);
@@ -161,6 +170,7 @@ public class AssessmentTimer : MonoBehaviour
         if (tombolRestart != null) tombolRestart.gameObject.SetActive(!isMenang);
     }
     
+    // Loads the main menu scene specified in the inspector.
     public void KembaliKeMainMenu() 
     {
         if (!string.IsNullOrEmpty(namaSceneMainMenu))
@@ -170,11 +180,14 @@ public class AssessmentTimer : MonoBehaviour
         else Debug.LogError("Nama Scene Main Menu belum diisi di Inspector!");
     }
 
+    // Reloads the current scene to restart the assessment.
     private void RestartAssessment()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    // Enables or disables all assessment parts to lock or unlock them.
+    // isKunci: True locks the parts (disables Grabbable), false unlocks them.
     private void KunciSemuaBarang(bool isKunci)
     {
         if (bendaAssessment != null && bendaAssessment.Length > 0)
@@ -189,6 +202,7 @@ public class AssessmentTimer : MonoBehaviour
         }
     }
 
+    // Counts down the remaining time each frame and triggers the fail state when it reaches zero.
     void Update()
     {
         if (isAssessmentJalan)
@@ -208,6 +222,8 @@ public class AssessmentTimer : MonoBehaviour
         }
     }
 
+    // Formats and displays the remaining time in MM:SS, turning red below 60 seconds.
+    // waktu: The remaining time in seconds.
     private void UpdateTeksTimer(float waktu)
     {
         if (teksTimer != null)

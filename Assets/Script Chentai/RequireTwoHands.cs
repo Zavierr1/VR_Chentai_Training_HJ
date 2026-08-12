@@ -1,10 +1,8 @@
 using UnityEngine;
 using BNG;
 
-/// <summary>
-/// Add this component alongside a Grabbable to require two hands before the object can be picked up.
-/// Works with BNG Framework.
-/// </summary>
+// Add this component alongside a Grabbable to require two hands before the object
+// can be picked up. Works with the BNG Framework.
 public class RequireTwoHands : MonoBehaviour
 {
     [Header("Two Hand Requirement")]
@@ -27,6 +25,7 @@ public class RequireTwoHands : MonoBehaviour
     private float _singleHandTimer = 0f;
     private bool _waitingForSecondHand = false;
 
+    // Caches the Grabbable and forces DualGrab so a second hand can attach.
     void Awake()
     {
         _grabbable = GetComponent<Grabbable>();
@@ -37,23 +36,24 @@ public class RequireTwoHands : MonoBehaviour
             return;
         }
 
-        // Force DualGrab behavior so second hand can grab while first is holding
+        // Force DualGrab behavior so the second hand can grab while the first is holding.
         _grabbable.SecondaryGrabBehavior = OtherGrabBehavior.DualGrab;
     }
 
+    // Tracks the single-hand grace period and drops the object if exceeded.
     void Update()
     {
         if (!RequireBothHands) return;
         if (_grabbable == null) return;
 
-        // Object is being held
+        // Object is being held.
         if (_grabbable.BeingHeld)
         {
             bool twoHanded = _grabbable.BeingHeldWithTwoHands;
 
             if (!twoHanded)
             {
-                // Start grace period timer
+                // Start the grace period timer.
                 if (!_waitingForSecondHand)
                 {
                     _waitingForSecondHand = true;
@@ -63,7 +63,7 @@ public class RequireTwoHands : MonoBehaviour
 
                 _singleHandTimer += Time.deltaTime;
 
-                // Grace period exceeded — drop the object
+                // Grace period exceeded — drop the object.
                 if (_singleHandTimer >= GracePeriod)
                 {
                     _grabbable.DropItem(false, true);
@@ -74,7 +74,7 @@ public class RequireTwoHands : MonoBehaviour
             }
             else
             {
-                // Two hands detected — reset timer
+                // Two hands detected — reset the timer.
                 _waitingForSecondHand = false;
                 _singleHandTimer = 0f;
                 ShowHintMessage(false);
@@ -82,13 +82,14 @@ public class RequireTwoHands : MonoBehaviour
         }
         else
         {
-            // Not being held — reset everything
+            // Not being held — reset everything.
             _waitingForSecondHand = false;
             _singleHandTimer = 0f;
             ShowHintMessage(false);
         }
     }
 
+    // Shows or hides the hint message.
     void ShowHintMessage(bool show)
     {
         if (!ShowHint) return;

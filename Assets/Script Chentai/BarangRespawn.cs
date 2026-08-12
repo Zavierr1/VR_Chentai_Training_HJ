@@ -1,52 +1,57 @@
-using UnityEngine;
-using BNG; // Wajib pakai ini untuk memanggil fitur Grabbable
+﻿using UnityEngine;
+using BNG; // Required for the Grabbable feature.
 
+// Records a part's starting position and rotation and provides a method to
+// return it there. Typically driven by a floor trigger when the part falls.
 public class BarangRespawn : MonoBehaviour
 {
     private Vector3 posisiAwal;
     private Quaternion rotasiAwal;
     
-    // >>> TAMBAHAN: Variabel penyimpan status awal <<<
+    // Initial kinematic state of the rigidbody, restored on respawn.
     private bool isKinematicAwal; 
     
     private Rigidbody rb;
     private Grabbable grabbable;
 
+    // Captures the starting transform state, rigidbody, and grabbable references.
     void Start()
     {
-        // Catat posisi dan rotasi saat game baru dimulai
+        // Record position and rotation when the game starts.
         posisiAwal = transform.position;
         rotasiAwal = transform.rotation;
         
         rb = GetComponent<Rigidbody>();
         grabbable = GetComponent<Grabbable>();
 
-        // >>> TAMBAHAN: Catat status awal Kinematic <<<
+        // Remember the original kinematic state.
         if (rb != null)
         {
             isKinematicAwal = rb.isKinematic;
         }
     }
 
+    // Forces the part to be dropped, resets its physics, and returns it to its
+    // starting position and rotation on the table.
     public void KembalikanKeMeja()
     {
-        // 1. Jika barang masih dipegang tangan player saat menyentuh lantai, lepas paksa!
+        // 1. Force-drop the part if the player is still holding it.
         if (grabbable != null && grabbable.BeingHeld)
         {
             grabbable.DropItem(false, false); 
         }
 
-        // 2. Reset fisik dan kecepatan jatuh
+        // 2. Reset physics and falling velocity.
         if (rb != null)
         {
             rb.linearVelocity = Vector3.zero; 
             rb.angularVelocity = Vector3.zero; 
             
-            // >>> FIX: Kembalikan status Kinematic ke aslinya <<<
+            // Restore the original kinematic state.
             rb.isKinematic = isKinematicAwal;
         }
 
-        // 3. Kembalikan ke posisi awal
+        // 3. Return to the starting transform.
         transform.position = posisiAwal;
         transform.rotation = rotasiAwal;
     }

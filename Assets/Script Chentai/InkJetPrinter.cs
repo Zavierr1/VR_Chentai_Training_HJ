@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Spawns a printed code label on an Alufoil surface when the inkjet nozzle points
+// at it. Used to simulate the coding/printing step of the machine.
 public class InkJetPrinter : MonoBehaviour
 {
     [Header("Setup")]
@@ -12,12 +14,14 @@ public class InkJetPrinter : MonoBehaviour
     [Header("Settings")]
     public float maxDistance = 0.5f;
 
+    // Draws a debug ray from the nozzle to visualize the print target.
     void Update()
     {
         if (nozzlePoint != null)
             Debug.DrawRay(nozzlePoint.position, nozzlePoint.forward * maxDistance, Color.red);
     }
 
+    // Fires a raycast from the nozzle and spawns the code text if it hits Alufoil.
     public void PrintNow()
     {
         if (nozzlePoint == null || textPrefab == null)
@@ -35,6 +39,7 @@ public class InkJetPrinter : MonoBehaviour
         }
     }
 
+    // Instantiates the code text at the hit point, offset along the surface normal.
     void SpawnCode(RaycastHit hitInfo)
     {
         Vector3 spawnPos = hitInfo.point + (hitInfo.normal * surfaceOffset);

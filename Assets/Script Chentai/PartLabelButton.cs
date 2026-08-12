@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using BNG;
 
-/// <summary>
-/// PartLabelButton — Attach directly to the Part GameObject (no sphere needed).
-/// Hover over the part to show label. Subtle emission glow on hover, not jarring.
-///
-/// SETUP:
-/// 1. Add this script to Part GameObject (not a sphere)
-/// 2. Add Box Collider to same GameObject
-/// 3. Assign partLabel → your LabelCanvas
-/// 4. partRenderers → all Renderers of this part (can be multiple for complex meshes)
-/// 5. Wire VRIF PointerEvents on this GameObject
-/// </summary>
+// PartLabelButton — Attach directly to the Part GameObject (no sphere needed).
+// Hover over the part to show a label. Subtle emission glow on hover, not jarring.
+//
+// SETUP:
+// 1. Add this script to the Part GameObject (not a sphere)
+// 2. Add Box Collider to same GameObject
+// 3. Assign partLabel → your LabelCanvas
+// 4. partRenderers → all Renderers of this part (can be multiple for complex meshes)
+// 5. Wire VRIF PointerEvents on this GameObject
 public class PartLabelButton : MonoBehaviour
 {
     [Header("References")]
@@ -36,7 +34,7 @@ public class PartLabelButton : MonoBehaviour
     // ── GLOW SETTINGS ──────────────────────────────────────────
     [Header("Hover Glow — keep subtle!")]
     [Tooltip("Glow color — recommend white or very light blue")]
-    public Color glowColor         = new Color(0.7f, 0.85f, 1.0f);  // Soft ice blue
+    public Color glowColor         = new Color(0.7f, 0.85f, 1.0f);  // Soft ice blue.
 
     [Range(0f, 1f)]
     [Tooltip("Max emission intensity. 0.3 is subtle, 1.0 is very bright")]
@@ -48,44 +46,46 @@ public class PartLabelButton : MonoBehaviour
     [Tooltip("Subtle pulse on hover — makes it feel alive without being distracting")]
     public bool  glowPulse         = true;
     public float glowPulseSpeed    = 1.8f;
-    public float glowPulseMinMult  = 0.7f;   // Multiplier at pulse low
-    public float glowPulseMaxMult  = 1.0f;   // Multiplier at pulse high
+    public float glowPulseMinMult  = 0.7f;   // Multiplier at pulse low.
+    public float glowPulseMaxMult  = 1.0f;   // Multiplier at pulse high.
 
     // ── Internals ──────────────────────────────────────────────
     private bool     isHovered       = false;
-    private float    currentGlow     = 0f;     // 0 = off, 1 = full
+    private float    currentGlow     = 0f;     // 0 = off, 1 = full.
     private Coroutine hoverCoroutine;
     private Coroutine exitCoroutine;
 
-    // Store original emission state per material
+    // Store original emission state per material.
     private List<Material> cachedMaterials = new List<Material>();
     private List<bool>     originalEmissionEnabled = new List<bool>();
     private List<Color>    originalEmissionColor   = new List<Color>();
 
+    // Auto-grabs renderers and caches their original emission state.
     void Start()
     {
-        // Auto-grab renderers from children if not assigned
+        // Auto-grab renderers from children if not assigned.
         if (partRenderers == null || partRenderers.Length == 0)
             partRenderers = GetComponentsInChildren<Renderer>();
 
-        // Cache original emission state and instance materials
+        // Cache original emission state and instance materials.
         foreach (var r in partRenderers)
         {
             if (r == null) continue;
             foreach (var mat in r.materials)
             {
-                // Instance so we don't affect shared material
+                // Instance so we don't affect the shared material.
                 cachedMaterials.Add(mat);
                 originalEmissionEnabled.Add(mat.IsKeywordEnabled("_EMISSION"));
                 originalEmissionColor.Add(mat.GetColor("_EmissionColor"));
 
-                // Enable emission keyword so we can control it
+                // Enable the emission keyword so we can control it.
                 mat.EnableKeyword("_EMISSION");
-                //mat.SetColor("_EmissionColor", Color.black); // start off
+                // mat.SetColor("_EmissionColor", Color.black); // start off.
             }
         }
     }
 
+    // Updates the glow each frame.
     void Update()
     {
         UpdateGlow();
@@ -93,14 +93,15 @@ public class PartLabelButton : MonoBehaviour
 
     // ── GLOW UPDATE ────────────────────────────────────────────
 
+    // Lerps the glow toward the hover target and applies it to all cached materials.
     void UpdateGlow()
     {
         float targetGlow = isHovered ? 1f : 0f;
 
-        // Smooth lerp toward target
+        // Smooth lerp toward the target.
         currentGlow = Mathf.Lerp(currentGlow, targetGlow, Time.deltaTime * glowFadeSpeed);
 
-        // Apply pulse multiplier when hovered
+        // Apply the pulse multiplier when hovered.
         float pulseMult = 1f;
         if (isHovered && glowPulse)
         {
@@ -108,20 +109,20 @@ public class PartLabelButton : MonoBehaviour
             pulseMult = Mathf.Lerp(glowPulseMinMult, glowPulseMaxMult, pulse);
         }
 
-        // Apply to all cached materials
+        // Apply to all cached materials.
         for (int i = 0; i < cachedMaterials.Count; i++)
         {
             if (cachedMaterials[i] == null) continue;
 
-            // Ambil warna awal (yang sudah kamu set terang di Inspector)
+            // Take the base color (already set bright in the Inspector).
             Color baseColor = originalEmissionColor[i];
             
-            // Hitung warna glow tambahan saat di-hover
+            // Compute the extra glow color while hovered.
             Color hoverColor = glowColor * glowIntensity * pulseMult;
 
-            // Campurkan warna dasar dan warna hover
-            // Jika currentGlow = 0 (tidak di-hover), akan pakai baseColor
-            // Jika currentGlow = 1 (di-hover), akan pakai hoverColor
+            // Blend the base color and the hover color:
+            // currentGlow = 0 (not hovered) → baseColor
+            // currentGlow = 1 (hovered)    → hoverColor
             Color finalColor = Color.Lerp(baseColor, hoverColor, currentGlow);
 
             cachedMaterials[i].SetColor("_EmissionColor", finalColor);
@@ -130,6 +131,7 @@ public class PartLabelButton : MonoBehaviour
 
     // ── POINTER EVENTS ─────────────────────────────────────────
 
+    // Called when the pointer enters the part.
     public void OnPointerEnter()
     {
         isHovered = true;
@@ -145,6 +147,7 @@ public class PartLabelButton : MonoBehaviour
         }
     }
 
+    // Called when the pointer exits the part.
     public void OnPointerExit()
     {
         isHovered = false;
@@ -160,6 +163,7 @@ public class PartLabelButton : MonoBehaviour
         }
     }
 
+    // Called when the button is pressed (click mode).
     public void OnButtonPress()
     {
         if (partLabel != null)
@@ -168,6 +172,7 @@ public class PartLabelButton : MonoBehaviour
 
     // ── COROUTINES ─────────────────────────────────────────────
 
+    // Shows the label after the hover delay.
     IEnumerator ShowAfterDelay()
     {
         yield return new WaitForSeconds(hoverDelay);
@@ -175,6 +180,7 @@ public class PartLabelButton : MonoBehaviour
             partLabel.ShowLabel();
     }
 
+    // Hides the label after the exit delay.
     IEnumerator HideAfterDelay()
     {
         yield return new WaitForSeconds(exitDelay);
@@ -184,6 +190,7 @@ public class PartLabelButton : MonoBehaviour
 
     // ── CLEANUP — restore original materials on disable ────────
 
+    // Restores the original emission state when the component is disabled.
     void OnDisable()
     {
         for (int i = 0; i < cachedMaterials.Count; i++)

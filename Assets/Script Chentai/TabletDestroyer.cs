@@ -1,12 +1,14 @@
 using UnityEngine;
 
+// Destroys any tablet that enters this trigger zone (used as a cleanup pit).
 public class TabletDestroyer : MonoBehaviour
 {
-  private void OnTriggerEnter(Collider other)
-  {
-    if (other.CompareTag("Tablet"))
+    // Called when another collider enters this trigger.
+    private void OnTriggerEnter(Collider other)
     {
-      Destroy(other.gameObject);
+        if (other.CompareTag("Tablet"))
+        {
+            Destroy(other.gameObject);
+        }
     }
-  }
 }

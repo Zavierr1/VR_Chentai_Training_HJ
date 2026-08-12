@@ -1,5 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 
+// Applies a sinusoidal vibration to the object's local position to simulate a
+// feeder shaking. Intensity, speed, and direction are configurable.
 public class FeederVibration : MonoBehaviour
 {
     [Header("Setting Getaran")]
@@ -14,18 +16,20 @@ public class FeederVibration : MonoBehaviour
 
     private Vector3 initialPos;
 
+    // Stores the starting local position so the object does not drift away.
     void Start()
     {
-        // Simpan posisi awal agar tidak 'lari' kemana-mana
+        // Save the initial position so the object does not wander off.
         initialPos = transform.localPosition;
     }
 
+    // Applies a sine-wave offset to the local position each frame.
     void Update()
     {
-        // Rumus Sinus agar gerakannya bolak-balik mulus tapi cepat
+        // Sine formula produces a smooth, fast back-and-forth motion.
         float offset = Mathf.Sin(Time.time * shakeSpeed) * shakeIntensity;
 
-        // Terapkan getaran ke posisi awal
+        // Apply the vibration offset relative to the initial position.
         transform.localPosition = initialPos + (shakeDirection * offset);
     }
 }

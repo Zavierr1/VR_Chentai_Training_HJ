@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using BNG;
 
+// Validates that only the correct part (by tag and prerequisite order) can be
+// snapped into an assessment SnapZone. Wrong items are rejected, flashed red,
+// and returned to their original position.
 [RequireComponent(typeof(SnapZone))]
 [RequireComponent(typeof(GrabbablesInTrigger))]
 public class AssessmentSnapValidator : MonoBehaviour
@@ -13,7 +16,7 @@ public class AssessmentSnapValidator : MonoBehaviour
     [Header("Error Feedback")]
     [Tooltip("Suara saat part yang dimasukkan salah")]
     public AudioSource errorSound;
-    
+
     [Tooltip("Warna part saat dilepas dan salah (Bawaan: Merah)")]
     public Color warnaPartSalah = Color.red;
 
@@ -22,33 +25,39 @@ public class AssessmentSnapValidator : MonoBehaviour
 
     private SnapZone snapZone;
     private GrabbablesInTrigger gZone;
-    
+
     private const string BLOCK_CODE = "BLOCK_WRONG_ITEM_ASSESSMENT";
     private Grabbable previouslyHoveredWrongItem = null;
 
+    // Caches component references and wires up snap/detach events.
     void Start()
     {
         snapZone = GetComponent<SnapZone>();
         gZone = GetComponent<GrabbablesInTrigger>();
 
-        // Event listener ini tetap kita pertahankan jika di masa depan 
-        // kamu ingin menambahkan efek suara sukses saat dipasang/dilepas
+        // Event listeners are kept in case success sound effects are added later.
         snapZone.OnSnapEvent.AddListener(HandleItemSnapped);
         snapZone.OnDetachEvent.AddListener(HandleItemDetached);
 
         BlockSnapping();
     }
 
+    // Called when a part is snapped into the zone. The numeric scoring system
+    // has been removed, so this is intentionally empty.
     private void HandleItemSnapped(Grabbable grabbedItem)
     {
-        // Pemasangan berhasil. Sistem skor angka sudah dihapus.
+        // Snapping succeeded. The numeric scoring system has been removed.
     }
 
+    // Called when a part is detached from the zone. The numeric scoring system
+    // has been removed, so this is intentionally empty.
     private void HandleItemDetached(Grabbable grabbedItem)
     {
-        // Barang dilepas. Sistem skor angka sudah dihapus.
+        // Part detached. The numeric scoring system has been removed.
     }
 
+    // Every frame, checks which grabbable is currently hovered and either allows
+    // or blocks snapping based on tag and prerequisite order.
     void Update()
     {
         if (snapZone.HeldItem != null)
@@ -64,7 +73,7 @@ public class AssessmentSnapValidator : MonoBehaviour
             bool isUrutanBenar = true;
             if (prerequisiteSnapZone != null && prerequisiteSnapZone.HeldItem == null)
             {
-                isUrutanBenar = false; 
+                isUrutanBenar = false;
             }
 
             if (closest.CompareTag(requiredTag) && isUrutanBenar)
@@ -92,6 +101,8 @@ public class AssessmentSnapValidator : MonoBehaviour
         }
     }
 
+    // Waits briefly, then verifies the wrong part was dropped in the zone and
+    // triggers the red flash + respawn feedback.
     private System.Collections.IEnumerator WaitAndHandleWrongDrop(Grabbable wrongItem)
     {
         yield return new WaitForSeconds(0.15f);
@@ -108,6 +119,8 @@ public class AssessmentSnapValidator : MonoBehaviour
         }
     }
 
+    // Flashes the part red for half a second, restores its original color,
+    // then returns it to its starting position on the table.
     private System.Collections.IEnumerator FlashPartMerahLaluKembalikan(Grabbable wrongItem)
     {
         Renderer[] renderers = wrongItem.GetComponentsInChildren<Renderer>();
@@ -120,7 +133,7 @@ public class AssessmentSnapValidator : MonoBehaviour
                 originalColors[r] = r.material.color;
                 r.material.color = warnaPartSalah;
             }
-            else if (r.material.HasProperty("_BaseColor")) 
+            else if (r.material.HasProperty("_BaseColor"))
             {
                 originalColors[r] = r.material.GetColor("_BaseColor");
                 r.material.SetColor("_BaseColor", warnaPartSalah);
@@ -142,6 +155,7 @@ public class AssessmentSnapValidator : MonoBehaviour
         if (respawn != null) respawn.KembalikanKeMeja();
     }
 
+    // Returns true if the given grabbable is inside this zone's trigger area.
     private bool IsItemInsideTrigger(Grabbable item)
     {
         if (item == null) return false;
@@ -152,6 +166,8 @@ public class AssessmentSnapValidator : MonoBehaviour
         return false;
     }
 
+    // Adds a sentinel name to SnapZone.OnlyAllowNames so no part is allowed to
+    // snap while an invalid item is hovered.
     private void BlockSnapping()
     {
         if (snapZone.OnlyAllowNames == null) snapZone.OnlyAllowNames = new List<string>();
@@ -162,6 +178,7 @@ public class AssessmentSnapValidator : MonoBehaviour
         }
     }
 
+    // Removes the block sentinel so the correct part can snap into the zone.
     private void AllowSnapping()
     {
         if (snapZone.OnlyAllowNames != null && snapZone.OnlyAllowNames.Contains(BLOCK_CODE))
@@ -170,6 +187,7 @@ public class AssessmentSnapValidator : MonoBehaviour
         }
     }
 
+    // Finds the held grabbable closest to this zone's position.
     private Grabbable GetClosestHoveredGrabbable()
     {
         float closestDist = float.MaxValue;
@@ -178,7 +196,7 @@ public class AssessmentSnapValidator : MonoBehaviour
         foreach (var kvp in gZone.NearbyGrabbables)
         {
             Grabbable g = kvp.Value;
-            if (g == null || !g.BeingHeld) continue; 
+            if (g == null || !g.BeingHeld) continue;
 
             float dist = Vector3.Distance(transform.position, g.transform.position);
             if (dist < closestDist)

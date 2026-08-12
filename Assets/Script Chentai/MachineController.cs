@@ -2,6 +2,9 @@ using UnityEngine;
 using System;
 using System.Collections;
 
+// Central controller for the machine's on/off state. Gates starting on the number
+// of installed parts, drives all machine outputs (spawner, cutter, parts, animators,
+// audio), and coordinates with the NPC and assessment timer.
 public class MachineController : MonoBehaviour
 {
     public event Action<bool> OnMachineStateChanged;
@@ -26,13 +29,13 @@ public class MachineController : MonoBehaviour
     [Tooltip("Drag objek yang memiliki script TabletSpawner ke sini")]
     public TabletSpawner tabletSpawner;
     
-    // >>> TAMBAHAN: Referensi ke NPC kamu
     [Header("Referensi NPC & Timer")]
     [Tooltip("Drag karakter NPC yang memiliki script NPCFactoryShow ke sini")]  
     public NPCFactoryShow npcPekerja;
 
     [Tooltip("Drag script AssessmentTimer dari UI ke sini agar saat 9 part terpasang timer berhenti")]  
     public AssessmentTimer timerAssessment;
+
     [Header("Sistem Keamanan (Multi Snap Zone)")]
     [Tooltip("Centang jika mesin WAJIB menunggu part terpasang")]
     public bool wajibAdaPart = true;
@@ -63,9 +66,10 @@ public class MachineController : MonoBehaviour
     [Tooltip("Masukkan komponen seperti BrushRotate, FeederVibration, atau FoilSpawner ke sini agar ikut nyala/mati")]
     public MonoBehaviour[] machineParts;
 
-    // Variabel untuk memastikan NPC tidak dipanggil berkali-kali
+    // Prevents the NPC from being summoned more than once.
     private bool npcSudahDipanggil = false;
 
+    // Forces all outputs off at start and, in debug mode, starts everything immediately.
     void Start()
     {
         if (forceOffComponentsOnStart)
@@ -75,7 +79,7 @@ public class MachineController : MonoBehaviour
             OnMachineStateChanged?.Invoke(false);
         }
 
-        // >>> LOGIKA DEBUG: Langsung nyalakan mesin & panggil NPC saat game Play
+        // DEBUG LOGIC: Immediately start the machine and summon the NPC on Play.
         if (autoStartForDebug)
         {
             if (npcPekerja != null && !npcSudahDipanggil)
@@ -84,24 +88,25 @@ public class MachineController : MonoBehaviour
                 npcPekerja.MesinSelesaiDiperbaiki();
                 npcSudahDipanggil = true; 
 
-                // Mesin nyala nunggu NPC sampai
+                // Machine starts after the NPC arrives.
                 if (otomatisNyalaOlehNPC)
                 {
                     StartCoroutine(NyalakanMesinOtomatis());
                 }
                 else
                 {
-                    StartMachine(); // Nyala instan kalau centang delay dimatikan
+                    StartMachine(); // Start instantly if the delay flag is disabled.
                 }
             }
             else 
             {
-                // Kalau NPC gak diisi di Inspector, mesin langsung nyala
+                // If no NPC is assigned in the Inspector, start the machine directly.
                 StartMachine();
             }
         }
     }
 
+    // Turns the machine on if the part requirement is met.
     public void StartMachine()
     {
         if (isMachineOn) return;
@@ -119,6 +124,7 @@ public class MachineController : MonoBehaviour
         OnMachineStateChanged?.Invoke(true);
     }
 
+    // Turns the machine off.
     public void StopMachine()
     {
         if (!isMachineOn) return;
@@ -130,6 +136,7 @@ public class MachineController : MonoBehaviour
         OnMachineStateChanged?.Invoke(false);
     }
 
+    // Applies the machine state to every connected output component.
     private void SetMachineOutputs(bool active)
     {
         if (tabletSpawner != null) tabletSpawner.isMachineRunning = active;
@@ -157,6 +164,7 @@ public class MachineController : MonoBehaviour
         }
     }
 
+    // Toggles the machine on/off with a cooldown to avoid rapid presses.
     public void ToggleMachine()
     {
         if (Time.time - lastToggleTime < toggleCooldown)
@@ -171,6 +179,7 @@ public class MachineController : MonoBehaviour
         else StartMachine();
     }
 
+    // Increments the installed part count and triggers the success flow at the target.
     public void SetPartTerpasang()
     {
         partTerpasangSaatIni++;
@@ -178,7 +187,8 @@ public class MachineController : MonoBehaviour
 
         if (wajibAdaPart && partTerpasangSaatIni >= targetJumlahPart && !autoStartForDebug)
         {
-            // >>> LOGIKA AMAN: Timer berhenti saat rakitan selesai HANYA JIKA saklar kalibrasi dimatikan
+            // SAFE LOGIC: Stop the timer on full assembly ONLY if the calibration
+            // switch is disabled.
             if (timerAssessment != null && !tungguKalibrasiUntukTimer)
             {
                 timerAssessment.BerhentiTimerKarenaBerhasil();
@@ -197,13 +207,14 @@ public class MachineController : MonoBehaviour
         }
     }
 
+    // Waits for the NPC animation to reach the machine, then starts it if allowed.
     private IEnumerator NyalakanMesinOtomatis()
     {
-        // Tunggu sekian detik sesuai durasi animasi NPC jalan ke mesin
+        // Wait the configured seconds to match the NPC walking animation.
         yield return new WaitForSeconds(delayOtomatisNyala);
 
-        // Tambahkan pengaman 'autoStartForDebug' di pengecekan ini
-        // Jadi kalau mode debug, dia akan tetap maksa nyala walau part belum dipasang
+        // The 'autoStartForDebug' check stays here so debug mode always force-starts
+        // the machine even without installed parts.
         if (partTerpasangSaatIni >= targetJumlahPart || !wajibAdaPart || autoStartForDebug)
         {
             StartMachine();
@@ -214,6 +225,7 @@ public class MachineController : MonoBehaviour
         }
     }
 
+    // Decrements the installed part count and stops the machine if a part is removed mid-operation.
     public void SetPartDilepas()
     {
         partTerpasangSaatIni--;

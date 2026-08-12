@@ -1,10 +1,13 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Events;
 using BNG; 
 
+// Orchestrates the machine calibration sequence: scrambles the temperature and
+// sealing-roll density values, then accepts player input through UI buttons and
+// a physical knob until both are in the valid range.
 public class CalibrationManager : MonoBehaviour
 {
     [Header("Mode Configuration")]
@@ -32,13 +35,14 @@ public class CalibrationManager : MonoBehaviour
     [Header("Event Sukses")]
     public UnityEvent onKalibrasiBerhasilSelesai;
     
-    // --- VARIABEL DATA ---
+    // --- DATA VARIABLES ---
     private int suhuSaatIni;
     private int kerapatanSealingRoll; 
     private bool isFaseKalibrasiAktif = false;
     private bool sudahSelesai = false;
     private bool flagKnobSukses = false;
 
+    // Hides the calibration panel and wires up the temperature buttons.
     void Start()
     {
         if (panelKalibrasi != null) panelKalibrasi.SetActive(false);
@@ -46,12 +50,16 @@ public class CalibrationManager : MonoBehaviour
         if (tombolMinusSuhu != null) tombolMinusSuhu.onClick.AddListener(KurangiSuhu);
     }
 
+    // Starts the tutorial calibration sequence that waits for the machine to be on,
+    // then forces the setup phase.
     public void MulaiTutorialCalibrationSequence()
     {
         if (sudahSelesai) return;
         StartCoroutine(SequenceTutorialKhusus());
     }
 
+    // Waits for the machine to turn on, pauses, then stops it and begins the
+    // temperature/knob setup phase.
     private IEnumerator SequenceTutorialKhusus()
     {
         yield return new WaitUntil(() => mesinUtama.isMachineOn);
@@ -61,19 +69,21 @@ public class CalibrationManager : MonoBehaviour
         MulaiSetupSuhuDanKnob();
     }
 
+    // Scrambles the temperature and sealing-roll density values, resets the state
+    // flags, updates the UI, and enables the physical knob for calibration.
     private void MulaiSetupSuhuDanKnob()
     {
-        // 1. NGACAK SUHU (Gunakan tombol UI untuk benerin ke 100-120)
+        // 1. Scramble the temperature (use the UI buttons to fix it to 100-120).
         suhuSaatIni = Random.Range(0, 2) == 0 ? Random.Range(70, 95) : Random.Range(125, 150);
 
-        // 2. NGACAK KERAPATAN SEALING ROLL (Gunakan fisik Knob untuk benerin persis ke 100)
+        // 2. Scramble the sealing-roll density (use the physical knob to set exactly 100).
         kerapatanSealingRoll = Random.Range(0, 2) == 0 ? Random.Range(50, 99) : Random.Range(101, 150);
 
         if (knobPillowBlock != null) 
         {
             knobPillowBlock.SetupKnobUntukKalibrasi(this);
             
-            // >>> NYALAKAN HINT KELAP-KELIP JIKA BUKAN ASSESSMENT <<<
+            // Enable the blinking hint unless this is an assessment scene.
             if (!isAssessmentMode)
             {
                 knobPillowBlock.SetStatusHint(true);
@@ -89,12 +99,12 @@ public class CalibrationManager : MonoBehaviour
         if (panelKalibrasi != null) panelKalibrasi.SetActive(true);
     }
 
-    // ==========================================
-    // BAGIAN 1: KONTROL SUHU (VIA TOMBOL UI)
-    // ==========================================
+   
+    // PART 1: TEMPERATURE CONTROL (VIA UI BUTTONS)
     public void TambahSuhu() { if (!isFaseKalibrasiAktif) return; suhuSaatIni += 1; BeriFeedbackKlikUI(); UpdateTampilanSuhu(); CekKondisiSuksesSemua(); }
     public void KurangiSuhu() { if (!isFaseKalibrasiAktif) return; suhuSaatIni -= 1; BeriFeedbackKlikUI(); UpdateTampilanSuhu(); CekKondisiSuksesSemua(); }
 
+    // Plays a click sound and vibrates the controller on every temperature button press.
     private void BeriFeedbackKlikUI()
     {
         if (suaraTombolSuhu != null) suaraTombolSuhu.Play();
@@ -102,6 +112,7 @@ public class CalibrationManager : MonoBehaviour
         InputBridge.Instance.VibrateController(0.1f, 0.2f, 0.05f, tangan);
     }
 
+    // Updates the temperature text, status label, and thermometer bar color/fill.
     private void UpdateTampilanSuhu()
     {
         if (teksAngkaSuhu != null) teksAngkaSuhu.text = $"{suhuSaatIni}°C";
@@ -113,9 +124,11 @@ public class CalibrationManager : MonoBehaviour
         if (barTermometer != null) { barTermometer.color = warnaUI; barTermometer.fillAmount = (float)suhuSaatIni / 150f; }
     }
 
-    // ==========================================
-    // BAGIAN 2: KONTROL KERAPATAN (VIA FISIK KNOB)
-    // ==========================================
+    
+    // PART 2: DENSITY CONTROL (VIA PHYSICAL KNOB)
+    // Adjusts the sealing-roll density based on physical knob rotation, clamps the
+    // value, then updates the UI and checks for the win condition.
+    // nilaiPerubahan: The amount the density changed (+1 or -1 per step).
     public void UbahKerapatanDariKnob(int nilaiPerubahan)
     {
         if (!isFaseKalibrasiAktif || sudahSelesai) return;
@@ -127,6 +140,8 @@ public class CalibrationManager : MonoBehaviour
         CekKondisiSuksesSemua();
     }
 
+    // Updates the density percentage text, slider value, accuracy bar color, and
+    // triggers knob success feedback when the value reaches exactly 100.
     private void UpdateTampilanKnob()
     {
         if (teksPersentaseKnob != null) teksPersentaseKnob.text = $"{kerapatanSealingRoll}%";
@@ -155,9 +170,10 @@ public class CalibrationManager : MonoBehaviour
         }
     }
 
-    // ==========================================
-    // BAGIAN 3: CEK KEMENANGAN
-    // ==========================================
+    
+    // PART 3: WIN CONDITION CHECK
+    // Checks whether both conditions are met (temperature 100-120 and density exactly
+    // 100) and, if so, starts the success sequence.
     private void CekKondisiSuksesSemua()
     {
         bool suhuAman = (suhuSaatIni >= 100 && suhuSaatIni <= 120);
@@ -169,6 +185,8 @@ public class CalibrationManager : MonoBehaviour
         }
     }
 
+    // Finalizes the calibration: locks the state, hides the panel, starts the machine,
+    // and invokes the success event.
     private IEnumerator ProsesKalibrasiSukses()
     {
         sudahSelesai = true;
@@ -184,13 +202,15 @@ public class CalibrationManager : MonoBehaviour
         onKalibrasiBerhasilSelesai?.Invoke();
     }
 
+    // Force-stops the calibration (e.g., when the assessment timer runs out):
+    // disables the input phase and hides the calibration panel.
     public void BatalkanKalibrasiOtomatis()
     {
-        // Menghentikan fungsi tombol dan knob
+        // Disable the buttons and knob.
         isFaseKalibrasiAktif = false;
         sudahSelesai = true;
         
-        // Mematikan panel UI Kalibrasi
+        // Hide the calibration UI panel.
         if (panelKalibrasi != null) 
         {
             panelKalibrasi.SetActive(false);

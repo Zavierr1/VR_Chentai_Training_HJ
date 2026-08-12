@@ -1,6 +1,9 @@
 using UnityEngine;
 using BNG;
 
+// Converts physical rotation of a grabbable knob into density adjustments for the
+// sealing roll during calibration. Emits tick sounds and haptic feedback while being
+// turned and a success click when the correct value is reached.
 [RequireComponent(typeof(Grabbable))]
 public class KnobCalibration : MonoBehaviour
 {
@@ -18,7 +21,6 @@ public class KnobCalibration : MonoBehaviour
     [Tooltip("Bunyi 'tik' kecil seperti roda gigi saat diputar (Opsional)")]
     public AudioSource suaraTikKecil; 
 
-    // >>> TAMBAHAN: Referensi ke script Kelap Kelip <<<
     [Header("Tutorial Hint")]
     [Tooltip("Masukkan script KelapKelipTutorial yang menempel di Knob ini")]
     public KelapKelipTutorial efekKelapKelip;
@@ -29,15 +31,17 @@ public class KnobCalibration : MonoBehaviour
     private float rotasiSebelumnya;
     private float akumulasiPutaran = 0f;
 
+    // Caches the Grabbable and auto-finds the blink hint if not assigned.
     void Awake()
     {
         grabbableKomponen = GetComponent<Grabbable>();
         grabbableKomponen.enabled = false; 
         
-        // Coba cari otomatis kalau belum di-drag di Inspector
+        // Auto-find the hint if it was not dragged into the Inspector.
         if (efekKelapKelip == null) efekKelapKelip = GetComponent<KelapKelipTutorial>();
     }
 
+    // Enables the knob and prepares it for the calibration session.
     public void SetupKnobUntukKalibrasi(CalibrationManager manager)
     {
         managerKalibrasi = manager;
@@ -47,7 +51,7 @@ public class KnobCalibration : MonoBehaviour
         akumulasiPutaran = 0f;
     }
 
-    // >>> FUNGSI BARU: Untuk menyalakan/mematikan kelap-kelip <<<
+    // Turns the blinking hint on or off.
     public void SetStatusHint(bool aktif)
     {
         if (efekKelapKelip != null)
@@ -57,12 +61,14 @@ public class KnobCalibration : MonoBehaviour
         }
     }
 
+    // Disables the knob and turns off the hint when calibration is complete.
     public void SelesaiKalibrasi()
     {
         grabbableKomponen.enabled = false;
-        SetStatusHint(false); // Pastikan mati saat kalibrasi selesai
+        SetStatusHint(false); // Make sure the hint is off when calibration finishes.
     }
 
+    // Reads the current rotation angle on the configured axis.
     private float AmbilRotasiSaatIni()
     {
         if (sumbuRotasi == AxisPutaran.X) return transform.localEulerAngles.x;
@@ -70,25 +76,26 @@ public class KnobCalibration : MonoBehaviour
         return transform.localEulerAngles.z;
     }
 
+    // While the knob is held, accumulates rotation and reports density changes.
     void Update()
     {
         if (grabbableKomponen.BeingHeld)
         {
-            // >>> MATIKAN HINT KETIKA KNOB DIPEANG/DIPUTAR <<<
+            // Turn off the hint while the knob is held/turned.
             SetStatusHint(false);
 
             float rotasiSekarang = AmbilRotasiSaatIni();
             
-            // Hitung selisih putaran
+            // Calculate the rotation delta since the last frame.
             float delta = Mathf.DeltaAngle(rotasiSebelumnya, rotasiSekarang);
             rotasiSebelumnya = rotasiSekarang;
 
             akumulasiPutaran += delta;
 
-            // Jika putaran mencapai batas derajat, ubah angka kerapatan di UI!
+            // Once the accumulated rotation reaches a step threshold, change the value.
             if (Mathf.Abs(akumulasiPutaran) >= derajatPerAngka)
             {
-                // Hitung berapa step (bisa +1 atau -1 tergantung arah putaran)
+                // Count steps (+1 or -1 depending on rotation direction).
                 int langkahAngka = Mathf.FloorToInt(akumulasiPutaran / derajatPerAngka);
                 akumulasiPutaran -= (langkahAngka * derajatPerAngka);
 
@@ -96,7 +103,7 @@ public class KnobCalibration : MonoBehaviour
                 {
                     managerKalibrasi.UbahKerapatanDariKnob(langkahAngka);
 
-                    // Getaran mekanik ringan saat memutar
+                    // Light mechanical vibration while turning.
                     InputBridge.Instance.VibrateController(0.05f, 0.1f, 0.05f, grabbableKomponen.GetPrimaryGrabber().HandSide);
                     if (suaraTikKecil != null) suaraTikKecil.Play();
                 }
@@ -108,12 +115,13 @@ public class KnobCalibration : MonoBehaviour
         }
     }
 
+    // Plays the success click and a strong vibration when the value reaches 100.
     public void BeriFeedbackSukses(bool sedangDipegang)
     {
         if (suaraKlikSukses != null) suaraKlikSukses.Play();
         if (sedangDipegang && grabbableKomponen.BeingHeld)
         {
-            // Getar kencang menandakan Sealing Roll terkunci mantap
+            // Strong vibration signals the sealing roll locked firmly into place.
             InputBridge.Instance.VibrateController(0.8f, 0.5f, 0.1f, grabbableKomponen.GetPrimaryGrabber().HandSide);
         }
     }

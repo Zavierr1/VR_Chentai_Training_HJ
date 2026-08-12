@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Blinks (pulses) the emission color of a part's material to draw attention to it.
+// Used as a tutorial hint on machine parts that the player should interact with.
 public class KelapKelipTutorial : MonoBehaviour
 {
     [Tooltip("Masukkan komponen Mesh Renderer dari part yang mau dikedipkan")]
@@ -27,11 +29,13 @@ public class KelapKelipTutorial : MonoBehaviour
     private bool isBlinking = false;
     private MaterialPropertyBlock propBlock;
 
+    // Creates the property block used to modify emission without instancing materials.
     void Awake()
     {
         propBlock = new MaterialPropertyBlock();
     }
 
+    // Resolves the idle color from the material and applies it immediately.
     void Start()
     {
         if (objekRenderer == null)
@@ -42,24 +46,24 @@ public class KelapKelipTutorial : MonoBehaviour
 
         if (objekRenderer.sharedMaterial != null)
         {
-            // Pastikan fitur cahaya aktif di material aslinya
+            // Make sure the emission feature is enabled on the source material.
             objekRenderer.sharedMaterial.EnableKeyword("_EMISSION");
             
             if (otomatisAmbilWarnaDasar)
             {
-                // Coba ambil _BaseColor (untuk URP) atau _Color (untuk Standard 3D)
+                // Try to read _BaseColor (URP) or _Color (Standard 3D).
                 Color baseCol = Color.white;
                 if (objekRenderer.sharedMaterial.HasProperty("_BaseColor")) 
                     baseCol = objekRenderer.sharedMaterial.GetColor("_BaseColor");
                 else if (objekRenderer.sharedMaterial.HasProperty("_Color")) 
                     baseCol = objekRenderer.sharedMaterial.GetColor("_Color");
 
-                // Set warna diam menjadi warna dasar dengan intensitas lebih rendah
+                // Set the idle color to the base color at reduced intensity.
                 warnaDiam = baseCol * intensitasWarnaDiam;
             }
             else
             {
-                // Jika tidak otomatis, baca emisi asli bawaan material (kalau ada)
+                // If not automatic, read the material's original emission (if any).
                 if (objekRenderer.sharedMaterial.HasProperty("_EmissionColor"))
                 {
                     Color emisiBawaan = objekRenderer.sharedMaterial.GetColor("_EmissionColor");
@@ -70,20 +74,21 @@ public class KelapKelipTutorial : MonoBehaviour
                 }
             }
 
-            // Langsung terapkan warna diam di awal permainan agar objek tidak gelap gulita
+            // Apply the idle color immediately so the object is not pitch black at start.
             objekRenderer.GetPropertyBlock(propBlock);
             propBlock.SetColor("_EmissionColor", warnaDiam);
             objekRenderer.SetPropertyBlock(propBlock);
         }
     }
 
+    // Pulses the emission color between the idle color and the glow color.
     void Update()
     {
         if (isBlinking && objekRenderer != null)
         {
             float nilaiPingPong = Mathf.PingPong(Time.time * kecepatan, 1f);
             
-            // Transisi halus (Lerp) antara warna diam dan warna glow terang
+            // Smooth transition (Lerp) between idle color and bright glow color.
             Color warnaSekarang = Color.Lerp(warnaDiam, warnaGlow, nilaiPingPong);
             
             objekRenderer.GetPropertyBlock(propBlock);
@@ -92,17 +97,19 @@ public class KelapKelipTutorial : MonoBehaviour
         }
     }
 
+    // Starts the blinking effect.
     public void MulaiKedip()
     {
         isBlinking = true;
     }
 
+    // Stops the blinking effect and restores the idle color.
     public void BerhentiKedip()
     {
         isBlinking = false;
         if (objekRenderer != null) 
         {
-            // Kembalikan ke warna diam (bukan hitam pekat)
+            // Restore the idle color (not pure black).
             objekRenderer.GetPropertyBlock(propBlock);
             propBlock.SetColor("_EmissionColor", warnaDiam);
             objekRenderer.SetPropertyBlock(propBlock);

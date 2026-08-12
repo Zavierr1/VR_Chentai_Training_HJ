@@ -1,7 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Collects foil pieces that enter its trigger into a neat stack, disables their
+// physics, and releases the whole stack once the target count is reached.
 public class FoilStacker : MonoBehaviour
 {
     [Header("Pengaturan Tumpukan")]
@@ -16,6 +18,9 @@ public class FoilStacker : MonoBehaviour
     private List<Rigidbody> tumpukanFoil = new List<Rigidbody>();
     private bool sedangDilepas = false;
 
+    // When a foil enters the trigger, zeroes its velocity, makes it kinematic, and
+    // stacks it on top of the previous foil. Releases the stack at the target count.
+    // other: The collider that entered the trigger.
     private void OnTriggerEnter(Collider other)
     {
         if (sedangDilepas) return;
@@ -26,15 +31,15 @@ public class FoilStacker : MonoBehaviour
             
             if (rb != null && !tumpukanFoil.Contains(rb))
             {
-                // Matikan fisika seketika
+                // Disable physics immediately.
                 rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
                 rb.isKinematic = true;
 
                 if (tumpukanFoil.Count == 0)
                 {
-                    // --- FOIL PERTAMA (INDUK) ---
-                    // Tarik X dan Z ke tengah kotak, Y biarkan sesuai aslinya
+                    // --- FIRST FOIL (PARENT) ---
+                    // Align X and Z to the center of the box; keep Y as-is.
                     rb.position = new Vector3(transform.position.x, rb.position.y, transform.position.z);
                     rb.rotation = transform.rotation;
                     
@@ -44,20 +49,20 @@ public class FoilStacker : MonoBehaviour
                 {
                     tumpukanFoil.Add(rb);
                     
-                    // 1. Jadikan anak dari Foil Pertama
+                    // 1. Make it a child of the first foil.
                     rb.transform.SetParent(tumpukanFoil[0].transform, true);
                     
-                    // 2. KUNCI POSISI LOKAL: Tumpuk sempurna di atas induknya
+                    // 2. LOCK LOCAL POSITION: stack perfectly on top of the parent.
                     int urutan = tumpukanFoil.Count - 1; 
                     
-                    // X dan Z lokal adalah 0 (tepat di tengah induk), Y lokal sesuai urutan
+                    // Local X/Z are 0 (centered on the parent); local Y follows the order.
                     rb.transform.localPosition = new Vector3(0, 0, urutan * jarakTumpukan);
                     
-                    // Samakan rotasi lokal (Quaternion.identity berarti rotasi sama persis dengan induk)
+                    // Match the parent rotation exactly.
                     rb.transform.localRotation = Quaternion.identity;
                 }
 
-                // Jika sudah 10
+                // If the stack reaches the target count.
                 if (tumpukanFoil.Count >= targetStack)
                 {
                     StartCoroutine(LepaskanTumpukan());
@@ -66,6 +71,8 @@ public class FoilStacker : MonoBehaviour
         }
     }
 
+    // Releases the stack after a short delay: wakes the parent rigidbody, clears the
+    // list, then waits on cooldown before allowing new foils again.
     private IEnumerator LepaskanTumpukan()
     {
         sedangDilepas = true;
@@ -84,6 +91,7 @@ public class FoilStacker : MonoBehaviour
         sedangDilepas = false;
     }
 
+    // Draws a gizmo box matching the trigger collider for editor visualization.
     void OnDrawGizmos()
     {
         Gizmos.color = new Color(1f, 0.3f, 0.3f, 0.3f);

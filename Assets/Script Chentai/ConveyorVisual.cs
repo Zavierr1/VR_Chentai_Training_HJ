@@ -1,5 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 
+// Scrolls a material's texture over time to create a moving visual effect on a
+// foil surface (e.g., simulating the foil feeding through the machine).
 public class ConveyorVisual : MonoBehaviour
 {
     [Header("Pengaturan Visual")]
@@ -11,23 +13,25 @@ public class ConveyorVisual : MonoBehaviour
 
     private Material foilMaterial;
 
+    // Caches the material from the foil renderer to reduce memory usage.
     void Start()
     {
-        // Mengambil material dari objek foil ini agar tidak memberatkan memori
+        // Grab the material from the foil object to avoid memory overhead.
         foilMaterial = GetComponent<Renderer>().material;
     }
 
+    // Applies a time-based texture offset each frame.
     void Update()
     {
-        // Menghitung pergeseran berdasarkan waktu
+        // Calculate the offset based on elapsed time.
         Vector2 offset = scrollDirection.normalized * (Time.time * scrollSpeed);
 
-        // Mendukung material URP (_BaseMap)
+        // Support URP materials (_BaseMap).
         if (foilMaterial.HasProperty("_BaseMap"))
         {
             foilMaterial.SetTextureOffset("_BaseMap", offset);
         }
-        // Mendukung material Standard 3D (_MainTex)
+        // Support Standard 3D materials (_MainTex).
         else if (foilMaterial.HasProperty("_MainTex"))
         {
             foilMaterial.SetTextureOffset("_MainTex", offset);

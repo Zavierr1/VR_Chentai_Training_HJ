@@ -1,6 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
+// Periodically flips an ejector flap to reject a defective pill as part of the
+// quality control (QC) simulation. A random roll decides whether ejection occurs.
 public class EjectorController : MonoBehaviour
 {
     [Header("Referensi Objek")]
@@ -12,16 +14,17 @@ public class EjectorController : MonoBehaviour
     
     [Header("Pengaturan Waktu")]
     public float kecepatanGerak = 10f;
-    public float durasiTerbuka = 1.0f; // Aku cepetin dikit biar obat selanjutnya ga ikut kebuang
+    public float durasiTerbuka = 1.0f; // Shortened so the next pill is not discarded too.
 
     private bool isEjecting = false;
 
-    // Fungsi ini akan dipanggil oleh pemotong (TabletJadiSpawner)
+    // Rolls a random chance (1 in 9) and, if successful, starts the flap animation.
+    // Called by the tablet cutter (TabletJadiSpawner).
     public void CekEject()
     {
-        if (isEjecting) return; // Abaikan jika plat sedang terbuka
+        if (isEjecting) return; // Ignore if the flap is already open.
 
-        // Probabilitas 1 banding 20
+        // Roll a die from 1 to 9.
         int dadu = Random.Range(1, 10);
         
         if (dadu == 1)
@@ -31,6 +34,8 @@ public class EjectorController : MonoBehaviour
         }
     }
 
+    // Animates the flap: opens to the eject angle, waits for the pill to fall,
+    // then closes back to the normal angle.
     private IEnumerator GerakkanFlap()
     {
         isEjecting = true;
@@ -41,17 +46,17 @@ public class EjectorController : MonoBehaviour
         Quaternion rotasiNormal = Quaternion.Euler(rotasiNormalX, awalY, awalZ);
         Quaternion rotasiEject = Quaternion.Euler(rotasiEjectX, awalY, awalZ);
 
-        // 1. MEMBUKA
+        // 1. OPEN.
         while (Quaternion.Angle(flapObject.localRotation, rotasiEject) > 0.1f)
         {
             flapObject.localRotation = Quaternion.Lerp(flapObject.localRotation, rotasiEject, Time.deltaTime * kecepatanGerak);
             yield return null;
         }
 
-        // 2. TUNGGU OBAT JATUH
+        // 2. WAIT FOR THE PILL TO FALL.
         yield return new WaitForSeconds(durasiTerbuka);
 
-        // 3. MENUTUP KEMBALI
+        // 3. CLOSE BACK.
         while (Quaternion.Angle(flapObject.localRotation, rotasiNormal) > 0.1f)
         {
             flapObject.localRotation = Quaternion.Lerp(flapObject.localRotation, rotasiNormal, Time.deltaTime * kecepatanGerak);

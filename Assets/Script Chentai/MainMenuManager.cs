@@ -1,6 +1,8 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Dibutuhkan untuk memuat ulang scene
+using UnityEngine.SceneManagement; // Required to load scenes.
 
+// Main menu controller: starts the tutorial (same scene) or the assessment scene,
+// fully resets the game back to the main menu, and exits the application.
 public class MainMenuManager : MonoBehaviour
 {
     [Header("Pengaturan UI Utama")]
@@ -16,25 +18,27 @@ public class MainMenuManager : MonoBehaviour
     [Header("Mode Assessment (Pindah Scene)")]
     public string namaSceneAssessment = "Scene_Assessment_Mesin";
 
+    // Static flag so the tutorial auto-starts after a scene reload.
     public static bool autoStartTutorial = false;
 
+    // If the scene was reloaded via the tutorial reset button, bypass the main menu.
     void Start()
     {
-        // Cek apakah scene ini di-reload dari tombol Reset Tutorial
+        // Check whether this scene was reloaded from the Reset Tutorial button.
         if (autoStartTutorial)
         {
-            autoStartTutorial = false; // Matikan flag agar tidak looping
-            MulaiModeTutorial(); // Langsung jalankan tutorial, bypass Main Menu!
+            autoStartTutorial = false; // Clear the flag to prevent a loop.
+            MulaiModeTutorial(); // Jump straight into the tutorial, bypassing the main menu!
         }
         else
         {
-            // Kondisi normal (Game baru pertama dibuka)
+            // Normal case (fresh game start).
             if (canvasMainMenu != null) canvasMainMenu.SetActive(true);
             if (objekTutorialManager != null) objekTutorialManager.SetActive(false);
         }
     }
 
-    // Fungsi ini mengembalikan game BENAR-BENAR ke awal (ke layar Main Menu)
+    // Returns the game fully to the beginning (main menu screen).
     public void ResetGame()
     {
         Debug.Log("Resetting: Mengembalikan semua ke awal (Main Menu)...");
@@ -42,6 +46,7 @@ public class MainMenuManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    // Hides the menu, repositions the player, and activates the tutorial objects.
     public void MulaiModeTutorial()
     {
         if (canvasMainMenu != null) canvasMainMenu.SetActive(false);
@@ -55,6 +60,7 @@ public class MainMenuManager : MonoBehaviour
         if (objekTutorialManager != null) objekTutorialManager.SetActive(true);
     }
 
+    // Loads the assessment scene.
     public void MulaiModeAssessment()
     {
         if (!string.IsNullOrEmpty(namaSceneAssessment))
@@ -63,6 +69,7 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
+    // Quits the application (also stops play mode in the editor).
     public void KeluarGame()
     {
         Application.Quit();
