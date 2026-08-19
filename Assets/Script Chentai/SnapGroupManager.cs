@@ -171,6 +171,7 @@ public class SnapGroupManager : MonoBehaviour
             {
                 // Kalau fisik barangnya udah nempel di mesin, matikan kelap-kelipnya di meja
                 if (data.highlightMeja != null) data.highlightMeja.BerhentiKedip();
+                SetelBeam(data, null);
             }
             else
             {
@@ -179,6 +180,7 @@ public class SnapGroupManager : MonoBehaviour
                     // MODE BEBAS (Part 1): Semua barang di meja yang BELUM nempel, tetap kedip
                     if (data.highlightMeja != null) data.highlightMeja.MulaiKedip();
                     data.bendaDiMeja.enabled = true;
+                    SetelBeam(data, data.bendaDiMeja);
 
                     // Instruksi UI cuma ambil dari slot kosong pertama di mesin
                     if (!foundFirstEmpty && (data.snapZone == null || data.snapZone.HeldItem == null))
@@ -195,12 +197,14 @@ public class SnapGroupManager : MonoBehaviour
                         if (data.highlightMeja != null) data.highlightMeja.MulaiKedip();
                         data.bendaDiMeja.enabled = true;
                         onUpdateInstruksiUI?.Invoke(data.instruksiPart);
+                        SetelBeam(data, data.bendaDiMeja);
                         foundFirstEmpty = true;
                     }
                     else
                     {
                         if (data.highlightMeja != null) data.highlightMeja.BerhentiKedip();
                         data.bendaDiMeja.enabled = false;
+                        SetelBeam(data, null);
                     }
                 }
             }
@@ -212,6 +216,14 @@ public class SnapGroupManager : MonoBehaviour
     {
         foreach (var data in urutanSnap)
             if (data.highlightMeja != null) data.highlightMeja.BerhentiKedip();
+    }
+
+    // Sets (or clears) the beam target on a slot's TutorialDynamicHint.
+    private void SetelBeam(SnapData data, Grabbable item)
+    {
+        if (data == null || data.snapZone == null) return;
+        TutorialDynamicHint hint = data.snapZone.GetComponent<TutorialDynamicHint>();
+        if (hint != null) hint.itemTerhubung = item;
     }
 
     // Activates this group and re-runs the check.

@@ -219,8 +219,11 @@ public virtual void SetupXRITRaycaster() {
                 _cursor.transform.rotation = Quaternion.FromToRotation(Vector3.forward, data.pointerCurrentRaycast.worldNormal);
 
                 // Scale cursor based on distance from main camera
-                float cameraDist = Vector3.Distance(Camera.main.transform.position, _cursor.transform.position);
-                _cursor.transform.localScale = _cursorInitialLocalScale * Mathf.Clamp(cameraDist, CursorMinScale, CursorMaxScale);
+                Camera mainCamera = Camera.main;
+                if (mainCamera != null) {
+                    float cameraDist = Vector3.Distance(mainCamera.transform.position, _cursor.transform.position);
+                    _cursor.transform.localScale = _cursorInitialLocalScale * Mathf.Clamp(cameraDist, CursorMinScale, CursorMaxScale);
+                }
 
                 _cursor.SetActive(data.pointerCurrentRaycast.distance > 0);
             }

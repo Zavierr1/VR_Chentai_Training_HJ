@@ -6622,6 +6622,7 @@ MonoBehaviour:
   targetPartB: {fileID: 1480624487}
   targetInfoBawah: {fileID: 2145081115}
   targetPartA: {fileID: 922176583}
+  targetPanelStart: {fileID: 0}
   transisiDurasi: 1
   panelControlPopOut: {fileID: 681013317}
   isSedangKalibrasiVR: 0
@@ -11638,6 +11639,37 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 442453217}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &446496119
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 446496120}
+  m_Layer: 0
+  m_Name: Cam to machine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &446496120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446496119}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.13560516, y: -0.71916246, z: 0.14653036, w: 0.6655416}
+  m_LocalPosition: {x: -1.4457364, y: -0.26090753, z: -0.7532043}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 532346786}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &456193141
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13296,6 +13328,8 @@ Transform:
   - {fileID: 1688414074}
   - {fileID: 2145081115}
   - {fileID: 1170232932}
+  - {fileID: 1685782642}
+  - {fileID: 446496120}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &539901259
@@ -45814,7 +45848,7 @@ RectTransform:
   m_GameObject: {fileID: 1287689908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1.8}
-  m_LocalScale: {x: 1, y: 0.34251145, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.2, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1442523209}
@@ -45871,12 +45905,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 36
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 30
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 15
+  m_fontSizeMax: 20
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -46738,7 +46772,7 @@ RectTransform:
   m_GameObject: {fileID: 1302313255}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.30043006, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.2, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1442523209}
@@ -46804,9 +46838,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 20
-  m_fontSizeBase: 36
+  m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 13
   m_fontSizeMax: 20
   m_fontStyle: 0
@@ -55764,6 +55798,37 @@ SkinnedMeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 2107014662}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1685782641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1685782642}
+  m_Layer: 0
+  m_Name: Panel start to machine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1685782642
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685782641}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.043329094, y: 0.7078842, z: 0.043589834, w: 0.70364946}
+  m_LocalPosition: {x: -2.526505, y: -0.60078156, z: -0.8503269}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 532346786}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1688414073
 GameObject:
   m_ObjectHideFlags: 0
@@ -57035,6 +57100,16 @@ MonoBehaviour:
   suaraVOSelamatDatang: {fileID: 420216835}
   tombolLatihanTrigger: {fileID: 156553413}
   barangLatihanGrip: {fileID: 1793726906}
+  waktuHintPertama: 10
+  waktuAntarHint: 8
+  suaraHint: {fileID: 0}
+  blinkBarangLatihan: {fileID: 0}
+  titikPandangPanel: {fileID: 1685782642}
+  titikPandangMesin: {fileID: 446496120}
+  kameraUtamaPemain: {fileID: 0}
+  durasiPindahKamera: 1.5
+  durasiTahanMesin: 2
+  durasiTahanPanduan: 3
   tombolNextDebug: {fileID: 1103368095}
 --- !u!1 &1767019940
 GameObject:

@@ -90,6 +90,8 @@ public class MonitorCameraController : MonoBehaviour
     public Transform targetPartB;
     public Transform targetInfoBawah;
     public Transform targetPartA;
+    [Tooltip("Waypoint yang memperlihatkan lokasi panel START (tempat pemain harus berjalan)")]
+    public Transform targetPanelStart;
 
     public float transisiDurasi = 1.0f;
     private Coroutine moveCoroutine;
@@ -131,6 +133,23 @@ public class MonitorCameraController : MonoBehaviour
             KunciSemuaTombol();
         }
         else KePosisiDefault(); 
+    }
+
+// After the onboarding ends: pans the CCTV camera toward the panel so the
+    // player knows where to walk, then asks them to press START there.
+    public void ArahkanKePanelStart()
+    {
+        isSedangKalibrasiVR = false;
+
+        // Move the camera to the waypoint that shows the panel (fallback: default view).
+        MulaiPindahKamera(targetPanelStart != null ? targetPanelStart : targetDefault);
+        RefreshTampilanTombolDefault();
+        MatikanSemuaSlideshow();
+
+        if (!tutorialSelesai)
+        {
+            UpdateTeksUI("Tekan tombol <color=#00FFFF>[START]</color> (Trigger) untuk mulai pengenalan mesin.");
+        }
     }
 
     // Restores the default button layout for the TV view.

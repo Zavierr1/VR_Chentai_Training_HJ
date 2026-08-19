@@ -33,6 +33,14 @@ public class KelapKelipTutorial : MonoBehaviour
     void Awake()
     {
         propBlock = new MaterialPropertyBlock();
+        if (objekRenderer == null) objekRenderer = GetComponent<Renderer>();
+    }
+
+    // Lazily creates the property block in case Awake never ran (component enabled late).
+    private MaterialPropertyBlock DapatkanPropBlock()
+    {
+        if (propBlock == null) propBlock = new MaterialPropertyBlock();
+        return propBlock;
     }
 
     // Resolves the idle color from the material and applies it immediately.
@@ -40,7 +48,7 @@ public class KelapKelipTutorial : MonoBehaviour
     {
         if (objekRenderer == null)
         {
-            Debug.LogWarning("⚠️ Objek Renderer BELUM DIISI di Inspector pada: " + gameObject.name);
+            Debug.LogWarning("Objek Renderer BELUM DIISI di Inspector pada: " + gameObject.name);
             return;
         }
 
@@ -75,7 +83,7 @@ public class KelapKelipTutorial : MonoBehaviour
             }
 
             // Apply the idle color immediately so the object is not pitch black at start.
-            objekRenderer.GetPropertyBlock(propBlock);
+            objekRenderer.GetPropertyBlock(DapatkanPropBlock());
             propBlock.SetColor("_EmissionColor", warnaDiam);
             objekRenderer.SetPropertyBlock(propBlock);
         }
@@ -91,7 +99,7 @@ public class KelapKelipTutorial : MonoBehaviour
             // Smooth transition (Lerp) between idle color and bright glow color.
             Color warnaSekarang = Color.Lerp(warnaDiam, warnaGlow, nilaiPingPong);
             
-            objekRenderer.GetPropertyBlock(propBlock);
+            objekRenderer.GetPropertyBlock(DapatkanPropBlock());
             propBlock.SetColor("_EmissionColor", warnaSekarang);
             objekRenderer.SetPropertyBlock(propBlock);
         }
@@ -110,7 +118,7 @@ public class KelapKelipTutorial : MonoBehaviour
         if (objekRenderer != null) 
         {
             // Restore the idle color (not pure black).
-            objekRenderer.GetPropertyBlock(propBlock);
+            objekRenderer.GetPropertyBlock(DapatkanPropBlock());
             propBlock.SetColor("_EmissionColor", warnaDiam);
             objekRenderer.SetPropertyBlock(propBlock);
         }
