@@ -23,10 +23,10 @@ public class CalibrationManager : MonoBehaviour
     public UnityEngine.UI.Button tombolMinusSuhu;
     public AudioSource suaraTombolSuhu;
 
-    [Header("Referensi UI: KERAPATAN SEALING ROLL (KNOB)")]
+[Header("Referensi UI: KERAPATAN SEALING ROLL (KNOB)")]
     public UnityEngine.UI.Slider sliderAkurasiKnob;
-    public Image barAkurasiKnob; 
-    public TextMeshProUGUI teksPersentaseKnob; 
+    public Image barAkurasiKnob;
+    public TextMeshProUGUI teksPersentaseKnob;
 
     [Header("Referensi Mekanik Lain")]
     public KnobCalibration knobPillowBlock;

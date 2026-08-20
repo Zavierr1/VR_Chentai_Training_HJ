@@ -2384,6 +2384,154 @@ MonoBehaviour:
   intensitasWarnaDiam: 0.3
   warnaDiam: {r: 0, g: 0, b: 0, a: 1}
   kecepatan: 2.5
+--- !u!1 &132615051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 132615052}
+  - component: {fileID: 132615054}
+  - component: {fileID: 132615053}
+  m_Layer: 5
+  m_Name: Teks_Instruksi
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &132615052
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132615051}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalScale: {x: 1.9813765, y: 1.8102976, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1116875503}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -117, y: -5}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &132615053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132615051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: '<color=#FFFF00><b>1. Pengenalan Mesin</b></color>
+
+    <color=#9A9A9A>[
+    ] 2. Pasang Cover (Part A)</color>
+
+    <color=#9A9A9A>[ ] 3. Pasang Sealing
+    Roll (Part B)</color>
+
+    <color=#9A9A9A>[ ] 4. Pasang Slider (Part C)</color>
+
+    <color=#9A9A9A>[
+    ] 5. Kalibrasi Suhu & Knob</color>'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 15
+  m_fontSizeBase: 15
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 30
+  m_fontSizeMax: 30
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 49.576374, y: -20.631603, z: -384.13535, w: -21.30209}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &132615054
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132615051}
+  m_CullTransparentMesh: 1
 --- !u!1 &140696912
 GameObject:
   m_ObjectHideFlags: 0
@@ -2662,11 +2810,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialDynamicHint
   ghostObject: {fileID: 2060691949}
   ringObject: {fileID: 1482621017}
+  tampilkanBeam: 1
+  lebarBeam: 0.012
+  warnaBeam: {r: 0, g: 1, b: 1, a: 1}
+  kecepatanPulseBeam: 3
   enablePulse: 1
   pulseSpeed: 2
   minAlpha: 0.2
   maxAlpha: 0.7
   dipaksaNyalaUntukInfo: 0
+  itemTerhubung: {fileID: 0}
 --- !u!1 &140813979
 GameObject:
   m_ObjectHideFlags: 0
@@ -6438,6 +6591,7 @@ RectTransform:
   m_Children:
   - {fileID: 2092498012}
   - {fileID: 1308985699}
+  - {fileID: 1116875503}
   - {fileID: 681013314}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -6625,6 +6779,9 @@ MonoBehaviour:
   targetPanelStart: {fileID: 0}
   transisiDurasi: 1
   panelControlPopOut: {fileID: 681013317}
+  daftarTugasUI: {fileID: 132615053}
+  panelDaftarTugas: {fileID: 1116875502}
+  tampilkanDaftarTugas: 1
   isSedangKalibrasiVR: 0
 --- !u!1 &238191388
 GameObject:
@@ -9812,11 +9969,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialDynamicHint
   ghostObject: {fileID: 144340219}
   ringObject: {fileID: 624401552}
+  tampilkanBeam: 1
+  lebarBeam: 0.012
+  warnaBeam: {r: 0, g: 1, b: 1, a: 1}
+  kecepatanPulseBeam: 3
   enablePulse: 1
   pulseSpeed: 2
   minAlpha: 0.2
   maxAlpha: 0.7
   dipaksaNyalaUntukInfo: 0
+  itemTerhubung: {fileID: 0}
 --- !u!1 &382061817
 GameObject:
   m_ObjectHideFlags: 0
@@ -10600,11 +10762,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialDynamicHint
   ghostObject: {fileID: 1306912869}
   ringObject: {fileID: 904018997}
+  tampilkanBeam: 1
+  lebarBeam: 0.012
+  warnaBeam: {r: 0, g: 1, b: 1, a: 1}
+  kecepatanPulseBeam: 3
   enablePulse: 1
   pulseSpeed: 2
   minAlpha: 0.2
   maxAlpha: 0.7
   dipaksaNyalaUntukInfo: 0
+  itemTerhubung: {fileID: 0}
 --- !u!1 &409109824
 GameObject:
   m_ObjectHideFlags: 0
@@ -20768,11 +20935,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialDynamicHint
   ghostObject: {fileID: 574009674}
   ringObject: {fileID: 194137290}
+  tampilkanBeam: 1
+  lebarBeam: 0.012
+  warnaBeam: {r: 0, g: 1, b: 1, a: 1}
+  kecepatanPulseBeam: 3
   enablePulse: 1
   pulseSpeed: 2
   minAlpha: 0.2
   maxAlpha: 0.7
   dipaksaNyalaUntukInfo: 0
+  itemTerhubung: {fileID: 0}
 --- !u!1 &836572011
 GameObject:
   m_ObjectHideFlags: 0
@@ -41450,11 +41622,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialDynamicHint
   ghostObject: {fileID: 871786780}
   ringObject: {fileID: 1724393235}
+  tampilkanBeam: 1
+  lebarBeam: 0.012
+  warnaBeam: {r: 0, g: 1, b: 1, a: 1}
+  kecepatanPulseBeam: 3
   enablePulse: 1
   pulseSpeed: 2
   minAlpha: 0.2
   maxAlpha: 0.7
   dipaksaNyalaUntukInfo: 0
+  itemTerhubung: {fileID: 0}
 --- !u!1 &1078296208
 GameObject:
   m_ObjectHideFlags: 0
@@ -42112,6 +42289,82 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110871193}
   m_Mesh: {fileID: -1198743231517016826, guid: 58b2ff5f5a117684897db93b732e59b5, type: 3}
+--- !u!1 &1116875502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1116875503}
+  - component: {fileID: 1116875505}
+  - component: {fileID: 1116875504}
+  m_Layer: 5
+  m_Name: Daftar Tugas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1116875503
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116875502}
+  m_LocalRotation: {x: -0.07894844, y: -0.4220331, z: -0.03692312, w: 0.90238124}
+  m_LocalPosition: {x: 0, y: 0, z: 23.622334}
+  m_LocalScale: {x: 0.10729754, y: 0.16089994, z: 0.05805109}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 132615052}
+  m_Father: {fileID: 232044225}
+  m_LocalEulerAnglesHint: {x: -10, y: -50.13, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -108.90204, y: 22.399992}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1116875504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116875502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.32917756, g: 0.35234657, b: 0.3735848, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1116875505
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116875502}
+  m_CullTransparentMesh: 1
 --- !u!1 &1135702845
 GameObject:
   m_ObjectHideFlags: 0
@@ -46876,7 +47129,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -9.231566, y: 0, z: -115.27922, w: 0}
+  m_margin: {x: -52.921818, y: -11.993189, z: -164.74307, w: -21.210714}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -54648,7 +54901,7 @@ MonoBehaviour:
   teksStatusSuhu: {fileID: 430157373}
   barTermometer: {fileID: 1079260611}
   tombolPlusSuhu: {fileID: 1753558607}
-  tombolMinusSuhu: {fileID: 0}
+  tombolMinusSuhu: {fileID: 1035166188}
   suaraTombolSuhu: {fileID: 0}
   sliderAkurasiKnob: {fileID: 407584186}
   barAkurasiKnob: {fileID: 1822880811}
@@ -56479,11 +56732,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialDynamicHint
   ghostObject: {fileID: 572751192}
   ringObject: {fileID: 1490134911}
+  tampilkanBeam: 1
+  lebarBeam: 0.012
+  warnaBeam: {r: 0, g: 1, b: 1, a: 1}
+  kecepatanPulseBeam: 3
   enablePulse: 1
   pulseSpeed: 2
   minAlpha: 0.2
   maxAlpha: 0.7
   dipaksaNyalaUntukInfo: 0
+  itemTerhubung: {fileID: 0}
 --- !u!1 &1736070987
 GameObject:
   m_ObjectHideFlags: 0
@@ -57110,6 +57368,8 @@ MonoBehaviour:
   durasiPindahKamera: 1.5
   durasiTahanMesin: 2
   durasiTahanPanduan: 3
+  rigPemain: {fileID: 0}
+  titikMataPemain: {fileID: 0}
   tombolNextDebug: {fileID: 1103368095}
 --- !u!1 &1767019940
 GameObject:
@@ -57826,11 +58086,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialDynamicHint
   ghostObject: {fileID: 1326079252}
   ringObject: {fileID: 1455151216}
+  tampilkanBeam: 1
+  lebarBeam: 0.012
+  warnaBeam: {r: 0, g: 1, b: 1, a: 1}
+  kecepatanPulseBeam: 3
   enablePulse: 1
   pulseSpeed: 2
   minAlpha: 0.2
   maxAlpha: 0.7
   dipaksaNyalaUntukInfo: 0
+  itemTerhubung: {fileID: 0}
 --- !u!1 &1792441141
 GameObject:
   m_ObjectHideFlags: 0
@@ -58975,11 +59240,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialDynamicHint
   ghostObject: {fileID: 544477431}
   ringObject: {fileID: 761789818}
+  tampilkanBeam: 1
+  lebarBeam: 0.012
+  warnaBeam: {r: 0, g: 1, b: 1, a: 1}
+  kecepatanPulseBeam: 3
   enablePulse: 1
   pulseSpeed: 2
   minAlpha: 0.2
   maxAlpha: 0.7
   dipaksaNyalaUntukInfo: 0
+  itemTerhubung: {fileID: 0}
 --- !u!1 &1819363985
 GameObject:
   m_ObjectHideFlags: 0
@@ -59395,11 +59665,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialDynamicHint
   ghostObject: {fileID: 1438634953}
   ringObject: {fileID: 1025927641}
+  tampilkanBeam: 1
+  lebarBeam: 0.012
+  warnaBeam: {r: 0, g: 1, b: 1, a: 1}
+  kecepatanPulseBeam: 3
   enablePulse: 1
   pulseSpeed: 2
   minAlpha: 0.2
   maxAlpha: 0.8
   dipaksaNyalaUntukInfo: 0
+  itemTerhubung: {fileID: 0}
 --- !u!1 &1822249719
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI; 
 using TMPro;
@@ -100,8 +101,23 @@ public class MonitorCameraController : MonoBehaviour
     [Header("Referensi Pop-Out Control Panel")]
     public PopOutPanelController panelControlPopOut;
 
+    [Header("Daftar Tugas (Tutorial)")]
+    [Tooltip("Teks daftar tugas yang PERSISTEN di TV (tutorial mode). Kosongkan jika tidak dipakai (misal scene Assessment)")]
+    public TextMeshProUGUI daftarTugasUI;
+    [Tooltip("Panel container daftar tugas. Dihidupkan/dimatikan otomatis sesuai tampilkanDaftarTugas")]
+    public GameObject panelDaftarTugas;
+    [Tooltip("Centang = tampilkan daftar tugas. Matikan di scene Assessment")]
+    public bool tampilkanDaftarTugas = true;
+
     private bool tutorialSelesai = false;
     [HideInInspector] public bool isSedangKalibrasiVR = false;
+
+    // Status tiap tugas di daftar tugas (tutorial mode).
+    private bool tugasPengenalanSelesai = false;
+    private bool tugasPartASelesai = false;
+    private bool tugasPartBSelesai = false;
+    private bool tugasPartCSelesai = false;
+    private bool tugasKalibrasiSelesai = false;
 
     // Initializes the camera position, hides UI, and clears the TV screen.
     void Start()
@@ -122,6 +138,14 @@ public class MonitorCameraController : MonoBehaviour
         // Clear the TV screen by default when the game starts.
         KunciSemuaTombol();
         UpdateTeksUI("");
+
+        // Task list is hidden during onboarding; it is shown in ArahkanKePanelStart.
+        if (panelDaftarTugas != null) panelDaftarTugas.SetActive(false);
+        PerbaruiDaftarTugas();
+
+        // Auto-subscribe to calibration success so the last task gets checked off.
+        CalibrationManager kalibrasi = FindObjectOfType<CalibrationManager>();
+        if (kalibrasi != null) kalibrasi.onKalibrasiBerhasilSelesai.AddListener(TandaiKalibrasiSelesai);
     }
 
     // Locks the whole system while VR calibration is in progress.
@@ -140,6 +164,10 @@ public class MonitorCameraController : MonoBehaviour
     public void ArahkanKePanelStart()
     {
         isSedangKalibrasiVR = false;
+
+        // Show the persistent task list now that onboarding (Selesai) is over.
+        if (panelDaftarTugas != null) panelDaftarTugas.SetActive(tampilkanDaftarTugas);
+        PerbaruiDaftarTugas();
 
         // Move the camera to the waypoint that shows the panel (fallback: default view).
         MulaiPindahKamera(targetPanelStart != null ? targetPanelStart : targetDefault);
@@ -249,6 +277,10 @@ public class MonitorCameraController : MonoBehaviour
         {
             voMulaiPemasangan.Play();
         }
+
+        // Task 1 (Pengenalan Mesin) is done once the assembly phase begins.
+        tugasPengenalanSelesai = true;
+        PerbaruiDaftarTugas();
 
         KePosisiDefault();
     }
@@ -501,6 +533,12 @@ public class MonitorCameraController : MonoBehaviour
     public void SemuaPartTelahTerpasang()
     {
         tahapPerakitan = 4; // Mark all stages as complete (100%).
+
+        // Check off all remaining assembly tasks.
+        tugasPartASelesai = true;
+        tugasPartBSelesai = true;
+        tugasPartCSelesai = true;
+        PerbaruiDaftarTugas();
         
         // Return the camera to the main TV view.
         KePosisiDefault(); 
@@ -574,6 +612,50 @@ public class MonitorCameraController : MonoBehaviour
             tombolNext.interactable = true; 
         } 
         UpdateTeksUI("KERJA BAGUS!.\nTekan tombol [NEXT] untuk lanjut."); 
+
+        // Check off the task of the part that just finished (based on the current stage).
+        if (tahapPerakitan == 1) tugasPartASelesai = true;
+        else if (tahapPerakitan == 2) tugasPartBSelesai = true;
+        else if (tahapPerakitan == 3) tugasPartCSelesai = true;
+        PerbaruiDaftarTugas();
+    }
+
+    // Marks the calibration task as done when the player finishes it.
+    public void TandaiKalibrasiSelesai()
+    {
+        tugasKalibrasiSelesai = true;
+        PerbaruiDaftarTugas();
+    }
+
+    // Re-renders the persistent task list on the TV (tutorial mode only).
+    private void PerbaruiDaftarTugas()
+    {
+        if (daftarTugasUI == null) return;
+
+        bool[] statusSelesai = { tugasPengenalanSelesai, tugasPartASelesai, tugasPartBSelesai, tugasPartCSelesai, tugasKalibrasiSelesai };
+        string[] namaTugas = { "1. Pengenalan Mesin", "2. Pasang Cover (Part A)", "3. Pasang Sealing Roll (Part B)", "4. Pasang Slider (Part C)", "5. Kalibrasi Suhu & Knob" };
+
+        // The current (in-progress) task is the first one that is not done yet.
+        int indeksTugasAktif = System.Array.IndexOf(statusSelesai, false);
+
+        StringBuilder teksDaftar = new StringBuilder();
+        for (int i = 0; i < namaTugas.Length; i++)
+        {
+            if (i > 0) teksDaftar.Append('\n');
+            if (statusSelesai[i])
+            {
+                teksDaftar.Append("<color=#00FF00>[X]</color> <color=#9A9A9A>").Append(namaTugas[i]).Append("</color>");
+            }
+            else if (i == indeksTugasAktif)
+            {
+                teksDaftar.Append("<color=#FFFF00><b>").Append(namaTugas[i]).Append("</b></color>");
+            }
+            else
+            {
+                teksDaftar.Append("<color=#9A9A9A>[ ] ").Append(namaTugas[i]).Append("</color>");
+            }
+        }
+        daftarTugasUI.text = teksDaftar.ToString();
     }
 
     // Advances to the next assembly stage.
