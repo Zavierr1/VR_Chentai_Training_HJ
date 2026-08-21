@@ -59,6 +59,16 @@ public class InputTutorialManager : MonoBehaviour
     [Tooltip("Lama (detik) tampilan panel dipertahankan sebelum kembali ke pemain")]
     public float durasiTahanPanduan = 3f;
 
+    [Header("Petunjuk Grab (Tahap 3)")]
+    [Tooltip("Delay sebelum panah muncul (detik)")]
+    public float delayPanahGrab = 1.5f;
+    [Tooltip("Jarak panah di atas objek (meter)")]
+    public float tinggiPanah = 0.4f;
+    [Tooltip("Skala panah")]
+    public float skalaPanah = 0.15f;
+    [Tooltip("Warna panah")]
+    public Color warnaPanah = new Color(0f, 1f, 0.2f, 1f);
+
     [Header("Rig Pemain (AUTO)")]
     [Tooltip("AUTO: GameObject 'CameraRig' dari prefab XR Rig Advanced. Biarkan kosong")]
     public Transform rigPemain;
@@ -80,6 +90,10 @@ public class InputTutorialManager : MonoBehaviour
     private Coroutine coroutinePulseUI;
     private string teksDasarTahap = "";
     private Image gambarTombolLatihanUI;
+
+    // Panah petunjuk grab (tahap 3)
+    private GameObject panahGrabObj;
+    private Coroutine coroutinePanahGrab;
 
     // State kunci rig saat cutscene kamera.
     private bool rigSedangDikunci = false;
@@ -182,7 +196,11 @@ public class InputTutorialManager : MonoBehaviour
                 descText.text = "Gunakan jari tengahmu untuk menahan tombol <color=#00FFFF>Grip</color> dan ambil barang yang ada di depanmu.";
                 if (gambarController != null && gambarGrip != null) gambarController.sprite = gambarGrip;
                 
-                if (barangLatihanGrip != null) barangLatihanGrip.gameObject.SetActive(true);
+                if (barangLatihanGrip != null) 
+                {
+                    barangLatihanGrip.gameObject.SetActive(true);
+                    MulaiPanahGrab();
+                }
                 break;
 
             case 4:
@@ -242,6 +260,7 @@ public class InputTutorialManager : MonoBehaviour
         {
             if (barangLatihanGrip != null && barangLatihanGrip.BeingHeld)
             {
+                HapusPanahGrab();
                 LanjutKeTahapBerikutnya(4);
             }
         }
@@ -278,7 +297,7 @@ public class InputTutorialManager : MonoBehaviour
         else if (tahapTutorial == 3) pesanHint = "INGAT! Tahan tombol <color=yellow>Grip</color> (jari tengah) lalu pegang barang di depanmu.";
         if (descText != null && pesanHint != "")
         {
-            descText.text = "<color=yellow><b>&#9888; " + pesanHint + "</b></color>\n\n" + teksDasarTahap;
+            descText.text = "<color=yellow><b>" + pesanHint + "</b></color>\n\n" + teksDasarTahap;
         }
 
         // 4. Blink highlight pada barang latihan Grip biar keliatan tujuannya.
@@ -313,6 +332,115 @@ public class InputTutorialManager : MonoBehaviour
             Color c = gambarTombolLatihanUI.color;
             c.a = 1f;
             gambarTombolLatihanUI.color = c;
+        }
+    }
+
+    // Creates a simple downward-pointing arrow above the grab practice object.
+    private GameObject BuatPanahGrab(Vector3 posisi)
+    {
+        // Arrow = pyramid tip + cylinder shaft combined in a parent.
+        GameObject panah = new GameObject("PanahGrab");
+        panah.transform.position = posisi + Vector3.up * tinggiPanah;
+        panah.transform.localScale = Vector3.one * skalaPanah;
+
+        // Pyramid tip (4 triangles, points down) - procedural mesh
+        GameObject tip = new GameObject("Tip");
+        tip.transform.SetParent(panah.transform);
+        tip.transform.localPosition = new Vector3(0, -0.5f, 0);
+        tip.transform.localRotation = Quaternion.Euler(180, 0, 0); // point down
+        tip.transform.localScale = new Vector3(1f, 1.2f, 1f);
+        
+        MeshFilter tipMF = tip.AddComponent<MeshFilter>();
+        MeshRenderer tipMR = tip.AddComponent<MeshRenderer>();
+        tipMF.mesh = BuatMeshPyramid();
+
+        // Cylinder shaft
+        GameObject shaft = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        shaft.name = "Shaft";
+        shaft.transform.SetParent(panah.transform);
+        shaft.transform.localPosition = new Vector3(0, -1.2f, 0);
+        shaft.transform.localScale = new Vector3(0.3f, 1f, 0.3f);
+        Destroy(shaft.GetComponent<Collider>());
+
+        // Material with emission for visibility
+        Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        mat.color = warnaPanah;
+        mat.EnableKeyword("_EMISSION");
+        mat.SetColor("_EmissionColor", warnaPanah * 2f);
+        mat.renderQueue = 3000;
+        tipMR.material = mat;
+        shaft.GetComponent<Renderer>().material = mat;
+
+        // Gentle bounce animation
+        panah.AddComponent<PanahBounce>().amplitudo = 0.05f;
+
+        return panah;
+    }
+
+    // Procedural pyramid mesh (4 triangles, points up in local space)
+    private Mesh BuatMeshPyramid()
+    {
+        Mesh mesh = new Mesh();
+        mesh.name = "PyramidTip";
+        
+        // Vertices: apex (0, 0.5, 0) + 4 base corners at y = -0.5
+        Vector3[] vertices = new Vector3[5];
+        vertices[0] = new Vector3(0, 0.5f, 0); // apex
+        vertices[1] = new Vector3(-0.5f, -0.5f, -0.5f); // base 0
+        vertices[2] = new Vector3(0.5f, -0.5f, -0.5f);  // base 1
+        vertices[3] = new Vector3(0.5f, -0.5f, 0.5f);   // base 2
+        vertices[4] = new Vector3(-0.5f, -0.5f, 0.5f);  // base 3
+        
+        // Triangles (4 faces, clockwise from outside)
+        int[] triangles = new int[12];
+        // Face 0: apex, base1, base0
+        triangles[0] = 0; triangles[1] = 2; triangles[2] = 1;
+        // Face 1: apex, base2, base1
+        triangles[3] = 0; triangles[4] = 3; triangles[5] = 2;
+        // Face 2: apex, base3, base2
+        triangles[6] = 0; triangles[7] = 4; triangles[8] = 3;
+        // Face 3: apex, base0, base3
+        triangles[9] = 0; triangles[10] = 1; triangles[11] = 4;
+        
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
+        
+        return mesh;
+    }
+
+    // Starts the delayed arrow coroutine for stage 3.
+    private void MulaiPanahGrab()
+    {
+        if (coroutinePanahGrab != null) StopCoroutine(coroutinePanahGrab);
+        coroutinePanahGrab = StartCoroutine(RutinPanahGrab());
+    }
+
+    // Waits delayPanahGrab seconds, then spawns the arrow above the practice object.
+    private IEnumerator RutinPanahGrab()
+    {
+        yield return new WaitForSeconds(delayPanahGrab);
+
+        if (barangLatihanGrip != null && barangLatihanGrip.gameObject.activeInHierarchy)
+        {
+            Vector3 spawnPos = barangLatihanGrip.transform.position;
+            panahGrabObj = BuatPanahGrab(spawnPos);
+        }
+    }
+
+    // Removes the grab arrow if it exists.
+    private void HapusPanahGrab()
+    {
+        if (coroutinePanahGrab != null)
+        {
+            StopCoroutine(coroutinePanahGrab);
+            coroutinePanahGrab = null;
+        }
+        if (panahGrabObj != null)
+        {
+            Destroy(panahGrabObj);
+            panahGrabObj = null;
         }
     }
 
@@ -506,5 +634,25 @@ public class InputTutorialManager : MonoBehaviour
         }
         kamera.position = posisiTujuan;
         kamera.rotation = rotasiTujuan;
+    }
+}
+
+// Simple bounce animation for the grab arrow indicator.
+public class PanahBounce : MonoBehaviour
+{
+    public float amplitudo = 0.05f;
+    public float kecepatan = 2f;
+
+    private Vector3 posisiAwal;
+
+    void Start()
+    {
+        posisiAwal = transform.localPosition;
+    }
+
+    void Update()
+    {
+        float offset = Mathf.Sin(Time.time * kecepatan) * amplitudo;
+        transform.localPosition = posisiAwal + Vector3.up * offset;
     }
 }

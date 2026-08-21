@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 8d41c164adada80489ac1ecc31af5a9b,
+  m_LightingDataAsset: {fileID: 112000000, guid: ef2876013381d2943955cfd3e80b182d,
     type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
@@ -812,8 +812,8 @@ Light:
   serializedVersion: 12
   m_Type: 3
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 75
-  m_Range: 15
+  m_Intensity: 50
+  m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -855,7 +855,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 7500
+  m_ColorTemperature: 10000
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -2444,15 +2444,14 @@ MonoBehaviour:
   m_text: '<color=#FFFF00><b>1. Pengenalan Mesin</b></color>
 
     <color=#9A9A9A>[
-    ] 2. Pasang Cover (Part A)</color>
+    ] 2. Pasang Part A</color>
 
-    <color=#9A9A9A>[ ] 3. Pasang Sealing
-    Roll (Part B)</color>
-
-    <color=#9A9A9A>[ ] 4. Pasang Slider (Part C)</color>
+    <color=#9A9A9A>[ ] 3. Pasang Part B</color>
 
     <color=#9A9A9A>[
-    ] 5. Kalibrasi Suhu & Knob</color>'
+    ] 4. Pasang Part C</color>
+
+    <color=#9A9A9A>[ ] 5. Kalibrasi Suhu & Knob</color>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -42340,7 +42339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.32917756, g: 0.35234657, b: 0.3735848, a: 1}
+  m_Color: {r: 0.121568635, g: 0.18431373, b: 0.2509804, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -47129,7 +47128,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -52.921818, y: -11.993189, z: -164.74307, w: -21.210714}
+  m_margin: {x: -52.921818, y: -11.993189, z: -182.13724, w: -21.210714}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -50362,7 +50361,7 @@ Light:
   serializedVersion: 12
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 3
+  m_Intensity: 2
   m_Range: 3
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -57348,7 +57347,7 @@ MonoBehaviour:
   gambarController: {fileID: 2059175421}
   monitorMesinUtama: {fileID: 232044226}
   tombolSelesaiUI: {fileID: 238191388}
-  gambarFullController: {fileID: 21300000, guid: 8fc6111102241894d95f44c170824b0c,
+  gambarFullController: {fileID: 21300000, guid: 691c201ed9296ef49957254488a1cd06,
     type: 3}
   gambarTrigger: {fileID: 21300000, guid: 0b534f831171ef941b4c508a16747853, type: 3}
   gambarAnalog: {fileID: 21300000, guid: c7325bf7e5309a34294eecc71892e469, type: 3}
@@ -57368,6 +57367,10 @@ MonoBehaviour:
   durasiPindahKamera: 1.5
   durasiTahanMesin: 2
   durasiTahanPanduan: 3
+  delayPanahGrab: 1.5
+  tinggiPanah: 0.4
+  skalaPanah: 0.15
+  warnaPanah: {r: 0, g: 1, b: 0.2, a: 1}
   rigPemain: {fileID: 0}
   titikMataPemain: {fileID: 0}
   tombolNextDebug: {fileID: 1103368095}
@@ -58548,7 +58551,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1793726898}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b74666dcf0ca4004fb8a7863a675c207, type: 3}
   m_Name: 
@@ -58556,7 +58559,7 @@ MonoBehaviour:
   objekRenderer: {fileID: 1793726900}
   warnaGlow: {r: 1, g: 1, b: 1, a: 1}
   otomatisAmbilWarnaDasar: 1
-  intensitasWarnaDiam: 0.75
+  intensitasWarnaDiam: 0.3
   warnaDiam: {r: 2, g: 2, b: 2, a: 1}
   kecepatan: 2
 --- !u!114 &1793726904
@@ -64116,14 +64119,14 @@ RectTransform:
   m_GameObject: {fileID: 2059175418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.083554, y: 0.5327959, z: 0.6433596}
+  m_LocalScale: {x: 3.867003, y: 0.50454175, z: 0.60924226}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1442523209}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 4.5}
+  m_AnchoredPosition: {x: 0, y: 7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2059175420
