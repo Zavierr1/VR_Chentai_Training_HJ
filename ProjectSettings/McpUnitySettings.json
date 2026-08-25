@@ -2,8 +2,8 @@
     "Port": 8090,
     "RequestTimeoutSeconds": 10,
     "AutoStartServer": false,
-    "AllowBatchModeServer": false,
+    "AllowBatchModeServer": true,
     "EnableInfoLogs": false,
     "NpmExecutablePath": "",
-    "AllowRemoteConnections": false
+    "AllowRemoteConnections": true
 }

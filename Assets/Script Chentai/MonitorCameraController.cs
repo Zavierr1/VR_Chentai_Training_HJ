@@ -282,6 +282,11 @@ public class MonitorCameraController : MonoBehaviour
         tugasPengenalanSelesai = true;
         PerbaruiDaftarTugas();
 
+        // Fly the player's eye to the machine so they see where Part A/B/C goes,
+        // while the assembly VO explains what to do. Returns control right after.
+        InputTutorialManager onboarding = FindFirstObjectByType<InputTutorialManager>();
+        if (onboarding != null) onboarding.MulaiTurMesin();
+
         KePosisiDefault();
     }
 
@@ -633,7 +638,7 @@ public class MonitorCameraController : MonoBehaviour
         if (daftarTugasUI == null) return;
 
         bool[] statusSelesai = { tugasPengenalanSelesai, tugasPartASelesai, tugasPartBSelesai, tugasPartCSelesai, tugasKalibrasiSelesai };
-        string[] namaTugas = { "1. Pengenalan Mesin", "2. Pasang Cover (Part A)", "3. Pasang Sealing Roll (Part B)", "4. Pasang Slider (Part C)", "5. Kalibrasi Suhu & Knob" };
+        string[] namaTugas = { "1. Pengenalan Mesin", "2. Pasang Part A", "3. Pasang Part B", "4. Pasang Part C", "5. Kalibrasi Suhu & Knob" };
 
         // The current (in-progress) task is the first one that is not done yet.
         int indeksTugasAktif = System.Array.IndexOf(statusSelesai, false);

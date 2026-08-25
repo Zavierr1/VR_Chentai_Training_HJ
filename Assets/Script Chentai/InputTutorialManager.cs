@@ -48,13 +48,13 @@ public class InputTutorialManager : MonoBehaviour
     [Header("Kamera Panduan (Cutscene ke Panel)")]
     [Tooltip("Titik pandang panel START. Bisa pakai empty GameObject biasa (hanya Transform-nya yang dipakai)")]
     public Transform titikPandangPanel;
-    [Tooltip("Titik pandang MESIN ASLI di sebelah kiri. Stop pertama tur kamera (opsional)")]
+    [Tooltip("Titik pandang MESIN. Dipakai saat tur kamera 'Mulai Pemasangan' (MulaiTurMesin)")]
     public Transform titikPandangMesin;
     [Tooltip("Kamera utama pemain (kosongkan = otomatis Camera.main)")]
     public Camera kameraUtamaPemain;
     [Tooltip("Durasi (detik) kamera meluncur antar titik pandang")]
     public float durasiPindahKamera = 1.5f;
-    [Tooltip("Lama (detik) tampilan mesin dipertahankan sebelum lanjut ke panel")]
+    [Tooltip("Lama (detik) tampilan mesin dipertahankan saat tur sebelum mulai pemasangan")]
     public float durasiTahanMesin = 2f;
     [Tooltip("Lama (detik) tampilan panel dipertahankan sebelum kembali ke pemain")]
     public float durasiTahanPanduan = 3f;
@@ -94,6 +94,9 @@ public class InputTutorialManager : MonoBehaviour
     // Panah petunjuk grab (tahap 3)
     private GameObject panahGrabObj;
     private Coroutine coroutinePanahGrab;
+
+    // Tur kamera mesin saat "Mulai Pemasangan" ditekan.
+    private Coroutine coroutineTurMesin;
 
     // State kunci rig saat cutscene kamera.
     private bool rigSedangDikunci = false;
@@ -503,8 +506,8 @@ public class InputTutorialManager : MonoBehaviour
         StartCoroutine(SequencePanduanKePanel());
     }
 
-    // Camera cutscene: smoothly flies the player's EYE (CenterEyeAnchor) on a short
-    // tour so they can SEE where things are: machine (left) → panel → back.
+    // Camera cutscene: smoothly moves the player's RIG so their EYE ends up at the
+    // panel viewpoint (they SEE where the START button is), then moves them back.
     // Input (mouse look / right analog / movement) is locked during the flight so
     // the player can't fight the cutscene — the hands stay put at the body.
     // Then unlocks the monitor so the player can walk over and press START.
@@ -513,8 +516,8 @@ public class InputTutorialManager : MonoBehaviour
         // Cache the player camera before moving anything.
         if (kameraUtamaPemain == null) kameraUtamaPemain = Camera.main;
 
-        // No guide points assigned? Skip the cutscene and just unlock.
-        if (kameraUtamaPemain == null || (titikPandangPanel == null && titikPandangMesin == null))
+        // No guide point assigned? Skip the cutscene and just unlock.
+        if (kameraUtamaPemain == null || titikPandangPanel == null)
         {
             if (monitorMesinUtama != null) monitorMesinUtama.ArahkanKePanelStart();
             yield break;
@@ -530,28 +533,59 @@ public class InputTutorialManager : MonoBehaviour
         Vector3 posisiAwal = mata.position;
         Quaternion rotasiAwal = mata.rotation;
 
-        // Stop 1: show the real machine on the left.
-        if (titikPandangMesin != null)
-        {
-            yield return StartCoroutine(GerakkanKameraKe(mata, titikPandangMesin.position, titikPandangMesin.rotation, durasiPindahKamera));
-            yield return new WaitForSeconds(durasiTahanMesin);
-        }
+        // Stop: show the panel (indicator screen).
+        yield return StartCoroutine(GerakkanRigKe(mata, titikPandangPanel.position, titikPandangPanel.rotation, durasiPindahKamera));
+        yield return new WaitForSeconds(durasiTahanPanduan);
 
-        // Stop 2: show the panel (indicator screen).
-        if (titikPandangPanel != null)
-        {
-            yield return StartCoroutine(GerakkanKameraKe(mata, titikPandangPanel.position, titikPandangPanel.rotation, durasiPindahKamera));
-            yield return new WaitForSeconds(durasiTahanPanduan);
-        }
-
-        // Fly back to the player.
-        yield return StartCoroutine(GerakkanKameraKe(mata, posisiAwal, rotasiAwal, durasiPindahKamera));
+        // Fly back to the player's original spot.
+        yield return StartCoroutine(GerakkanRigKe(mata, posisiAwal, rotasiAwal, durasiPindahKamera));
 
         // BUKA kunci: kembalikan kendali ke pemain.
         KunciRigSementara(false);
 
         // Unlock the monitor and point it at the panel with the START button.
         if (monitorMesinUtama != null) monitorMesinUtama.ArahkanKePanelStart();
+    }
+
+    // Public entry point for the machine tour: called by MonitorCameraController
+    // right after the player presses "Mulai Pemasangan". Flies the player's eye to
+    // the machine so they see where Part A/B/C will be attached, then returns.
+    public void MulaiTurMesin()
+    {
+        if (coroutineTurMesin != null) return; // Already touring.
+        coroutineTurMesin = StartCoroutine(SequenceTurMesin());
+    }
+
+    // Camera tour of the real machine before assembly starts.
+    private IEnumerator SequenceTurMesin()
+    {
+        if (kameraUtamaPemain == null) kameraUtamaPemain = Camera.main;
+
+        // No machine viewpoint or camera? Nothing to show.
+        if (kameraUtamaPemain == null || titikPandangMesin == null)
+        {
+            coroutineTurMesin = null;
+            yield break;
+        }
+
+        Transform mata = CariMataPemain();
+        if (mata == null) mata = kameraUtamaPemain.transform;
+
+        // Lock player input while flying so hands/head don't fight the cutscene.
+        KunciRigSementara(true);
+
+        Vector3 posisiAwal = mata.position;
+        Quaternion rotasiAwal = mata.rotation;
+
+        // Fly to the machine, hold for a moment so the VO can talk over it...
+        yield return StartCoroutine(GerakkanRigKe(mata, titikPandangMesin.position, titikPandangMesin.rotation, durasiPindahKamera));
+        yield return new WaitForSeconds(durasiTahanMesin);
+
+        // ...then return control at the exact spot where the player pressed the button.
+        yield return StartCoroutine(GerakkanRigKe(mata, posisiAwal, rotasiAwal, durasiPindahKamera));
+
+        KunciRigSementara(false);
+        coroutineTurMesin = null;
     }
 
     // Finds the CameraRig (parent of CenterEyeAnchor / controller anchors).
@@ -573,8 +607,10 @@ public class InputTutorialManager : MonoBehaviour
         return titikMataPemain;
     }
 
-    // Temporarily disables the rig's look/move/teleport components (and VREmulator
-    // in the editor) so the player can't fight the cutscene. Restores them after.
+    // Temporarily disables the rig's look/move/teleport components so the player
+    // can't fight the cutscene. Restores them after.
+    // NOTE: VREmulator is intentionally NOT touched — disabling it desyncs the
+    // simulated head and makes the view snap to a different position on unlock.
     private void KunciRigSementara(bool kunci)
     {
         Transform rig = CariRigPemain();
@@ -593,9 +629,6 @@ public class InputTutorialManager : MonoBehaviour
                 SimpanDanMatikan(playerController.GetComponent<SmoothLocomotion>());
                 SimpanDanMatikan(playerController.GetComponent<PlayerRotation>());
                 SimpanDanMatikan(playerController.GetComponent<PlayerTeleport>());
-
-                Transform root = playerController.parent;
-                if (root != null) SimpanDanMatikan(root.GetComponent<VREmulator>());
             }
         }
         else
@@ -618,7 +651,57 @@ public class InputTutorialManager : MonoBehaviour
         komponen.enabled = false;
     }
 
-    // Smoothly lerps the eye transform to a destination position/rotation.
+    // Moves the player's RIG (CameraRig root) so that their tracked EYE converges
+    // to the destination pose. This is the VR-safe way to do camera cutscenes:
+    // we never write to CenterEyeAnchor directly, because XR head tracking
+    // overwrites it every frame (writing to it causes jitter and snap-backs when
+    // components get re-enabled). Instead, each frame we measure how far the eye
+    // actually is from where we want it and shift/rotate the rig by that error.
+    // Rotation is yaw-only so the physical floor never tilts under the player.
+    private IEnumerator GerakkanRigKe(Transform mata, Vector3 posisiTujuan, Quaternion rotasiTujuan, float durasi)
+    {
+        Transform rig = CariRigPemain();
+
+        // No rig found? Fall back to the old direct-eye method (editor only).
+        if (rig == null)
+        {
+            yield return StartCoroutine(GerakkanKameraKe(mata, posisiTujuan, rotasiTujuan, durasi));
+            yield break;
+        }
+
+        Vector3 posisiAwalMata = mata.position;
+        Quaternion rotasiAwalMata = mata.rotation;
+        float timer = 0f;
+        while (timer < durasi)
+        {
+            timer += Time.deltaTime;
+            float persen = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(timer / durasi));
+
+            Vector3 targetPos = Vector3.Lerp(posisiAwalMata, posisiTujuan, persen);
+            Quaternion targetRot = Quaternion.Slerp(rotasiAwalMata, rotasiTujuan, persen);
+            KoreksiRig(rig, mata, targetPos, targetRot);
+            yield return null;
+        }
+
+        // Final exact correction so the pose matches perfectly before hold/return.
+        KoreksiRig(rig, mata, posisiTujuan, rotasiTujuan);
+    }
+
+    // Applies one correction step: rotate rig around Y so the eye's heading
+    // matches the target, then translate the rig so the eye lands on the point.
+    private void KoreksiRig(Transform rig, Transform mata, Vector3 posisiTarget, Quaternion rotasiTarget)
+    {
+        // Yaw-only rotation keeps the play space upright (comfort).
+        float selisihYaw = Mathf.DeltaAngle(mata.eulerAngles.y, rotasiTarget.eulerAngles.y);
+        rig.rotation = Quaternion.Euler(0f, selisihYaw, 0f) * rig.rotation;
+
+        // Translation compensation: whatever offset remains between the real
+        // tracked eye and the desired point gets absorbed by moving the rig.
+        rig.position += posisiTarget - mata.position;
+    }
+
+    // Fallback for setups without a CameraRig (flat/editor testing): lerps the eye
+    // transform directly. NOT safe on a real headset — tracking overrides it.
     private IEnumerator GerakkanKameraKe(Transform kamera, Vector3 posisiTujuan, Quaternion rotasiTujuan, float durasi)
     {
         Vector3 posisiAwal = kamera.position;

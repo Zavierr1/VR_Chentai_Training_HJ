@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 8d41c164adada80489ac1ecc31af5a9b,
+  m_LightingDataAsset: {fileID: 112000000, guid: 3b50295959b1ff449945f28fdcd5498f,
     type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
@@ -796,8 +796,8 @@ Light:
   serializedVersion: 12
   m_Type: 3
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 75
-  m_Range: 15
+  m_Intensity: 50
+  m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -839,7 +839,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 7500
+  m_ColorTemperature: 10000
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -7191,8 +7191,12 @@ MonoBehaviour:
   targetPartB: {fileID: 1480624487}
   targetInfoBawah: {fileID: 2145081115}
   targetPartA: {fileID: 922176583}
+  targetPanelStart: {fileID: 0}
   transisiDurasi: 1
   panelControlPopOut: {fileID: 0}
+  daftarTugasUI: {fileID: 0}
+  panelDaftarTugas: {fileID: 0}
+  tampilkanDaftarTugas: 1
   isSedangKalibrasiVR: 0
 --- !u!114 &232044227
 MonoBehaviour:
@@ -57268,6 +57272,22 @@ MonoBehaviour:
   suaraVOSelamatDatang: {fileID: 420216835}
   tombolLatihanTrigger: {fileID: 0}
   barangLatihanGrip: {fileID: 0}
+  waktuHintPertama: 10
+  waktuAntarHint: 8
+  suaraHint: {fileID: 0}
+  blinkBarangLatihan: {fileID: 0}
+  titikPandangPanel: {fileID: 0}
+  titikPandangMesin: {fileID: 0}
+  kameraUtamaPemain: {fileID: 0}
+  durasiPindahKamera: 1.5
+  durasiTahanMesin: 2
+  durasiTahanPanduan: 3
+  delayPanahGrab: 1.5
+  tinggiPanah: 0.4
+  skalaPanah: 0.15
+  warnaPanah: {r: 0, g: 1, b: 0.2, a: 1}
+  rigPemain: {fileID: 0}
+  titikMataPemain: {fileID: 0}
   tombolNextDebug: {fileID: 156553415}
 --- !u!1 &1767019940
 GameObject:
