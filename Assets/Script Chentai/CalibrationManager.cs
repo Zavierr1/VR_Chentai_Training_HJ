@@ -31,6 +31,7 @@ public class CalibrationManager : MonoBehaviour
     [Header("Referensi Mekanik Lain")]
     public KnobCalibration knobPillowBlock;
     public MachineController mesinUtama;
+    public CalibrationLaser laserKnob;
 
     [Header("Event Sukses")]
     public UnityEvent onKalibrasiBerhasilSelesai;
@@ -97,6 +98,7 @@ public class CalibrationManager : MonoBehaviour
         UpdateTampilanSuhu();
         UpdateTampilanKnob();
         if (panelKalibrasi != null) panelKalibrasi.SetActive(true);
+        if (laserKnob != null) laserKnob.AktifkanLaser();
     }
 
    
@@ -194,6 +196,7 @@ public class CalibrationManager : MonoBehaviour
         
         if (knobPillowBlock != null) knobPillowBlock.SelesaiKalibrasi(); 
         if (teksStatusSuhu != null) teksStatusSuhu.text = "SISTEM NORMAL";
+        if (laserKnob != null) laserKnob.MatikanLaser();
         
         yield return new WaitForSeconds(2f);
         
@@ -215,6 +218,8 @@ public class CalibrationManager : MonoBehaviour
         {
             panelKalibrasi.SetActive(false);
         }
+
+        if (laserKnob != null) laserKnob.MatikanLaser();
 
         Debug.Log("<color=yellow>[KALIBRASI] Dihentikan paksa karena waktu habis.</color>");
     }

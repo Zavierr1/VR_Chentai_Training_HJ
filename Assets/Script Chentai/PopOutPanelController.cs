@@ -3,8 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-// Manages a pop-out control panel that shows machine details via a slideshow.
-// Supports toggling between a live 3D render (RenderTexture) and a real photo.
 public class PopOutPanelController : MonoBehaviour
 {
     [Header("Komponen Utama")]
@@ -14,73 +12,133 @@ public class PopOutPanelController : MonoBehaviour
     [Tooltip("Kamera HD khusus yang merender gambar ke RawImage panel ini")]
     public Camera popOutCamera; 
 
-    // Screen toggle system (3D vs real photo).
     [Header("Referensi Layar (Toggle 3D vs Asli)")]
     [Tooltip("GameObject RawImage yang menampilkan Render Texture 3D")]
     public GameObject layar3D;
     [Tooltip("GameObject Image yang menampilkan foto mesin asli")]
     public GameObject layarFotoAsli;
 
-    [Header("Referensi UI Tombol")]
+    [Header("Referensi UI Slideshow (Panel Penuh)")]
+    [Tooltip("Container Panel yang berisi tombol Next/Prev/Close/Toggle/Legend/Layar")]
+    public GameObject panelSlideshow; 
     public TextMeshProUGUI textLegenda;
     public Button tombolNext;
     public Button tombolPrev;
     public Button tombolClose; 
-    
-    // Toggle button for switching between 3D and real photo modes.
     [Tooltip("Tombol untuk mengganti mode 3D / Foto Asli")]
     public Button tombolToggleVisual; 
+
+    [Header("Referensi UI Intro (Awal)")]
+    [Tooltip("Teks intro: 'Periksa detail control panel mesin'")]
+    public TextMeshProUGUI teksIntro;
+    [Tooltip("Tombol 'Control Panel' untuk membuka panel penuh")]
+    public Button tombolBukaPanel;
 
     [Header("Data Slideshow")]
     public List<SlideInfo> daftarSlide; 
 
     private int indeksSlideSekarang = 0;
-    private bool sedangLihatFotoAsli = false; // Current toggle state.
+    private bool sedangLihatFotoAsli = false;
 
-    // Hides the panel at start.
     void Start()
     {
         HidePanel();
     }
 
-    // Shows the panel and always starts in 3D mode.
     public void ShowPanel()
     {
         if (panelUIUtama != null) panelUIUtama.SetActive(true);
         if (popOutCamera != null) popOutCamera.gameObject.SetActive(true);
 
-        // Always reset to 3D mode when the panel opens.
-        sedangLihatFotoAsli = false;
-        UpdateTampilanLayar();
-
-        indeksSlideSekarang = 0;
-        TampilkanSlideSekarang();
+        // Start in INTRO mode: panelSlideshow INACTIVE, only Intro + Close visible
+        EnterIntroMode();
     }
 
-    // Hides the panel and turns off the pop-out camera.
     public void HidePanel()
     {
         if (panelUIUtama != null) panelUIUtama.SetActive(false);
         if (popOutCamera != null) popOutCamera.gameObject.SetActive(false);
+
+        // Ensure both intro and full panel UI are hidden
+        SetIntroActive(false);
+        SetFullPanelActive(false);
         
         MatikanSemuaLampu();
     }
 
-    // Toggles between the 3D render and the real photo.
-    public void ToggleTampilanVisual()
+    // Called by tombolBukaPanel.onClick to transition from intro to full panel
+    public void BukaPanelKontrol()
     {
-        sedangLihatFotoAsli = !sedangLihatFotoAsli; // Flip the state.
+        EnterFullPanelMode();
+    }
+
+    private void EnterIntroMode()
+    {
+        // Hide slideshow panel (the original UI container)
+        if (panelSlideshow != null) panelSlideshow.SetActive(false);
+        
+        // Close button stays ACTIVE always (visible in both intro and full)
+        if (tombolClose != null) tombolClose.gameObject.SetActive(true);
+        
+        // Show intro UI
+        if (teksIntro != null) teksIntro.gameObject.SetActive(true);
+        if (tombolBukaPanel != null) tombolBukaPanel.gameObject.SetActive(true);
+        
+        // Reset to 3D mode
+        sedangLihatFotoAsli = false;
         UpdateTampilanLayar();
     }
 
-    // Enables/disables the two screens and updates the toggle button label.
+    private void EnterFullPanelMode()
+    {
+        // Hide intro UI
+        if (teksIntro != null) teksIntro.gameObject.SetActive(false);
+        if (tombolBukaPanel != null) tombolBukaPanel.gameObject.SetActive(false);
+        
+        // Show slideshow panel (the original UI container)
+        if (panelSlideshow != null) panelSlideshow.SetActive(true);
+        
+        // Explicitly activate all slideshow UI elements
+        if (textLegenda != null) textLegenda.gameObject.SetActive(true);
+        if (tombolNext != null) tombolNext.gameObject.SetActive(true);
+        if (tombolPrev != null) tombolPrev.gameObject.SetActive(true);
+        if (tombolToggleVisual != null) tombolToggleVisual.gameObject.SetActive(true);
+        
+        // Close button stays active
+        if (tombolClose != null) tombolClose.gameObject.SetActive(true);
+        
+        // Reset slide index and show first slide
+        indeksSlideSekarang = 0;
+        TampilkanSlideSekarang();
+    }
+
+    private void SetIntroActive(bool active)
+    {
+        if (teksIntro != null) teksIntro.gameObject.SetActive(active);
+        if (tombolBukaPanel != null) tombolBukaPanel.gameObject.SetActive(active);
+    }
+
+    private void SetFullPanelActive(bool active)
+    {
+        if (panelSlideshow != null) panelSlideshow.SetActive(active);
+        if (textLegenda != null) textLegenda.gameObject.SetActive(active);
+        if (tombolNext != null) tombolNext.gameObject.SetActive(active);
+        if (tombolPrev != null) tombolPrev.gameObject.SetActive(active);
+        if (tombolClose != null) tombolClose.gameObject.SetActive(active);
+        if (tombolToggleVisual != null) tombolToggleVisual.gameObject.SetActive(active);
+    }
+
+    public void ToggleTampilanVisual()
+    {
+        sedangLihatFotoAsli = !sedangLihatFotoAsli;
+        UpdateTampilanLayar();
+    }
+
     private void UpdateTampilanLayar()
     {
-        // Turn the screens on/off according to the current state.
         if (layar3D != null) layar3D.SetActive(!sedangLihatFotoAsli);
         if (layarFotoAsli != null) layarFotoAsli.SetActive(sedangLihatFotoAsli);
 
-        // Update the toggle button text automatically.
         if (tombolToggleVisual != null)
         {
             TextMeshProUGUI teksTombol = tombolToggleVisual.GetComponentInChildren<TextMeshProUGUI>();
@@ -91,7 +149,6 @@ public class PopOutPanelController : MonoBehaviour
         }
     }
 
-    // Advances to the next slide.
     public void NextSlide()
     {
         if (indeksSlideSekarang < daftarSlide.Count - 1)
@@ -101,7 +158,6 @@ public class PopOutPanelController : MonoBehaviour
         }
     }
 
-    // Goes back to the previous slide.
     public void PrevSlide()
     {
         if (indeksSlideSekarang > 0)
@@ -111,7 +167,6 @@ public class PopOutPanelController : MonoBehaviour
         }
     }
 
-    // Displays the current slide's legend, highlights, and navigation state.
     private void TampilkanSlideSekarang()
     {
         MatikanSemuaLampu(); 
@@ -135,7 +190,6 @@ public class PopOutPanelController : MonoBehaviour
         if (tombolNext != null) tombolNext.interactable = (indeksSlideSekarang < daftarSlide.Count - 1);
     }
 
-    // Turns off all slide highlights.
     private void MatikanSemuaLampu()
     {
         if (daftarSlide == null) return;
