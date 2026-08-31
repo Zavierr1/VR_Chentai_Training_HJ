@@ -42621,7 +42621,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1103368093
 RectTransform:
   m_ObjectHideFlags: 0
@@ -42703,7 +42703,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1761699460}
         m_TargetAssemblyTypeName: InputTutorialManager, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: LewatiTahapIniDebug
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -58501,7 +58501,7 @@ MonoBehaviour:
   warnaPanah: {r: 0, g: 1, b: 0.2, a: 1}
   rigPemain: {fileID: 0}
   titikMataPemain: {fileID: 0}
-  tombolNextDebug: {fileID: 0}
+  tombolNextDebug: {fileID: 1103368095}
 --- !u!1 &1767019940
 GameObject:
   m_ObjectHideFlags: 0
